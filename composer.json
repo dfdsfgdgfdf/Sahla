@@ -12,6 +12,7 @@
         "guzzlehttp/guzzle": "7.2",
         "intervention/image": "^2.7",
         "intervention/imagecache": "^2.5",
+        "lamalama/laravel-wishlist": "^0.2.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",

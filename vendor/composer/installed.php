@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '7f8c7178f86a5eaf612a884c4bc28eaabe5a61e5',
+        'reference' => '03ed8f2152703a54a03be6a735e64148df6e33ed',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -466,6 +466,15 @@
                 0 => '*',
             ),
         ),
+        'lamalama/laravel-wishlist' => array(
+            'pretty_version' => '0.2.1',
+            'version' => '0.2.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../lamalama/laravel-wishlist',
+            'aliases' => array(),
+            'reference' => 'cb0438d97f6d303dbbadd9259d0042fb4e438f49',
+            'dev_requirement' => false,
+        ),
         'laravel/framework' => array(
             'pretty_version' => 'v8.83.0',
             'version' => '8.83.0.0',
@@ -481,7 +490,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '7f8c7178f86a5eaf612a884c4bc28eaabe5a61e5',
+            'reference' => '03ed8f2152703a54a03be6a735e64148df6e33ed',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(

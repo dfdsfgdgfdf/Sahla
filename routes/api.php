@@ -45,6 +45,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('/get-product-details', [ProductController::class, 'getProductDetails']);
     Route::get('/products-search', [ProductController::class, 'productsSearch']);
+
+
+    Route::post('/add-to-wish-list', [ProductController::class, 'addToWishList']);
+    Route::post('/remove-from-wish-list', [ProductController::class, 'removeFromWishList']);
 });
 
 

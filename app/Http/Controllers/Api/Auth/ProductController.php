@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -30,6 +32,37 @@ class ProductController extends Controller
                 ->orWhere('description', 'like', "%{$request->keyword}%");
         })->paginate(20);
         return $this->successMessage($categories, 'Products Search Resultd');
+    }
+
+    public function addToWishList(Request $request)
+    {
+        $this->validate($request, [
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        $user = Auth::user();
+        $product = Product::whereStatus(1)->whereId($request->product_id)->first();
+        if ($product){
+            $user->wish($product);
+            return $this->returnSuccessMessage('Product Successfully Added To Your Wish List');
+        }else{
+            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
+        }
+    }
+    public function removeFromWishList(Request $request)
+    {
+        $this->validate($request, [
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        $user = Auth::user();
+        $product = Product::whereStatus(1)->whereId($request->product_id)->first();
+        if ($product){
+            $user->unwish($product);
+            return $this->returnSuccessMessage('Product Successfully Removed From Your Wish List');
+        }else{
+            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
+        }
     }
 
 }

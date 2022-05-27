@@ -172,6 +172,7 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
             'Laravel\\SerializableClosure\\' => 28,
             'Laravel\\Sanctum\\' => 16,
             'Laravel\\Sail\\' => 13,
+            'LamaLama\\Wishlist\\' => 18,
         ),
         'I' => 
         array (
@@ -572,6 +573,10 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         array (
             0 => __DIR__ . '/..' . '/laravel/sail/src',
         ),
+        'LamaLama\\Wishlist\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lamalama/laravel-wishlist/src',
+        ),
         'Intervention\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
@@ -738,7 +743,9 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Helper\\MySlugHelper' => __DIR__ . '/../..' . '/app/Helper/MySlugHelper.php',
         'App\\Http\\Controllers\\Api\\Auth\\CategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/Auth/CategoryController.php',
+        'App\\Http\\Controllers\\Api\\Auth\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/Auth/ProductController.php',
         'App\\Http\\Controllers\\Api\\Auth\\TokenController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/Auth/TokenController.php',
+        'App\\Http\\Controllers\\Api\\GeneralController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/GeneralController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -794,8 +801,11 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'App\\Http\\Requests\\Backend\\TagRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Backend/TagRequest.php',
         'App\\Http\\Requests\\Backend\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Backend/UserRequest.php',
         'App\\Http\\Requests\\Frontend\\ProfileRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Frontend/ProfileRequest.php',
+        'App\\Http\\Resources\\AppStartPageResource' => __DIR__ . '/../..' . '/app/Http/Resources/AppStartPageResource.php',
         'App\\Http\\Resources\\CategoryResource' => __DIR__ . '/../..' . '/app/Http/Resources/CategoryResource.php',
+        'App\\Http\\Resources\\ProductResource' => __DIR__ . '/../..' . '/app/Http/Resources/ProductResource.php',
         'App\\Mail\\ResetPasswordMail' => __DIR__ . '/../..' . '/app/Mail/ResetPasswordMail.php',
+        'App\\Models\\AppStartPage' => __DIR__ . '/../..' . '/app/Models/AppStartPage.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
         'App\\Models\\City' => __DIR__ . '/../..' . '/app/Models/City.php',
         'App\\Models\\Country' => __DIR__ . '/../..' . '/app/Models/Country.php',
@@ -1017,6 +1027,7 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'Cviebrock\\EloquentSluggable\\SluggableObserver' => __DIR__ . '/..' . '/cviebrock/eloquent-sluggable/src/SluggableObserver.php',
         'Cviebrock\\EloquentSluggable\\SluggableScopeHelpers' => __DIR__ . '/..' . '/cviebrock/eloquent-sluggable/src/SluggableScopeHelpers.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
+        'Database\\Seeders\\AppStartPageSeeder' => __DIR__ . '/../..' . '/database/seeders/AppStartPageSeeder.php',
         'Database\\Seeders\\CategorySeeder' => __DIR__ . '/../..' . '/database/seeders/CategorySeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\EntrustSeeder' => __DIR__ . '/../..' . '/database/seeders/EntrustSeeder.php',
@@ -3429,6 +3440,11 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'Intervention\\Image\\Templates\\Medium' => __DIR__ . '/..' . '/intervention/imagecache/src/Intervention/Image/Templates/Medium.php',
         'Intervention\\Image\\Templates\\Small' => __DIR__ . '/..' . '/intervention/imagecache/src/Intervention/Image/Templates/Small.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'LamaLama\\Wishlist\\HasWishlists' => __DIR__ . '/..' . '/lamalama/laravel-wishlist/src/HasWishlists.php',
+        'LamaLama\\Wishlist\\Wishlist' => __DIR__ . '/..' . '/lamalama/laravel-wishlist/src/Wishlist.php',
+        'LamaLama\\Wishlist\\WishlistFacade' => __DIR__ . '/..' . '/lamalama/laravel-wishlist/src/WishlistFacade.php',
+        'LamaLama\\Wishlist\\WishlistServiceProvider' => __DIR__ . '/..' . '/lamalama/laravel-wishlist/src/WishlistServiceProvider.php',
+        'LamaLama\\Wishlist\\Wishlistable' => __DIR__ . '/..' . '/lamalama/laravel-wishlist/src/Wishlistable.php',
         'Laravel\\Sail\\Console\\InstallCommand' => __DIR__ . '/..' . '/laravel/sail/src/Console/InstallCommand.php',
         'Laravel\\Sail\\Console\\PublishCommand' => __DIR__ . '/..' . '/laravel/sail/src/Console/PublishCommand.php',
         'Laravel\\Sail\\SailServiceProvider' => __DIR__ . '/..' . '/laravel/sail/src/SailServiceProvider.php',
