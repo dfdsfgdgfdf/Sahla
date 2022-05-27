@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Illuminate\Http\Request;
+
 trait GeneralTrait
 {
 
@@ -10,6 +12,17 @@ trait GeneralTrait
         return app()->getLocale();
     }
 
+    // public function editValidate(Request $request, array $rules, array $status=["422"], array $messages = [], array $customAttributes = [])
+    // {
+    //     return $this->getValidationFactory()->make(
+    //         $request->all(),
+    //         $rules,
+    //         $status,
+    //         $messages,
+    //         $customAttributes
+    //     )->validate();
+    // }
+
     public function successMessage($data, $message = "")
     {
         return [
@@ -17,6 +30,22 @@ trait GeneralTrait
             'message' => $message,
             'data' => $data
         ];
+    }
+    public function returnSuccessMessage($message = "")
+    {
+        return [
+            'status' => "200",
+            'message' => $message,
+            "data" => '',
+        ];
+    }
+    public function returnErrorMessage($message, $status= "400")
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            "data" => '',
+        ]);
     }
 
     public function responseValidationJsonFailed($message = "Fail")
@@ -43,14 +72,14 @@ trait GeneralTrait
     }
 
 
-    public function returnSuccessMessage($msg = "", $errNum = "2000")
-    {
-        return [
-            'status' => true,
-            'errNum' => $errNum,
-            'msg' => $msg
-        ];
-    }
+    // public function returnSuccessMessage($msg = "", $errNum = "2000")
+    // {
+    //     return [
+    //         'status' => true,
+    //         'errNum' => $errNum,
+    //         'msg' => $msg
+    //     ];
+    // }
 
     public function returnData($key, $value, $msg = "")
     {

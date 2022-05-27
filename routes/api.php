@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\CategoryController;
+use App\Http\Controllers\Api\Auth\ProductController;
+use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\Auth\TokenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('auth-token', [TokenController::class, 'store']);
+Route::post('forgot-password', [TokenController::class,'forgotPassword']);
+Route::post('reset-password', [TokenController::class,'resetPassword']);
+
+
+Route::get('/app-start-pages', [GeneralController::class, 'appStartPages']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
@@ -33,8 +40,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
     Route::get('/get-all-categories', [CategoryController::class, 'getAllCategories']);
+    Route::get('/categories-search', [CategoryController::class, 'categoriesSearch']);
     Route::get('/get-all-category-products', [CategoryController::class, 'getAllCategoryProducts']);
-    Route::get('/get-product-details', [CategoryController::class, 'getProductDetails']);
+
+    Route::get('/get-product-details', [ProductController::class, 'getProductDetails']);
+    Route::get('/products-search', [ProductController::class, 'productsSearch']);
 });
 
 

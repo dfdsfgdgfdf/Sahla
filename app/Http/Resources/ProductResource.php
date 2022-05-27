@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class ProductResource extends JsonResource
 {
 
     /**
@@ -24,8 +24,9 @@ class CategoryResource extends JsonResource
         return [
             "id" => $this->id,
             $name => isset($this->name) ? $this->name : '',
-            "cover" => isset($this->cover) ? env('APP_URL').$this->cover : '',
             $description => isset($this->description) ? $this->description : '',
+            "price" => isset($this->price) ? $this->price : '',
+            "cover" => isset($this->cover) ? env('APP_URL').$this->cover : '',
             "created_at" => strval($this->created_at),
             "updated_at" => strval($this->updated_at),
         ];

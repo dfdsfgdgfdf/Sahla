@@ -106,6 +106,7 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
+            'Spatie\\Translatable\\' => 20,
         ),
         'R' => 
         array (
@@ -377,6 +378,10 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'Symfony\\Bridge\\PsrHttpMessage\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/psr-http-message-bridge',
+        ),
+        'Spatie\\Translatable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/laravel-translatable/src',
         ),
         'RingCentral\\Psr7\\' => 
         array (
@@ -768,7 +773,9 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\Api\\ChangePasswordRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Api/ChangePasswordRequest.php',
         'App\\Http\\Requests\\Api\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Api/LoginRequest.php',
+        'App\\Http\\Requests\\Api\\ResetRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Api/ResetRequest.php',
         'App\\Http\\Requests\\Backend\\AdminRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Backend/AdminRequest.php',
         'App\\Http\\Requests\\Backend\\CategoryRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Backend/CategoryRequest.php',
         'App\\Http\\Requests\\Backend\\CityRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Backend/CityRequest.php',
@@ -788,6 +795,7 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'App\\Http\\Requests\\Backend\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Backend/UserRequest.php',
         'App\\Http\\Requests\\Frontend\\ProfileRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Frontend/ProfileRequest.php',
         'App\\Http\\Resources\\CategoryResource' => __DIR__ . '/../..' . '/app/Http/Resources/CategoryResource.php',
+        'App\\Mail\\ResetPasswordMail' => __DIR__ . '/../..' . '/app/Mail/ResetPasswordMail.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
         'App\\Models\\City' => __DIR__ . '/../..' . '/app/Models/City.php',
         'App\\Models\\Country' => __DIR__ . '/../..' . '/app/Models/Country.php',
@@ -811,6 +819,7 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Traits\\GeneralTrait' => __DIR__ . '/../..' . '/app/Traits/GeneralTrait.php',
+        'App\\Traits\\HelperTrait' => __DIR__ . '/../..' . '/app/Traits/HelperTrait.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -6600,6 +6609,10 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'Spatie\\Translatable\\Events\\TranslationHasBeenSet' => __DIR__ . '/..' . '/spatie/laravel-translatable/src/Events/TranslationHasBeenSet.php',
+        'Spatie\\Translatable\\Exceptions\\AttributeIsNotTranslatable' => __DIR__ . '/..' . '/spatie/laravel-translatable/src/Exceptions/AttributeIsNotTranslatable.php',
+        'Spatie\\Translatable\\HasTranslations' => __DIR__ . '/..' . '/spatie/laravel-translatable/src/HasTranslations.php',
+        'Spatie\\Translatable\\TranslatableServiceProvider' => __DIR__ . '/..' . '/spatie/laravel-translatable/src/TranslatableServiceProvider.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Symfony\\Bridge\\PsrHttpMessage\\ArgumentValueResolver\\PsrServerRequestResolver' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/ArgumentValueResolver/PsrServerRequestResolver.php',
         'Symfony\\Bridge\\PsrHttpMessage\\EventListener\\PsrResponseListener' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/EventListener/PsrResponseListener.php',
