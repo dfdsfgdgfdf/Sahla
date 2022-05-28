@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\CategoryController;
 use App\Http\Controllers\Api\Auth\ProductController;
+use App\Http\Controllers\Api\Auth\WishListController;
 use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\Auth\TokenController;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ Route::post('reset-password', [TokenController::class,'resetPassword']);
 
 
 Route::get('/app-start-pages', [GeneralController::class, 'appStartPages']);
+Route::get('/get-units', [GeneralController::class, 'getUnits']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
@@ -47,8 +49,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/products-search', [ProductController::class, 'productsSearch']);
 
 
-    Route::post('/add-to-wish-list', [ProductController::class, 'addToWishList']);
-    Route::post('/remove-from-wish-list', [ProductController::class, 'removeFromWishList']);
+    Route::get('/wish-list', [WishListController::class, 'wishList']);
+    Route::post('/add-to-wish-list', [WishListController::class, 'addToWishList']);
+    Route::post('/remove-from-wish-list', [WishListController::class, 'removeFromWishList']);
 });
 
 

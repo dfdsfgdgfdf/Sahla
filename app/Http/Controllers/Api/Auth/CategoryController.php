@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function categoriesSearch(Request $request)
     {
         $this->validate($request, [
-            'lang' => 'required|in:ar,en,th',
+            'lang' => 'required|in:ar,en,ur',
             'keyword' => 'required|min:1',
         ]);
 
@@ -34,7 +34,7 @@ class CategoryController extends Controller
     public function getAllCategories(Request $request)
     {
         $this->validate($request, [
-            'lang' => 'required|in:ar,en,th',
+            'lang' => 'required|in:ar,en,ur',
         ]);
 
         $categories = Category::whereStatus(1)->get();
@@ -45,7 +45,7 @@ class CategoryController extends Controller
     {
         $this->validate($request, [
             'category_id' => 'required|exists:categories,id',
-            'lang' => 'required|in:ar,en,th',
+            'lang' => 'required|in:ar,en,ur',
         ]);
         $products = Product::whereCategoryId($request->category_id)->whereStatus(1)->paginate(20);
         return $this->successMessage(ProductResource::collection($products), 'All Category Products');

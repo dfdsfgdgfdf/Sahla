@@ -17,7 +17,7 @@ class CreateAppStartPagesTable extends Migration
             $table->id();
             $table->string('text_ar')->nullable();
             $table->string('text_en')->nullable();
-            $table->string('text_th')->nullable();
+            $table->string('text_ur')->nullable();
             $table->string('image')->nullable();
             $table->tinyInteger('number')->nullable();
             $table->boolean('status')->default(true);

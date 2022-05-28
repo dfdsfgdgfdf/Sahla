@@ -73,23 +73,25 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-
     public function tags(): MorphToMany
     {
         return $this->MorphToMany(Tag::class, 'taggable');
     }
-
     //علشان يجيب اول صوره تحمل الاسم يتاع البودكت
     public function firstMedia(): MorphOne
     {
         return $this->MorphOne(Media::class, 'mediable')->orderBy('file_sort', 'asc');
     }
-
-
     public function media(): MorphMany
     {
         return $this->MorphMany(Media::class, 'mediable');
     }
+    public function unit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class, 'unit_id', 'id');
+    }
+
+
 
     public function reviews(): HasMany
     {

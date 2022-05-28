@@ -17,12 +17,14 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name_ar')->nullable();
             $table->string('name_en')->nullable();
-            $table->string('name_th')->nullable();
+            $table->string('name_ur')->nullable();
             $table->string('slug')->unique();
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
-            $table->text('description_th')->nullable();
+            $table->text('description_ur')->nullable();
             $table->double('price');
+            $table->string('currency')->default('SAR');
+            $table->foreignId('unit_id')->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('quantity')->default(0);
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->boolean('featured')->default(false);
