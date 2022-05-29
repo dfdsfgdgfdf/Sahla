@@ -20,7 +20,6 @@ class ProductResource extends JsonResource
         // return parent::toArray($request);
         if(isset(request()->lang)):
             $name = 'name_'.request()->lang;
-            $description = 'description_'.request()->lang;
         endif;
 
         $wishProducts = Auth::user()->wishes() ;
@@ -34,7 +33,8 @@ class ProductResource extends JsonResource
 
         return [
             "id" => $this->id,
-            $name => isset($this->name) ? $this->name : '',
+            $name => isset($this->$name) ? $this->$name : '',
+            "category" => isset($this->category->$name) ? $this->category->$name : '',
             "price" => isset($this->price) ? strval($this->price.' '.$this->currency) : '',
             "unit" => isset($this->unit->$name) ? $this->unit->$name : '',
             "quantity" => isset($this->quantity) ? strval($this->quantity) : '',

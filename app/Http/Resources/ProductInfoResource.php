@@ -34,8 +34,8 @@ class ProductInfoResource extends JsonResource
 
         return [
             "id" => $this->id,
-            $name => isset($this->name) ? $this->name : '',
-            $description => isset($this->description) ? $this->description : '',
+            $name => isset($this->$name) ? $this->$name : '',
+            $description => isset($this->$description) ? $this->$description : '',
             "category" => isset($this->category->$name) ? $this->category->$name : '',
             "price" => isset($this->price) ? strval($this->price.' '.$this->currency) : '',
             "unit" => isset($this->unit->$name) ? $this->unit->$name : '',

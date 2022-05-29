@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '03ed8f2152703a54a03be6a735e64148df6e33ed',
+        'reference' => '0d00aab3a82bc30c03d143cdd49f1fd40560ac20',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -68,6 +68,15 @@
             'install_path' => __DIR__ . '/../cviebrock/eloquent-sluggable',
             'aliases' => array(),
             'reference' => '16e21db24d80180f870c3c7c4faf3d3af23f4117',
+            'dev_requirement' => false,
+        ),
+        'darryldecode/cart' => array(
+            'pretty_version' => '4.2.2',
+            'version' => '4.2.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../darryldecode/cart',
+            'aliases' => array(),
+            'reference' => 'bc5ff0e1c7d20d621fa63b3218532f2ae7cbf841',
             'dev_requirement' => false,
         ),
         'davedevelopment/hamcrest-php' => array(
@@ -490,7 +499,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '03ed8f2152703a54a03be6a735e64148df6e33ed',
+            'reference' => '0d00aab3a82bc30c03d143cdd49f1fd40560ac20',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(

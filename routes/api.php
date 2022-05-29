@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\CartController;
 use App\Http\Controllers\Api\Auth\CategoryController;
 use App\Http\Controllers\Api\Auth\ProductController;
 use App\Http\Controllers\Api\Auth\WishListController;
@@ -37,21 +38,31 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //     return $request->user()->posts;
     // });
 
+    /* customer login */
     Route::get('/user-login-data', [TokenController::class, 'userLoginData']);
     Route::delete('user-token-logout', [TokenController::class, 'destroy']);
 
-
+    /* categories */
     Route::get('/get-all-categories', [CategoryController::class, 'getAllCategories']);
     Route::get('/categories-search', [CategoryController::class, 'categoriesSearch']);
     Route::get('/get-all-category-products', [CategoryController::class, 'getAllCategoryProducts']);
 
+    /* product */
     Route::get('/get-product-details', [ProductController::class, 'getProductDetails']);
     Route::get('/products-search', [ProductController::class, 'productsSearch']);
 
-
+    /* wish-list */
     Route::get('/wish-list', [WishListController::class, 'wishList']);
     Route::post('/add-to-wish-list', [WishListController::class, 'addToWishList']);
     Route::post('/remove-from-wish-list', [WishListController::class, 'removeFromWishList']);
+
+    /* cart */
+    Route::get('cart-product', [CartController::class, 'index']);
+    //    Route::get('cart-product', [CartController::class, 'cartProduct']);
+    //    Route::get('add-to-cart', [CartController::class, 'addToCart']);
+    //    Route::post('update-cart', [CartController::class, 'updateCart']);
+    //    Route::post('remove-from-cart', [CartController::class, 'removeFromCart']);
+    //    Route::post('clear-cart', [CartController::class, 'clearAllCart']);
 });
 
 

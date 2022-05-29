@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
 <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css">
+      href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css" />
@@ -22,30 +22,17 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 
 
+<link href="{{ asset('backend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.rtl.css')}}" rel="stylesheet"
+      type="text/css"/>
+<link href="{{ asset('backend/assets/plugins/global/plugins.bundle.rtl.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('backend/assets/plugins/custom/prismjs/prismjs.bundle.rtl.css')}}" rel="stylesheet"
+      type="text/css"/>
+<link href="{{ asset('backend/assets/css/style.bundle.rtl.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('backend/assets/css/themes/layout/header/base/dark.rtl.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('backend/assets/css/themes/layout/header/menu/dark.rtl.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('backend/assets/css/themes/layout/brand/dark.rtl.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('backend/assets/css/themes/layout/aside/dark.rtl.css')}}" rel="stylesheet" type="text/css"/>
 
-{{-- @if (\App::getLocale() == 'ar') --}}
-    <link href="{{ asset('backend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.rtl.css')}}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('backend/assets/plugins/global/plugins.bundle.rtl.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('backend/assets/plugins/custom/prismjs/prismjs.bundle.rtl.css')}}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('backend/assets/css/style.bundle.rtl.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('backend/assets/css/themes/layout/header/base/dark.rtl.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('backend/assets/css/themes/layout/header/menu/dark.rtl.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('backend/assets/css/themes/layout/brand/dark.rtl.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('backend/assets/css/themes/layout/aside/dark.rtl.css')}}" rel="stylesheet" type="text/css"/>
-{{-- @else --}}
-{{-- <link href="{{ asset('backend/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet"
-    type="text/css" />
-<link href="{{ asset('backend/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/assets/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet"
-    type="text/css" />
-<link href="{{ asset('backend/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/assets/css/themes/layout/header/base/dark.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/assets/css/themes/layout/header/menu/dark.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/assets/css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('backend/assets/css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" /> --}}
-{{-- @endif --}}
 
 <!--end::Layout Themes-->
 <link rel="shortcut icon" href="{{ asset('backend/assets/media/logos/favicon.ico') }}" />
@@ -68,4 +55,5 @@
     .flex-column-fluid {
         direction: rtl!important;
     }
+
 </style>

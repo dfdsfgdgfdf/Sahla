@@ -86,8 +86,10 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::post('users-removeImage', [UserController::class,'removeImage'])->name('users.removeImage');
             Route::get('users-changeStatus', [UserController::class,'changeStatus'])->name('users.changeStatus');
             Route::post('users-destroyAll', [UserController::class,'massDestroy'])->name('users.massDestroy');
+            /*-------------------------------- */
             /*  Customers   */
             Route::resource('customers'    ,CustomerController::class);
+            Route::get('/getCustomerSearch',  [CustomerController::class, 'getCustomerSearch'    ])->name('customers.getCustomerSearch');
             Route::post('customers-removeImage', [CustomerController::class,'removeImage'])->name('customers.removeImage');
             Route::get('customers-changeStatus', [CustomerController::class,'changeStatus'])->name('customers.changeStatus');
             Route::post('customers-destroyAll', [CustomerController::class,'massDestroy'])->name('customers.massDestroy');
