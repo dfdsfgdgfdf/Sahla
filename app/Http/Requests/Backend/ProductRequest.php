@@ -27,16 +27,22 @@ class ProductRequest extends FormRequest
             case 'POST':
             {
                 return[
-                    'name'          => 'required|max:255',
-                    'description'   => 'required',
-                    'price'         => 'required|numeric',
-                    'quantity'      => 'required|numeric',
-                    'category_id'   => 'required',
-                    'tags.*'        => 'required',
-                    'featured'      => 'required',
-                    'status'        => 'required',
-                    'images'        => 'required',
-                    'images.*'      => 'mimes:png,jpg,jpeg,gif|max:4048'
+                    'name_ar'           => 'required|max:255',
+                    'name_en'           => 'required|max:255',
+                    'name_ur'           => 'required|max:255',
+                    'description_ar'    => 'required|max:255',
+                    'description_en'    => 'required|max:255',
+                    'description_ur'    => 'required|max:255',
+                    'stock'             => 'required',
+                    'quantity'          => 'required',
+                    'currency'          => 'required',
+                    'price'             => 'required',
+                    'unit_id'           => 'required',
+                    'category_id'       => 'required',
+                    'featured'          => 'required',
+                    'status'            => 'required',
+                    'images'            => 'required',
+                    'images.*'          => 'mimes:png,jpg,jpeg,gif',
                 ];
             }
 
@@ -45,16 +51,24 @@ class ProductRequest extends FormRequest
             case 'PATCH':
             {
                 return[
-                    'name'          => 'required|max:255',
-                    'description'   => 'required',
-                    'price'         => 'required|numeric',
-                    'quantity'      => 'required|numeric',
-                    'category_id'   =>'required',
-                    'tags.*'        =>'required',
-                    'featured'      =>'required',
-                    'status'        => 'required',
-                    'images'        => 'nullable',
-                    'images.*'      => 'mimes:png,jpg,jpeg,gif|max:4048'
+
+                    'name_ar'           => 'required|max:255',
+                    'name_en'           => 'required|max:255',
+                    'name_ur'           => 'required|max:255',
+                    'description_ar'    => 'required|max:255',
+                    'description_en'    => 'required|max:255',
+                    'description_ur'    => 'required|max:255',
+                    'stock'             => 'required',
+                    'quantity'          => 'required',
+                    'currency'          => 'required',
+                    'price'             => 'required',
+                    'unit_id'           => 'required',
+                    'category_id'       => 'required',
+                    'featured'          => 'required',
+                    'status'            => 'required',
+                    'images'            => 'required',
+                    'images.*'          => 'mimes:png,jpg,jpeg,gif|max:4048',
+
                 ];
             }
 

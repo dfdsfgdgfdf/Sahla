@@ -25,7 +25,9 @@
                             <select name="sort_by" class="form-control form-control-solid">
                                 <option value="">الترتيب</option>
                                 <option value="id" {{ old('sort_by', request()->input('sort_by')) == 'id' ? 'selected' : '' }}>الرقم</option>
-                                <option value="name" {{ old('sort_by', request()->input('sort_by')) == 'name' ? 'selected' : ''  }}>الاسم</option>
+                                <option value="name_ar" {{ old('sort_by', request()->input('name_ar')) == 'name_ar' ? 'selected' : ''  }}>الاسم (العربية)</option>
+                                <option value="name_en" {{ old('sort_by', request()->input('name_en')) == 'name_ar' ? 'selected' : ''  }}>الاسم (الانجليزية)</option>
+                                <option value="name_ur" {{ old('sort_by', request()->input('name_ur')) == 'name_ar' ? 'selected' : ''  }}>الاسم (اوردو)</option>
                                 <option value="created_at" {{ old('sort_by', request()->input('sort_by')) == 'created_at' ? 'selected' : ''  }}>التاريخ</option>
                             </select>
                         </div>

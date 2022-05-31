@@ -47,11 +47,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_categories,create_categories')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_categories,show_categories')) {
             return redirect('admin/index');
         }
 
-        $main_categories = Category::whereNull('parent_id')->get(['id', 'name']);
+        $main_categories = Category::whereNull('parent_id')->get(['id', 'name_ar']);
 
         return view('backend.categories.create', compact('main_categories'));
     }
@@ -64,13 +64,18 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_categories,create_categories')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_categories,show_categories')) {
             return redirect('admin/index');
         }
 
-        $input['name']      = $request->name;
-        $input['parent_id'] = $request->parent_id;
-        $input['status']    = $request->status;
+        $input['name_ar']           = $request->name_ar;
+        $input['name_en']           = $request->name_en;
+        $input['name_ur']           = $request->name_ur;
+        $input['parent_id']         = $request->parent_id;
+        $input['description_ar']    = $request->description_ar;
+        $input['description_en']    = $request->description_en;
+        $input['description_ur']    = $request->description_ur;
+        $input['status']            = $request->status;
 
         if ($image = $request->file('cover')) {
             $filename = Str::slug($request->name).'.'.$image->getClientOriginalExtension();   //علشان تكون اسم الصورة نفس اسم الكاتيجوري
@@ -96,7 +101,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_categories,display_categories')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_categories,show_categories')) {
             return redirect('admin/index');
         }
 
@@ -111,11 +116,11 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_categories,update_categories')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_categories,show_categories')) {
             return redirect('admin/index');
         }
 
-        $main_categories = Category::whereNull('parent_id')->get(['id', 'name']);
+        $main_categories = Category::whereNull('parent_id')->get(['id', 'name_ar']);
 
         return view('backend.categories.edit', compact('main_categories', 'category'));
     }
@@ -129,14 +134,18 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_categories,update_categories')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_categories,show_categories')) {
             return redirect('admin/index');
         }
 
-        $input['name']      = $request->name;
-        $input['slug']      = null;
-        $input['parent_id'] = $request->parent_id;
-        $input['status']    = $request->status;
+        $input['name_ar']           = $request->name_ar;
+        $input['name_en']           = $request->name_en;
+        $input['name_ur']           = $request->name_ur;
+        $input['parent_id']         = $request->parent_id;
+        $input['description_ar']    = $request->description_ar;
+        $input['description_en']    = $request->description_en;
+        $input['description_ur']    = $request->description_ur;
+        $input['status']            = $request->status;
 
         if ($image = $request->file('cover')) {
 
@@ -168,7 +177,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_categories,delete_categories')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_categories,show_categories')) {
             return redirect('admin/index');
         }
 
@@ -186,7 +195,7 @@ class CategoryController extends Controller
 
     public function removeImage(Request $request)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_categories,delete_categories')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_categories,show_categories')) {
             return redirect('admin/index');
         }
 

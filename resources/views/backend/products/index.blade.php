@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'All Products')
+@section('title', 'المنتجات')
 
 @section('style')
     <style>
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-6 d-flex text-left">
-                <h1 class=" text-left">Products</h1>
+                <h1 class=" text-left">المنتجات</h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
                 @ability('superAdmin', 'manage_products,create_products')
@@ -50,7 +50,7 @@
                         </svg>
                         <!--end::Svg Icon-->
                     </span>
-                    New Record
+                    عنصر جديد
                 </a>
                 @endability
             </div>
@@ -64,14 +64,14 @@
                     <thead class="table-dark ">
                         <tr class="text-light">
                             <th class="text-light">No</th>
-                            <th class="text-light">Image</th>
-                            <th class="text-light">Name</th>
-                            <th class="text-light">Features</th>
-                            <th class="text-light">Quantity</th>
-                            <th class="text-light">Price</th>
-                            <th class="text-light">Tags</th>
-                            <th class="text-light">Status</th>
-                            <th class="text-light">Action</th>
+                            <th class="text-light">الصورة</th>
+                            <th class="text-light">الاسم</th>
+                            <th class="text-light">القسم التابع له</th>
+                            <th class="text-light">مميز</th>
+                            <th class="text-light">الكمية</th>
+                            <th class="text-light">السعر</th>
+                            <th class="text-light">الحالة</th>
+                            <th class="text-light">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,11 +85,11 @@
                                         <img class="rounded" src="{{ asset('assets/no_image.png')}}" width="60" height="90" alt="{{ $product->name }}">
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $product->name }}</td>
-                                <td class="text-center">{{ $product->featured == 1 ? 'YES' : 'NO'}}</td>
-                                <td class="text-center">{{ $product->quantity }}</td>
-                                <td class="text-center">{{ $product->price }}</td>
-                                <td class="text-center">{{ $product->tags->pluck('name')->join(', ') }}</td>
+                                <td class="text-center">{{ $product->name_ar }}</td>
+                                <td class="text-center">{{ $product->category->name_ar }}</td>
+                                <td class="text-center">{{ $product->featured == 1 ? 'مميز' : 'عادي'}}</td>
+                                <td class="text-center">( {{ $product->quantity }} ) {{ $product->unit->name_ar }}</td>
+                                <td class="text-center">{{ $product->currency }} ( {{ $product->price }} )</td>
                                 <td class="text-center">
                                     <span class="switch switch-icon">
                                         <label>

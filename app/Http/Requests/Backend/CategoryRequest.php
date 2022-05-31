@@ -27,10 +27,15 @@ class CategoryRequest extends FormRequest
             case 'POST':
             {
                 return[
-                    'name'      => 'required|max:255|unique:categories',
-                    'status'    => 'required',
-                    'parent_id' => 'nullable',
-                    'cover'     => 'required|mimes:png,jpg,jpeg|max:2048'
+                    'name_ar'           => 'required|max:255|unique:categories,name_ar',
+                    'name_en'           => 'required|max:255|unique:categories,name_en',
+                    'name_ur'           => 'required|max:255|unique:categories,name_ur',
+                    'status'            => 'required',
+                    'description_ar'    => 'required|max:255|unique:categories,description_ar',
+                    'description_en'    => 'required|max:255|unique:categories,description_en',
+                    'description_ur'    => 'required|max:255|unique:categories,description_ur',
+                    'parent_id'         => 'nullable',
+                    'cover'             => 'required|mimes:png,jpg,jpeg'
                 ];
             }
 
@@ -39,10 +44,16 @@ class CategoryRequest extends FormRequest
             case 'PATCH':
             {
                 return[
-                    'name'      => 'required|max:255|unique:categories,name,'.$this->route()->category->id,
-                    'status'    => 'required',
-                    'parent_id' => 'nullable',
-                    'cover'     => 'nullable|mimes:png,jpg,jpeg|max:2048'
+                    'name_ar'           => 'required|max:255',
+                    'name_en'           => 'required|max:255',
+                    'name_ur'           => 'required|max:255',
+                    'status'            => 'nullable',
+                    'description_ar'    => 'required|max:255|unique:categories,description_ar',
+                    'description_en'    => 'required|max:255|unique:categories,description_en',
+                    'description_ur'    => 'required|max:255|unique:categories,description_ur',
+                    'status'            => 'nullable',
+                    'parent_id'         => 'nullable',
+                    'cover'             => 'nullable|mimes:png,jpg,jpeg'
                 ];
             }
 

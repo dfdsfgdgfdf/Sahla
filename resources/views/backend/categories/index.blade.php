@@ -80,9 +80,9 @@
                                     <img class="rounded" width="110" height="60"
                                         src="{{ asset($category->cover) }}">
                                 </td>
-                                <td class="text-center">{{ $category->name }}</td>
+                                <td class="text-center">{{ $category->name_ar }}</td>
                                 <td class="text-center">{{ $category->products_count }}</td>
-                                <td class="text-center">{{ $category->parent != null ? $category->parent->name : '-' }}</td>
+                                <td class="text-center">{{ $category->parent != null ? $category->parent->name_ar : '---' }}</td>
 
                                 <td class="text-center">
                                     <span class="switch switch-icon">
@@ -97,7 +97,7 @@
                                 </td>
                                 <td class="text-center">
                                     <div style="display: flex" class="text-center justify-content-between">
-                                        @ability('superAdmin', 'manage_categories,update_categories')
+                                        @ability('superAdmin', 'manage_categories,show_categories')
                                             <a href="{{ route('admin.categories.edit', $category->id) }}"
                                                 class="edit btn btn-success btn-sm"><i class="fas fa-edit"></i>
                                             </a>
@@ -105,32 +105,60 @@
 
 
                                         <!-- Button trigger modal-->
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
-                                            Launch demo modal
+                                        <button type="button" class="edit btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModalSizeSm{{ $category->id }}">
+                                            <i class="fas fa-eye"></i>
                                         </button>
 
                                         <!-- Modal-->
-                                        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                        <div class="modal fade" id="exampleModalSizeSm{{ $category->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm{{ $category->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                                                        <h5 class="modal-title" id="exampleModalLabel">{{ $category->name_ar }}</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <i aria-hidden="true" class="ki ki-close"></i>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body" style="height: 300px;">
-                                                        ...
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <table class="table" height="100%">
+                                                                    <caption>عدد المنتجات = {{ $category->products_count }}</caption>
+                                                                    <thead>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>(العربية)</td>
+                                                                            <td>(الانجليزية)</td>
+                                                                            <td>(أوردو)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>{{ $category->name_ar }}</td>
+                                                                            <td>{{ $category->name_en }}</td>
+                                                                            <td>{{ $category->name_ur }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>{{ $category->description_ar }}</td>
+                                                                            <td>{{ $category->description_en }}</td>
+                                                                            <td>{{ $category->description_ur }}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <img class="rounded"src="{{ asset($category->cover) }}"
+                                                                     width="400"height="270" sizes="(max-width: 640px) 400px,800px">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        @ability('superAdmin', 'manage_categories,delete_categories')
+                                        @ability('superAdmin', 'manage_categories,show_categories')
                                             <a href="javascript:void(0)"
                                                 onclick="
                                                     if (confirm('Are You Sure You Want To Delete This Record ?') )

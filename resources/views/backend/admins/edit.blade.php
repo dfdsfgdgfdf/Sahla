@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'Edit Admin')
+@section('title', 'تعديل البيانات')
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/vendor/select2/css/select2.min.css') }}">
@@ -11,13 +11,15 @@
 <div class="container">
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex">
-            <h6 class="m-0 font-weight-bold text-primary">Edit admin => {{ $admin->full_name }}</h6>
-            <div class="ml-auto">
+            <div class="col-6">
+                <h6 class="m-0 font-weight-bold text-primary">تعديل البيانات</h6>
+            </div>
+            <div class="col-6 text-right">
                 <a href="{{ route('admin.admins.index') }}" class="btn btn-primary">
                     <span class="icon text-white-50">
                         <i class="fa fa-home"></i>
                     </span>
-                    <span class="text">Admins</span>
+                    <span class="text">الادمن</span>
                 </a>
             </div>
         </div>
@@ -29,7 +31,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label for="first_name">admin First Name</label>
+                            <label for="first_name">الاسم الاول</label>
                             <input type="text" name="first_name" value="{{ old('first_name', $admin->first_name ) }}" class="form-control">
                             @error('first_name')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -37,7 +39,7 @@
 
                     <div class="col-4">
                         <div class="form-group">
-                            <label for="last_name">admin Last Name</label>
+                            <label for="last_name">الاسم الاخير</label>
                             <input type="text" name="last_name" value="{{ old('last_name', $admin->last_name ) }}" class="form-control">
                             @error('last_name')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -45,7 +47,7 @@
 
                     <div class="col-4">
                         <div class="form-group">
-                            <label for="username">admin UserName</label>
+                            <label for="username">اسم المستخدم</label>
                             <input type="text" name="username" value="{{ old('username', $admin->username ) }}" class="form-control">
                             @error('username')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -55,7 +57,7 @@
                 <div class="row pt-4">
                     <div class="col-3">
                         <div class="form-group">
-                            <label for="email">admin E-Mail</label>
+                            <label for="email">البريد الالكتروني</label>
                             <input type="email" name="email" value="{{ old('email', $admin->email ) }}" class="form-control">
                             @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -63,7 +65,7 @@
 
                     <div class="col-3">
                         <div class="form-group">
-                            <label for="mobile">admin Mobile</label>
+                            <label for="mobile">رقم الهاتف</label>
                             <input type="text" name="mobile" value="{{ old('mobile', $admin->mobile ) }}" class="form-control">
                             @error('mobile')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -71,14 +73,14 @@
 
                     <div class="col-3">
                         <div class="form-group">
-                            <label for="password">admin Password</label>
+                            <label for="password">كلمة المرور</label>
                             <input type="password" name="password" class="form-control">
                             @error('password')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
 
                     <div class="col-3">
-                        <label for="status">admin Status</label>
+                        <label for="status">الحالة</label>
                         <select name="status" class="form-control">
                             <option value="1" {{ old('status', $admin->status ) == 1 ? 'selected' : null }}>Active</option>
                             <option value="0" {{ old('status', $admin->status ) == 0 ? 'selected' : null }}>Inactive</option>
@@ -89,7 +91,7 @@
 
                 <div class="row mt-4">
                     <div class="col-12">
-                        <label for="permissions">Admin Permissions</label>
+                        <label for="permissions">الصلاحيات</label>
                         <select name="permissions[]" class="form-control select2" multiple="multiple">
                             @forelse ($permissions as $permission )
                                 <option value="{{ $permission->id }}" {{ in_array($permission->id, old('permission', $adminPermissions) ) ? 'selected' : null }}>{{ $permission->display_name }}</option>
@@ -103,7 +105,7 @@
                 <div class="row pt-4">
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="user_image">admin Profile</label>
+                            <label for="user_image">صورة البروفيل</label>
                             <input type="file" name="user_image" id="category_image" class="file-input-overview">
                             <span class="form-text text-muted">Image Width Should be (500px) X (500px)</span>
                             @error('user_image')<span class="text-danger">{{ $message }}</span>@enderror
@@ -112,7 +114,7 @@
                 </div>
 
                 <div class="form-group pt-4 text-center">
-                    <button type="submit" name="submit" class="btn btn-primary">Update admin</button>
+                    <button type="submit" name="submit" class="btn btn-primary">تحديث البيانات</button>
                 </div>
             </form>
         </div>

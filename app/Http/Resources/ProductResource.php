@@ -23,12 +23,16 @@ class ProductResource extends JsonResource
         endif;
 
         $wishProducts = Auth::user()->wishes() ;
-        foreach ($wishProducts as $wishProduct){
-            if ($wishProduct->id == $this->id ){
-                $wish = '1';
-            }else{
-                $wish = '0';
+        if($wishProducts != ''){
+            foreach ($wishProducts as $wishProduct){
+                if ($wishProduct->id == $this->id ){
+                    $wish = '1';
+                }else{
+                    $wish = '0';
+                }
             }
+        }else{
+            $wish = '0';
         }
 
         return [

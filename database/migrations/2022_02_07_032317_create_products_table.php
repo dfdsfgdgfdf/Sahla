@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->text('description_ur')->nullable();
+            $table->string('stock');
             $table->double('price');
             $table->string('currency')->default('SAR');
             $table->unsignedBigInteger('quantity')->nullable();

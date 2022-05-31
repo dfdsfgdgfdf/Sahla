@@ -7,6 +7,7 @@ use App\Http\Requests\Backend\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tag;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
@@ -51,10 +52,9 @@ class ProductController extends Controller
             return redirect('admin/index');
         }
 
-        $categories = Category::whereStatus(1)->get(['id', 'name']);
-        $tags       = Tag::whereStatus(1)->get(['id', 'name']);
-
-        return view('backend.products.create', compact('categories', 'tags'));
+        $categories = Category::whereStatus(1)->get(['id', 'name_ar']);
+        $units = Unit::whereStatus(1)->get(['id', 'name_ar']);
+        return view('backend.products.create', compact('categories', 'units'));
     }
 
     /**
@@ -69,17 +69,22 @@ class ProductController extends Controller
             return redirect('admin/index');
         }
 
-        $input['name']          = $request->name;
-        $input['description']   = $request->description;
+        $input['name_ar']          = $request->name_ar;
+        $input['name_en']          = $request->name_en;
+        $input['name_ur']          = $request->name_ur;
+        $input['description_ar']   = $request->description_ar;
+        $input['description_en']   = $request->description_en;
+        $input['description_ur']   = $request->description_ur;
+        $input['stock']      = $request->stock;
         $input['quantity']      = $request->quantity;
+        $input['currency']      = $request->currency;
         $input['price']         = $request->price;
+        $input['unit_id']   = $request->unit_id;
         $input['category_id']   = $request->category_id;
         $input['featured']      = $request->featured;
         $input['status']        = $request->status;
 
         $product = Product::create($input); //قم بانشاء كاتيجوري جديدة وخد المتغيرات بتاعتك من المتغير اللي اسمه انبوت
-
-        $product->tags()->attach($request->tags); //لان هذا علاقة مني تو مني
 
         if ($request->images && count($request->images) > 0) {
             $i = 1;
@@ -134,10 +139,10 @@ class ProductController extends Controller
             return redirect('admin/index');
         }
 
-        $categories = Category::whereStatus(1)->get(['id', 'name']);
-        $tags       = Tag::whereStatus(1)->get(['id', 'name']);
+        $categories = Category::whereStatus(1)->get(['id', 'name_ar']);
+        $units = Unit::whereStatus(1)->get(['id', 'name_ar']);
 
-        return view('backend.products.edit', compact('categories', 'tags', 'product'));
+        return view('backend.products.edit', compact('categories', 'units', 'product'));
     }
 
     /**
@@ -153,17 +158,22 @@ class ProductController extends Controller
             return redirect('admin/index');
         }
 
-        $input['name']          = $request->name;
-        $input['description']   = $request->description;
+        $input['name_ar']          = $request->name_ar;
+        $input['name_en']          = $request->name_en;
+        $input['name_ur']          = $request->name_ur;
+        $input['description_ar']   = $request->description_ar;
+        $input['description_en']   = $request->description_en;
+        $input['description_ur']   = $request->description_ur;
+        $input['stock']      = $request->stock;
         $input['quantity']      = $request->quantity;
+        $input['currency']      = $request->currency;
         $input['price']         = $request->price;
+        $input['unit_id']   = $request->unit_id;
         $input['category_id']   = $request->category_id;
         $input['featured']      = $request->featured;
         $input['status']        = $request->status;
 
         $product->update($input);
-
-        $product->tags()->sync($request->tags);
 
         if ($request->images && count($request->images) > 0) {
             $i = $product->media()->count() + 1;
@@ -187,7 +197,6 @@ class ProductController extends Controller
             }
         }
         Alert::success('Product Updated Successfully', 'Success Message');
-
         return redirect()->route('admin.products.index');
     }
 
@@ -214,11 +223,8 @@ class ProductController extends Controller
             }
         }
         $product->delete();
-
         Alert::success('Product Deleted Successfully', 'Success Message');
-
         return redirect()->route('admin.products.index');
-
     }
 
 
@@ -262,6 +268,6 @@ class ProductController extends Controller
         $product = Product::find($request->cat_id);
         $product->status = $request->status;
         $product->save();
-        return response()->json(['success'=>'Status Change Successfully.']);
+        return response()->json(['success'=>'Product Status Change Successfully.']);
     }
 }

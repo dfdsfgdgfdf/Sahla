@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'All Users')
+@section('title', 'المستخدمين')
 
 @section('style')
     <style>
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-6 d-flex text-left">
-                <h1 class=" text-left">Users</h1>
+                <h1 class=" text-left">المستخدمين</h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
                 @ability('superAdmin', 'manage_users,create_users')
@@ -50,7 +50,7 @@
                         </svg>
                         <!--end::Svg Icon-->
                     </span>
-                    New Record
+                    مستخدم جديد
                 </a>
                 @endability
             </div>
@@ -64,11 +64,11 @@
                     <thead class="table-dark ">
                         <tr class="text-light">
                             <th class="text-light">No</th>
-                            <th class="text-light">Image</th>
-                            <th class="text-light">Name</th>
-                            <th class="text-light">Email & Mobile</th>
-                            <th class="text-light">Status</th>
-                            <th class="text-light">Action</th>
+                            <th class="text-light">الصورة</th>
+                            <th class="text-light">الاسم</th>
+                            <th class="text-light">البريد & الموبيل</th>
+                            <th class="text-light">الحالة</th>
+                            <th class="text-light">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
