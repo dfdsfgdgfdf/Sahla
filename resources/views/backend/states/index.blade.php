@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'All States')
+@section('title', 'المحافظات')
 
 @section('style')
     <style>
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-6 d-flex text-left">
-                <h1 class=" text-left">States</h1>
+                <h1 class=" text-left">المحافظات</h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
                 @ability('superAdmin', 'manage_states,create_states')
@@ -50,7 +50,7 @@
                         </svg>
                         <!--end::Svg Icon-->
                     </span>
-                    New Record
+                    عنصر جديد
                 </a>
                 @endability
             </div>
@@ -64,11 +64,11 @@
                     <thead class="table-dark ">
                         <tr class="text-light">
                             <th class="text-light">No</th>
-                            <th class="text-light">Name</th>
-                            <th class="text-light">Country Name</th>
-                            <th class="text-light">Cities Name</th>
-                            <th class="text-light">Status</th>
-                            <th class="text-light">Action</th>
+                            <th class="text-light">اسم المحافظة</th>
+                            <th class="text-light">اسم الدولة</th>
+                            <th class="text-light">عدد المدن</th>
+                            <th class="text-light">الحالة</th>
+                            <th class="text-light">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -23,7 +23,7 @@ class AppStartPageResource extends JsonResource
 
         return [
             "id" => $this->id,
-            $text => isset($this->$text) ? $this->$text : '',
+            "text" => isset($this->$text) ? $this->$text : '',
             "image" => isset($this->image) ? env('APP_URL').$this->image : '',
             "number" => isset($this->number) ? $this->number : '',
         ];

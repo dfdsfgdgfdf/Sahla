@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'All Customers')
+@section('title', 'المستخدمين-العملاء')
 
 @section('style')
     <style>
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-6 d-flex text-left">
-                <h1 class=" text-left">Customers</h1>
+                <h1 class=" text-left">المستخدمين | العملاء</h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
                 @ability('superAdmin', 'manage_customers,create_customers')
@@ -50,7 +50,7 @@
                         </svg>
                         <!--end::Svg Icon-->
                     </span>
-                    New Record
+                    عنصر جديد
                 </a>
                 @endability
             </div>
@@ -64,17 +64,20 @@
                     <thead class="table-dark ">
                         <tr class="text-light">
                             <th class="text-light">No</th>
-                            <th class="text-light">Image</th>
-                            <th class="text-light">Name</th>
-                            <th class="text-light">Email & Mobile</th>
-                            <th class="text-light">Status</th>
-                            <th class="text-light">Action</th>
+                            <th class="text-light">الصورة</th>
+                            <th class="text-light">الاسم</th>
+                            <th class="text-light">البريد & الهاتف</th>
+                            <th class="text-light">العنوان</th>
+                            <th class="text-light">Zip Code</th>
+                            <th class="text-light">POST Code</th>
+                            <th class="text-light">الحالة</th>
+                            <th class="text-light">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($customers as $k => $customer)
                             <tr data-entry-id="{{ $customer->id }}">
-                                <td>{{ $loop->index+1 }}</td>
+                                <td></td>
                                 <td class="text-center">
                                     @if ($customer->user_image != '')
                                         <img class="rounded" width="90" height="60"
@@ -88,9 +91,34 @@
                                     <a>{{ $customer->full_name }}</a>
                                     <p class="text-gray-400"><b>{{ $customer->username }}</b></p>
                                 </td>
+
                                 <td>
                                     {{ $customer->email }}
                                     <p class="text-gray-400"><b>{{ $customer->mobile }}</b></p>
+                                </td>
+                                @php $customer_address = \App\Models\UserAddress::whereUserId($customer->id)->first(); @endphp
+
+                                <td class="text-center">
+                                    @if ($customer_address && $customer_address->country_id != '')
+                                        {{ $customer_address->country->name .' - '. $customer_address->state->name .' - '. $customer_address->city->name }}
+                                        <p class="text-gray-400"><b>{{ $customer_address->address }}</b></p>
+                                    @else
+                                        ---
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if ($customer_address != '')
+                                    {{ $customer_address->zip_code }}
+                                    @else
+                                        ---
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if ($customer_address != '')
+                                        {{ $customer_address->po_box }}
+                                    @else
+                                        ---
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <span class="switch switch-icon">
@@ -138,36 +166,6 @@
             </div>
         </div>
     </div>
-    <script>
-        $(function () {
-            $('.status-class').change(function() {
-                console.log("success");
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var cat_id = $(this).data('id');
-
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: '{{ route('admin.customers.changeStatus') }}',
-                    data: {
-                        'status': status,
-                        'cat_id': cat_id
-                    },
-                    success: function(data) {
-                        Swal.fire({
-                            title: 'Status Change Successfully',
-                            showClass: {
-                                popup: 'animate__animated animate__fadeInDown'
-                            },
-                            hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                            }
-                        })
-                    }
-                });
-            })
-        });
-    </script>
 @endsection
 @section('script')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
@@ -263,7 +261,7 @@
                     {
                         className: 'btn btn-light-danger px-6 font-weight-bold',
                         text: 'Delete All',
-                        url: "{{ route('admin.customers.massDestroy') }}",
+                        url: "{{ route('admin.customers.customersDestroyAll') }}",
                         action: function(e, dt, node, config) {
 
                             var ids = $.map(dt.rows({

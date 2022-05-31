@@ -1,19 +1,21 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'Create Social Media')
+@section('title', 'انشاء وسيلة تواصل اجتماعي')
 
 @section('content')
 
 <div class="container">
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex">
-            <h6 class="m-0 font-weight-bold text-primary">Create Social Media</h6>
-            <div class="ml-auto">
+            <div class="col-6">
+                <h6 class="m-0 font-weight-bold text-primary">وسائل التواصل الاجتماعي</h6>
+            </div>
+            <div class="col-6 text-right">
                 <a href="{{ route('admin.socials.index') }}" class="btn btn-primary">
                     <span class="icon text-white-50">
                         <i class="fa fa-home"></i>
                     </span>
-                    <span class="text">Social Media</span>
+                    <span class="text">وسائل التواصل الاجتماعي</span>
                 </a>
             </div>
         </div>
@@ -23,7 +25,7 @@
                 @csrf
                 <div class="row">
                     <div class="col-6">
-                        <label for="type">Type</label>
+                        <label for="type">النوع</label>
                         <select name="type" class="form-control">
                             <option value="Facebook" {{ old('type') == "Facebook" ? 'selected' : null }}>Facebook</option>
                             <option value="YouTube" {{ old('type') == "YouTube" ? 'selected' : null }}>YouTube</option>
@@ -42,23 +44,23 @@
                         @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                     <div class="col-6">
-                        <label for="status">Social Status</label>
+                        <label for="status">الحالة</label>
                         <select name="status" class="form-control">
-                            <option value="1" {{ old('status') == 1 ? 'selected' : null }}>Active</option>
-                            <option value="0" {{ old('status') == 0 ? 'selected' : null }}>Inactive</option>
+                            <option value="1" {{ old('status') == 1 ? 'selected' : null }}>نشط</option>
+                            <option value="0" {{ old('status') == 0 ? 'selected' : null }}>غير نشط</option>
                         </select>
                         @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="link">Link</label>
+                            <label for="link">اللينك</label>
                             <input type="url" name="link" value="{{ old('link') }}" class="form-control">
                             @error('link')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>
                 <div class="form-group pt-4 text-center">
-                    <button type="submit" name="submit" class="btn btn-primary">Add Social Media</button>
+                    <button type="submit" name="submit" class="btn btn-primary">اضافة البيانات</button>
                 </div>
             </form>
         </div>

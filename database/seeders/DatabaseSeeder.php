@@ -21,13 +21,14 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(AppStartPageSeeder::class);
         $this->call(TagSeeder::class);
+        $this->call(UnitSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(ProductsTagsSeeder::class);
         $this->call(ProductsImagesSeeder::class);
         $this->call(ProductCouponSeeder::class);
         $this->call(ProductReviewSeeder::class);
         $this->call(SocialMediaSeeder::class);
-        $this->call(UnitSeeder::class);
+        $this->call(AboutSeeder::class);
 
     }
 }

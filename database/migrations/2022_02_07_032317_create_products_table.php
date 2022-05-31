@@ -24,8 +24,8 @@ class CreateProductsTable extends Migration
             $table->text('description_ur')->nullable();
             $table->double('price');
             $table->string('currency')->default('SAR');
+            $table->unsignedBigInteger('quantity')->nullable();
             $table->foreignId('unit_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->unsignedBigInteger('quantity')->default(0);
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->boolean('featured')->default(false);
             $table->boolean('status')->default(true);

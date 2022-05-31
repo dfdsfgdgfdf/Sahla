@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'All E-Mails')
+@section('title', 'البريد الالكتروني')
 
 
 @section('content')
@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-6 d-flex text-left">
-                <h1 class=" text-left">E-Mails</h1>
+                <h1 class=" text-left">البريد الالكتروني</h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
                 @ability('superAdmin', 'manage_emails,create_emails')
@@ -27,7 +27,7 @@
                         </svg>
                         <!--end::Svg Icon-->
                     </span>
-                    New Record
+                    عنصر جديد
                 </a>
                 @endability
             </div>
@@ -46,10 +46,10 @@
                     <thead class="table-dark ">
                         <tr class="text-light">
                             <th class="text-light">No</th>
-                            <th class="text-light">E-Mail</th>
-                            <th class="text-light">Type</th>
-                            <th class="text-light">Status</th>
-                            <th class="text-light">Action</th>
+                            <th class="text-light">البريد الالكتروني</th>
+                            <th class="text-light">النوع</th>
+                            <th class="text-light">الحالة</th>
+                            <th class="text-light">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>

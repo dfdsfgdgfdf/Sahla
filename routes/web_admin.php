@@ -1,20 +1,24 @@
 <?php
 
+use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\BackendController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CityController;
+use App\Http\Controllers\Backend\ContactMessageController;
 use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\EmailController;
+use App\Http\Controllers\Backend\LocationController;
+use App\Http\Controllers\Backend\LogoController;
+use App\Http\Controllers\Backend\PageTitleController;
 use App\Http\Controllers\Backend\PhoneController;
 use App\Http\Controllers\Backend\ProductController;
-use App\Http\Controllers\Backend\ProductCouponController;
-use App\Http\Controllers\Backend\ProductReviewController;
 use App\Http\Controllers\Backend\SocialMediaController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\WorkingTimeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +52,9 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
 
             Route::get('/',               [BackendController::class, 'index'    ])->name('index_route');
             Route::get('/index',          [BackendController::class, 'index'    ])->name('index');
+            /*  Country - State - City */
+            Route::get('/getState',     [BackendController::class, 'get_state'    ])->name('backend.get_state');
+            Route::get('/getCity',      [BackendController::class, 'get_city'    ])->name('backend.get_city');
 
 
             /*  Category   */
@@ -92,7 +99,8 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::get('/getCustomerSearch',  [CustomerController::class, 'getCustomerSearch'    ])->name('customers.getCustomerSearch');
             Route::post('customers-removeImage', [CustomerController::class,'removeImage'])->name('customers.removeImage');
             Route::get('customers-changeStatus', [CustomerController::class,'changeStatus'])->name('customers.changeStatus');
-            Route::post('customers-destroyAll', [CustomerController::class,'massDestroy'])->name('customers.massDestroy');
+            Route::post('customersDestroyAll', [CustomerController::class,'massDestroy'])->name('customers.customersDestroyAll');
+
 
 
             // Route::get('/get_customer_customerSearch',   [CustomerSearchController::class, 'index'    ])->name('customers.get_customer');
@@ -118,9 +126,9 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
 
 
             /*  socials   */
-            Route::resource('socials'    ,SocialMediaController::class);
             Route::get('socials-changeStatus', [SocialMediaController::class,'changeStatus'])->name('socials.changeStatus');
             Route::post('socials-destroyAll', [SocialMediaController::class,'massDestroy'])->name('socials.massDestroy');
+            Route::resource('socials'    ,SocialMediaController::class);
             /*  phones   */
             Route::resource('phones'    ,PhoneController::class);
             Route::get('phones-changeStatus', [PhoneController::class,'changeStatus'])->name('phones.changeStatus');
@@ -129,6 +137,34 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::resource('emails'    ,EmailController::class);
             Route::get('emails-changeStatus', [EmailController::class,'changeStatus'])->name('emails.changeStatus');
             Route::post('emails-destroyAll', [EmailController::class,'massDestroy'])->name('emails.massDestroy');
+
+
+            /*  about   */
+            Route::resource('abouts'    ,AboutController::class);
+            Route::post('ckeditor/upload', [AboutController::class, 'upload'])->name('ckeditor.upload');
+
+
+            //socials
+            Route::resource('contact-messages',ContactMessageController::class);
+            Route::get('contact-messages-changeStatus', [ContactMessageController::class,'changeStatus'])->name('contact-messages.changeStatus');
+            Route::post('contact-messages-destroyAll', [ContactMessageController::class,'massDestroy'])->name('contact-messages.massDestroy');
+
+
+            //Settings
+            Route::resource('logos',LogoController::class);
+            Route::get('logos-changeStatus', [LogoController::class,'changeStatus'])->name('logos.changeStatus');
+
+            Route::resource('page-titles',PageTitleController::class);
+            Route::get('page-titles-changeStatus', [PageTitleController::class,'changeStatus'])->name('page-titles.changeStatus');
+
+            Route::resource('locations',LocationController::class);
+            Route::get('locations-changeStatus', [LocationController::class,'changeStatus'])->name('locations.changeStatus');
+
+            Route::resource('working_times',WorkingTimeController::class);
+            Route::get('working_times-changeStatus', [WorkingTimeController::class,'changeStatus'])->name('working_times.changeStatus');
+
+
+
 
 
         });

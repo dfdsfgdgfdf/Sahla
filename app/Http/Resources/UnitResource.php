@@ -23,7 +23,7 @@ class UnitResource extends JsonResource
 
         return [
             "id" => $this->id,
-            $name => isset($this->$name) ? $this->$name : '',
+            "name" => isset($this->$name) ? $this->$name : '',
         ];
     }
 }
