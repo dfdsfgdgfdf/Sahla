@@ -115,11 +115,11 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::resource('countries'    ,CountryController::class);
             Route::get('countries-changeStatus', [CountryController::class,'changeStatus'])->name('countries.changeStatus');
             Route::post('countries-destroyAll', [CountryController::class,'massDestroy'])->name('countries.massDestroy');
-            /*  countries   */
+            /*  states   */
             Route::resource('states'    ,StateController::class);
             Route::get('states-changeStatus', [StateController::class,'changeStatus'])->name('states.changeStatus');
             Route::post('states-destroyAll', [StateController::class,'massDestroy'])->name('states.massDestroy');
-            /*  countries   */
+            /*  cities   */
             Route::resource('cities'    ,CityController::class);
             Route::get('cities-changeStatus', [CityController::class,'changeStatus'])->name('cities.changeStatus');
             Route::post('cities-destroyAll', [CityController::class,'massDestroy'])->name('cities.massDestroy');
