@@ -66,7 +66,7 @@ class ProductRequest extends FormRequest
                     'category_id'       => 'required',
                     'featured'          => 'required',
                     'status'            => 'required',
-                    'images'            => 'required',
+                    'images'            => 'nullable',
                     'images.*'          => 'mimes:png,jpg,jpeg,gif|max:4048',
 
                 ];

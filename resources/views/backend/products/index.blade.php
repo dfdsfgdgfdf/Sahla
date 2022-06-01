@@ -109,6 +109,10 @@
                                             </a>
                                         @endability
 
+                                        <a href="{{ route('admin.products.show', $product->id) }}"
+                                           class="edit btn btn-info btn-sm"><i class="fas fa-eye"></i>
+                                        </a>
+
                                         @ability('superAdmin', 'manage_products,delete_products')
                                             <a href="javascript:void(0)"
                                                 onclick="

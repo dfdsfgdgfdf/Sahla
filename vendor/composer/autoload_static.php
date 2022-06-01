@@ -743,6 +743,7 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
     );
 
     public static $classMap = array (
+        'App\\Auth\\DatabaseTokenRepository' => __DIR__ . '/../..' . '/app/Auth/DatabaseTokenRepository.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Events\\RealTimeMessageEvent' => __DIR__ . '/../..' . '/app/Events/RealTimeMessageEvent.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',

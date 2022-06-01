@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Auth\\DatabaseTokenRepository' => $baseDir . '/app/Auth/DatabaseTokenRepository.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Events\\RealTimeMessageEvent' => $baseDir . '/app/Events/RealTimeMessageEvent.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',

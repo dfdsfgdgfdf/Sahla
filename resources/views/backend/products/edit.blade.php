@@ -139,7 +139,7 @@
                     </div>
                     <div class="col-3">
                         <label for="currency">العملة</label>
-                        @include('backend.products.currency_create')
+                        @include('backend.products.currency_edit', [ 'product' => $product ])
                         @error('currency')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                 </div>
 
                 <div class="form-group pt-4 text-center">
-                    <button type="submit" name="submit" class="btn btn-primary">Update Product</button>
+                    <button type="submit" name="submit" class="btn btn-primary">تحديث البيانات</button>
                 </div>
             </form>
         </div>

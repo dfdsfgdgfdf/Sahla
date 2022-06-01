@@ -32,6 +32,7 @@ class ProductSeeder extends Seeder
                 'description_ar'        => $faker->paragraph(),
                 'description_en'        => $faker->paragraph(),
                 'description_ur'        => $faker->paragraph(),
+                'stock'             => $faker->numberBetween(1000, 100000000),
                 'price'             => $faker->numberBetween(5, 1000),
                 'quantity'             => $faker->numberBetween(5, 100000),
                 'quantity'          => $faker->numberBetween(5, 100),
