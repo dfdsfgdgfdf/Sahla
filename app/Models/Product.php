@@ -91,8 +91,6 @@ class Product extends Model
         return $this->belongsTo(Unit::class, 'unit_id', 'id');
     }
 
-
-
     public function reviews(): HasMany
     {
         return $this->hasMany(ProductReview::class);

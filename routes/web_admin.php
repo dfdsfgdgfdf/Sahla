@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\LogoController;
 use App\Http\Controllers\Backend\PageTitleController;
 use App\Http\Controllers\Backend\PhoneController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProductReviewController;
 use App\Http\Controllers\Backend\SocialMediaController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TagController;
@@ -69,10 +70,11 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::get('tags-changeStatus', [TagController::class,'changeStatus'])->name('tags.changeStatus');
 
             /*  Products   */
-            Route::resource('products',ProductController::class);
             Route::post('products-removeImage', [ProductController::class, 'removeImage'])->name('products.removeImage');
             Route::post('products-destroyAll', [ProductController::class,'massDestroy'])->name('products.massDestroy');
             Route::get('products-changeStatus', [ProductController::class,'changeStatus'])->name('products.changeStatus');
+            Route::get('products-reviews/{product}', [ProductController::class,'reviewsIndex'])->name('products.reviewsIndex');
+            Route::resource('products',ProductController::class);
             /*  productCoupons   */
             Route::resource('productCoupons',ProductCouponController::class);
             Route::get('productCoupons-changeStatus', [ProductCouponController::class,'changeStatus'])->name('productCoupons.changeStatus');

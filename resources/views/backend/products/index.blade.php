@@ -70,6 +70,7 @@
                             <th class="text-light">مميز</th>
                             <th class="text-light">الكمية</th>
                             <th class="text-light">السعر</th>
+                            <th class="text-light">التعليقات</th>
                             <th class="text-light">الحالة</th>
                             <th class="text-light">العمليات</th>
                         </tr>
@@ -90,6 +91,9 @@
                                 <td class="text-center">{{ $product->featured == 1 ? 'مميز' : 'عادي'}}</td>
                                 <td class="text-center">( {{ $product->quantity }} ) {{ $product->unit->name_ar }}</td>
                                 <td class="text-center">{{ $product->currency }} ( {{ $product->price }} )</td>
+                                <td class="text-center">
+                                    <a href="{{ route('admin.products.reviewsIndex', $product->id) }}">رؤية التعليقات</a>
+                                </td>
                                 <td class="text-center">
                                     <span class="switch switch-icon">
                                         <label>

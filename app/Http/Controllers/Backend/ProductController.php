@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductReview;
 use App\Models\Tag;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -269,5 +270,33 @@ class ProductController extends Controller
         $product->status = $request->status;
         $product->save();
         return response()->json(['success'=>'Product Status Change Successfully.']);
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function reviewsIndex(Product $product)
+    {
+        if (!\auth()->user()->ability('superAdmin', 'manage_products,show_products')) {
+            return redirect('admin/index');
+        }
+
+        $productReviews = ProductReview::whereProductId($product->id)
+
+        ->when(\request()->keyword !=null, function($query){
+            $query->search(\request()->keyword);
+        })
+        ->when(\request()->status !=null, function($query){
+            $query->whereStatus(\request()->status);
+        })
+        ->orderBy(\request()->sort_by ?? 'id' ,  \request()->order_by ?? 'desc')
+
+        ->paginate(\request()->limit_by ?? 10);
+
+        return view('backend.productReviews.index', compact('productReviews'));
+
     }
 }

@@ -118,7 +118,7 @@ class ProductReviewController extends Controller
         $productReview->update($request->validated());
 
         Alert::success('Product Review Updated Successfully', 'Success Message');
-        return redirect()->route('admin.productReviews.index');
+        return redirect()->back('admin.productReviews.index');
 
     }
 

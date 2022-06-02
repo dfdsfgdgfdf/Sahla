@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'All Product Reviews')
+@section('title', 'تعليقات المنتجات')
 
 @section('style')
     <style>
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-6 d-flex text-left">
-                <h1 class=" text-left">Product Reviews</h1>
+                <h1 class=" text-left">تعليقات المنتجات</h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
             </div>
@@ -44,13 +44,13 @@
                 <table class="table table-bordered table-hover table-striped table-light yajra-datatable">
                     <thead class="table-dark ">
                         <tr class="text-light">
-                            <th class="text-light">No</th>
-                            <th class="text-light">Name</th>
-                            <th class="text-light">Message</th>
-                            <th class="text-light">Ratingn</th>
-                            <th class="text-light">Product</th>
-                            <th class="text-light">Status</th>
-                            <th class="text-light">Action</th>
+                            <th class="text-light">الرقم</th>
+                            <th class="text-light">بيانات الشخص</th>
+                            <th class="text-light">التعليق</th>
+                            <th class="text-light">التقييم</th>
+                            <th class="text-light">المنتج</th>
+                            <th class="text-light">الحالة</th>
+                            <th class="text-light">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,7 +66,7 @@
                                     <b>{{ $productReview->title }}</b><br>
                                 </td>
                                 <td class="text-center"><span class="badge badge-success">{{ $productReview->rating }}</span></td>
-                                <td class="text-center">{{ $productReview->product->name }}</td>
+                                <td class="text-center">{{ $productReview->product->name_ar }}</td>
                                 <td class="text-center">
                                     <span class="switch switch-icon">
                                         <label>
@@ -80,11 +80,11 @@
                                 </td>
                                 <td class="text-center">
                                     <div style="display: flex" class="text-center justify-content-between">
-                                        @ability('superAdmin', 'manage_productReviews,update_productReviews')
-                                            <a href="{{ route('admin.productReviews.edit', $productReview->id) }}"
-                                                class="edit btn btn-success btn-sm"><i class="fas fa-edit"></i>
-                                            </a>
-                                        @endability
+{{--                                        @ability('superAdmin', 'manage_productReviews,update_productReviews')--}}
+{{--                                            <a href="{{ route('admin.productReviews.edit', $productReview->id) }}"--}}
+{{--                                                class="edit btn btn-success btn-sm"><i class="fas fa-edit"></i>--}}
+{{--                                            </a>--}}
+{{--                                        @endability--}}
 
                                         {{-- @ability('superAdmin', 'manage_productReviews,show_productReviews')
                                             <a href="{{ route('admin.productReviews.show', $productReview->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>

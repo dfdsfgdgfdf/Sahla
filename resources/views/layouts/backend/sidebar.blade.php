@@ -40,56 +40,62 @@
             <ul class="menu-nav">
 
                 @role(['superAdmin'])
-                    @foreach($admin_side_menu as $menu)
-                        @if (count($menu->appearedChildren) == 0)
-                            <li class="menu-item {{ $menu->id == getParentShowOf($current_page) ? 'menu-item-open' : '' }}" aria-haspopup="true">
-                                <a href="{{ route('admin.'. $menu->as) }}" class="menu-link">
-                                    <i class="{{ $menu->icon != null ? $menu->icon : 'fa fa-home' }}"></i>
-                                    <span class="menu-icon"></span>
-                                    <span class="menu-text">{{ $menu->display_name }}</span>
-                                </a>
-                            </li>
-                        @else
-                            <li class="menu-item menu-item-submenu {{ in_array($menu->parent_show, [getParentShowOf($current_page), getParentOf($current_page)]) ? 'menu-item-open' : '' }} "
-                                    aria-haspopup="true" data-menu-toggle="hover">
-                                <a href="javascript:;" class="menu-link menu-toggle {{ in_array($menu->parent_show, [getParentShowOf($current_page), getParentOf($current_page)]) ? 'menu-item-open' : '' }}">
-                                    <i class="{{ $menu->icon != null ? $menu->icon : 'fa fa-home' }}"></i>
-                                    <span class="svg-icon menu-icon"></span>
-                                    <span class="menu-text">{{ $menu->display_name }}</span>
+                    @foreach ($admin_side_menu as $menu)
+                    @if (count($menu->appearedChildren) == 0)
+                        <li class="menu-item {{ $menu->id == getParentShowOf($current_page) ? 'menu-item-open' : '' }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('admin.' . $menu->as) }}" class="menu-link">
+                                <i class="{{ $menu->icon != null ? $menu->icon : 'fa fa-home' }}"></i>
+                                <span class="menu-icon"></span>
+                                <span class="menu-text">{{ $menu->display_name }}</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="menu-item menu-item-submenu {{ in_array($menu->parent_show, [getParentShowOf($current_page), getParentOf($current_page)])? 'menu-item-open': '' }} "
+                            aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;"
+                               class="menu-link menu-toggle {{ in_array($menu->parent_show, [getParentShowOf($current_page), getParentOf($current_page)])? 'menu-item-open': '' }}">
+                                <i class="{{ $menu->icon != null ? $menu->icon : 'fa fa-home' }}"></i>
+                                <span class="svg-icon menu-icon"></span>
+                                <span class="menu-text">{{ $menu->display_name }}</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            @if (isset($menu->appearedChildren) && count($menu->appearedChildren) > 0)
+                                <div class="menu-submenu">
                                     <i class="menu-arrow"></i>
-                                </a>
-                                @if (isset($menu->appearedChildren) && count($menu->appearedChildren) > 0)
-                                    <div class="menu-submenu">
-                                        <i class="menu-arrow"></i>
-                                        <ul class="menu-subnav">
-                                            @foreach($menu->appearedChildren as $sub_menu)
-                                                <li class="menu-item menu-item-parent {{ in_array($menu->parent_show, [getParentShowOf($current_page), getParentOf($current_page)]) ? 'menu-item-open' : '' }}" aria-haspopup="true">
+                                    <ul class="menu-subnav">
+                                        @foreach ($menu->appearedChildren as $sub_menu)
+                                            <li class="menu-item menu-item-parent {{ in_array($menu->parent_show, [getParentShowOf($current_page), getParentOf($current_page)])? 'menu-item-open': '' }}"
+                                                aria-haspopup="true">
                                                     <span class="menu-link">
                                                         <span class="menu-text">{{ $menu->display_name }}</span>
                                                     </span>
-                                                </li>
-                                                {{-- <li class="menu-item   {{ getParentOf($current_page) != null && (int)(getParentShowOf($current_page)+1) == $sub_menu->id ? 'menu-item-open' : null }} " aria-haspopup="true"> --}}
-                                                <li class="menu-item" aria-haspopup="true">
-                                                    <a href="{{ route('admin.' . $sub_menu->as) }}" class="menu-link">
-                                                        <i class="menu-bullet menu-bullet-dot">
-                                                            <i class="{{ $sub_menu->icon != null ? $sub_menu->icon : '' }}"></i>
-                                                        </i>
-                                                        <span class="menu-icon"></span>
-                                                        <span class="menu-text">{{ $sub_menu->display_name }}</span>
+                                            </li>
+                                            {{-- <li class="menu-item   {{ getParentOf($current_page) != null && (int)(getParentShowOf($current_page)+1) == $sub_menu->id ? 'menu-item-open' : null }} " aria-haspopup="true"> --}}
+                                            <li class="menu-item" aria-haspopup="true">
+                                                <a href="{{ route('admin.' . $sub_menu->as) }}"
+                                                   class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <i
+                                                            class="{{ $sub_menu->icon != null ? $sub_menu->icon : '' }}"></i>
+                                                    </i>
+                                                    <span class="menu-icon"></span>
+                                                    <span class="menu-text">{{ $sub_menu->display_name }}</span>
 
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                            </li>
-                        @endif
-                    @endforeach
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </li>
+                    @endif
+                @endforeach
                 @endrole
+س
 
 
-{{--                <li class="menu-item" aria-haspopup="true">--}}
+                {{--                <li class="menu-item" aria-haspopup="true">--}}
 {{--                    <a href="{{ route('admin.index') }}" class="menu-link">--}}
 {{--                        <span class="svg-icon menu-icon">--}}
 {{--                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->--}}
