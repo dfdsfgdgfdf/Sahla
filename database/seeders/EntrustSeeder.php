@@ -40,6 +40,19 @@ class EntrustSeeder extends Seeder
         ]);
         $superAdmin->attachRole($superAdminRole);
 
+        $superAdmin = User::create([
+            'first_name' => 'Sahla',
+            'last_name' => 'Admin',
+            'username' => 'Sahla System Administrator',
+            'email' => 'sahlaAdmin@sahlaAdmin.com',
+            'mobile' => '01236667890',
+            'email_verified_at' => Carbon::now(),
+            'password' => bcrypt('password'),
+            'user_image'=>'images/user/avatar.png',
+            'remember_token' => Str::random(10),
+        ]);
+        $superAdmin->attachRole($superAdminRole);
+
 
         $admin = User::create([
             'first_name' => 'Admin',
@@ -151,11 +164,6 @@ class EntrustSeeder extends Seeder
         $createProducts  = Permission::create([ 'name' => 'create_products',        'display_name' => 'انشاء منتج',      'route' => 'products.create',         'module' => 'products', 'as' => 'products.create',      'icon' => null,                  'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '0', ]);
         $updateProducts  = Permission::create([ 'name' => 'update_products',        'display_name' => 'تعديل منتج',      'route' => 'products.edit',           'module' => 'products', 'as' => 'products.edit',        'icon' => null,                  'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '0', ]);
         $destroyProducts = Permission::create([ 'name' => 'delete_products',        'display_name' => 'حذف منتج',      'route' => 'products.destroy',        'module' => 'products', 'as' => 'products.destroy',     'icon' => null,                  'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '0', ]);
-        ## Product Coupons ##
-        //$showProductCoupons    = Permission::create([ 'name' => 'show_productCoupons',          'display_name' => 'كوبونات الخصم',              'route' => 'productCoupons.index',          'module' => 'products', 'as' => 'productCoupons.index',       'icon' => 'fas fa-money-bill-wave', 'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '1', ]);
-        //$createProductCoupons  = Permission::create([ 'name' => 'create_productCoupons',        'display_name' => 'انشاء كوبون',       'route' => 'productCoupons.create',         'module' => 'products', 'as' => 'productCoupons.create',      'icon' => null,                     'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '0', ]);
-        //$updateProductCoupons  = Permission::create([ 'name' => 'update_productCoupons',        'display_name' => 'تعديل كوبون',       'route' => 'productCoupons.edit',           'module' => 'products', 'as' => 'productCoupons.edit',        'icon' => null,                     'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '0', ]);
-        //$destroyProductCoupons = Permission::create([ 'name' => 'delete_productCoupons',        'display_name' => 'حذف كوبون',       'route' => 'productCoupons.destroy',        'module' => 'products', 'as' => 'productCoupons.destroy',     'icon' => null,                     'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '0', ]);
         ## Product Reviews ##
         $showProductReviews    = Permission::create([ 'name' => 'show_productReviews',          'display_name' => 'تقييمات المنتجات',              'route' => 'productReviews.index',          'module' => 'products', 'as' => 'productReviews.index',       'icon' => 'fas fa-comments',     'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '1', ]);
         $createProductReviews  = Permission::create([ 'name' => 'create_productReviews',        'display_name' => 'انشاء تقييم',       'route' => 'productReviews.create',         'module' => 'products', 'as' => 'productReviews.create',      'icon' => null,                  'parent' => $manageProducts->id, 'parent_show' => $manageProducts->id, 'parent_original' => $manageProducts->id,'sidebar_link' => '1', 'appear' => '0', ]);
