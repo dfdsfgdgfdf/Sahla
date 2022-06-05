@@ -23,9 +23,9 @@ class CategoryResource extends JsonResource
 
         return [
             "id" => $this->id,
-            "name" => isset($this->name) ? $this->name : '',
+            "name" => isset($this->$name) ? $this->$name : '',
             "cover" => isset($this->cover) ? env('APP_URL').$this->cover : '',
-            "description" => isset($this->description) ? $this->description : '',
+            "description" => isset($this->$description) ? $this->$description : '',
             "created_at" => strval($this->created_at),
             "updated_at" => strval($this->updated_at),
         ];

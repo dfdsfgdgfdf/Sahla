@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/wish-list', [WishListController::class, 'wishList']);
     Route::post('/add-to-wish-list', [WishListController::class, 'addToWishList']);
     Route::post('/remove-from-wish-list', [WishListController::class, 'removeFromWishList']);
+    Route::post('/add-remove-product-wish-list', [WishListController::class, 'addRemoveProductWishList']);
 
     /* cart */
     Route::get('cart-product', [CartController::class, 'index']);

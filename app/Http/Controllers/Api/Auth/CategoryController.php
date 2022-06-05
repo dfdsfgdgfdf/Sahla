@@ -25,9 +25,14 @@ class CategoryController extends Controller
         ]);
 
         $categories = Category::whereStatus(1)->where(function ($q) use ($request) {
-            $q->where('name', 'like', "%{$request->keyword}%")
-                ->orWhere('description', 'like', "%{$request->keyword}%");
-        })->get();
+            $q->where('name_ar', 'like', "%{$request->keyword}%")
+                ->orWhere('name_en', 'like', "%{$request->keyword}%")
+                ->orWhere('name_ur', 'like', "%{$request->keyword}%")
+
+                ->orWhere('description_ar', 'like', "%{$request->keyword}%")
+                ->orWhere('description_en', 'like', "%{$request->keyword}%")
+                ->orWhere('description_ur', 'like', "%{$request->keyword}%");
+        })->latest('id')->get();
         return $this->successMessage(CategoryResource::collection($categories), 'Categories Search Result');
     }
 
@@ -37,7 +42,7 @@ class CategoryController extends Controller
             'lang' => 'required|in:ar,en,ur',
         ]);
 
-        $categories = Category::whereStatus(1)->get();
+        $categories = Category::whereStatus(1)->latest('id')->get();
         return $this->successMessage(CategoryResource::collection($categories), 'All Categories');
     }
 
@@ -47,7 +52,7 @@ class CategoryController extends Controller
             'category_id' => 'required|exists:categories,id',
             'lang' => 'required|in:ar,en,ur',
         ]);
-        $products = Product::whereCategoryId($request->category_id)->whereStatus(1)->paginate(20);
+        $products = Product::whereCategoryId($request->category_id)->whereStatus(1)->latest('id')->paginate(20);
         return $this->successMessage(ProductResource::collection($products), 'All Category Products');
     }
 
