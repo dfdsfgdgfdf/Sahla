@@ -24,12 +24,12 @@ class ProductReviewSeeder extends Seeder
             for ($i = 1; $i < rand(1, 3); $i++) {
                 $product->reviews()->create([
                     'user_id' => rand(4, 10),
-                    'name' => $faker->userName,
-                    'email' => $faker->safeEmail,
-                    'title' => $faker->sentence,
-                    'message' => $faker->paragraph,
-                    'status' => rand(0,1),
+//                    'name' => $faker->userName,
+//                    'email' => $faker->safeEmail,
+//                    'title' => $faker->sentence,
+                    'content' => $faker->paragraph,
                     'rating' => rand(1,5),
+                    'status' => rand(0,1),
                 ]);
             }
         });

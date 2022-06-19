@@ -17,12 +17,9 @@ class CreateProductReviewsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('email');
-            $table->string('title');
-            $table->text('message');
-            $table->boolean('status')->default(true);
+            $table->text('content')->nullable();
             $table->unsignedTinyInteger('rating')->default(1);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

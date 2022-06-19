@@ -43,7 +43,7 @@ class ProductInfoResource extends JsonResource
             "category" => isset($this->category->$name) ? $this->category->$name : '',
             "price" => isset($this->price) ? strval($this->price.' '.$this->currency) : '',
             "unit" => isset($this->unit->$name) ? $this->unit->$name : '',
-            "quantity" => isset($this->quantity) ? $this->quantity : '',
+//            "quantity" => isset($this->quantity) ? $this->quantity : '',
             "image" => isset($this->firstMedia->file_name) ? env('APP_URL').$this->firstMedia->file_name : '',
             "wish" => $wish,
             "rate" => 3,

@@ -55,5 +55,10 @@
     .flex-column-fluid {
         direction: rtl!important;
     }
-
+    .fas.text-blue {
+        color: #3699ff !important;
+    }
+    .fa.fa-home {
+        color: #3699ff !important;
+    }
 </style>

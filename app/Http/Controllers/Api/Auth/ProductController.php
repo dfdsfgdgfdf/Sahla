@@ -19,8 +19,8 @@ class ProductController extends Controller
             'product_id' => 'required|exists:products,id',
             'lang' => 'required|in:ar,en,ur',
         ]);
-        $product = Product::whereId($request->product_id)->whereStatus(1)->first();
-        return $this->successMessage(new ProductInfoResource($product), 'Product Details');
+        $products = Product::whereId($request->product_id)->whereStatus(1)->get();
+        return $this->successMessage(ProductInfoResource::collection($products), 'Product Details');
     }
     public function productsSearch(Request $request)
     {

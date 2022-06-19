@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-3">
+                    <div class="col-4">
                         <label for="category_id">القسم التابع له</label>
                         <select name="category_id" class="form-control">
                             <option value="">---</option>
@@ -83,18 +83,11 @@
                                     {{ old('category_id') == $category->id ? 'selected' : null }}>{{ $category->name_ar }}
                                 </option>
                             @empty
-
                             @endforelse
                         </select>
                         @error('category_id')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
-                    <div class="col-3">
-                        <label for="stock">الكمية الموجودة بالمخازن</label>
-                        <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" min="0">
-                        @error('stock')<span class="text-danger">{{ $message }}</span>@enderror
-                    </div>
-
-                    <div class="col-3">
+                    <div class="col-4">
                         <label for="status">الحالة</label>
                         <select name="status" class="form-control">
                             <option value="1" {{ old('status') == 1 ? 'selected' : null }}>نشط</option>
@@ -102,7 +95,7 @@
                         </select>
                         @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                         <label for="featured">منتج مميز</label>
                         <select name="featured" class="form-control">
                             <option value="1" {{ old('featured') == 1 ? 'selected' : null }}>مميز</option>
@@ -112,10 +105,16 @@
                     </div>
                 </div>
                 <div class="row mt-4">
+{{--                    <div class="col-3">--}}
+{{--                        <label for="quantity">الكمية</label>--}}
+{{--                        <input type="number" name="quantity" value="{{ old('quantity') }}" class="form-control" min="0">--}}
+{{--                        @error('quantity')<span class="text-danger">{{ $message }}</span>@enderror--}}
+{{--                    </div>--}}
+
                     <div class="col-3">
-                        <label for="quantity">الكمية</label>
-                        <input type="number" name="quantity" value="{{ old('quantity') }}" class="form-control" min="0">
-                        @error('quantity')<span class="text-danger">{{ $message }}</span>@enderror
+                        <label for="stock">الكمية الموجودة بالمخازن</label>
+                        <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" min="0">
+                        @error('stock')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                     <div class="col-3">
                         <label for="unit_id">الوحدة</label>

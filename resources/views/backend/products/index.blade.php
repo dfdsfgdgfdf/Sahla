@@ -68,8 +68,8 @@
                             <th class="text-light">الاسم</th>
                             <th class="text-light">القسم التابع له</th>
                             <th class="text-light">مميز</th>
-                            <th class="text-light">الكمية</th>
-                            <th class="text-light">السعر</th>
+                            <th class="text-light">الكمية/السعر</th>
+                            <th class="text-light">أسعار أوزان أخري</th>
                             <th class="text-light">التعليقات</th>
                             <th class="text-light">الحالة</th>
                             <th class="text-light">العمليات</th>
@@ -89,8 +89,79 @@
                                 <td class="text-center">{{ $product->name_ar }}</td>
                                 <td class="text-center">{{ $product->category->name_ar }}</td>
                                 <td class="text-center">{{ $product->featured == 1 ? 'مميز' : 'عادي'}}</td>
-                                <td class="text-center">( {{ $product->quantity }} ) {{ $product->unit->name_ar }}</td>
-                                <td class="text-center">{{ $product->currency }} ( {{ $product->price }} )</td>
+                                <td class="text-center">
+                                    <p>{{ $product->unit->name_ar }}</p>
+                                    <p>{{ $product->currency }} ( {{ $product->price }} )</p>
+                                </td>
+                                <td class="text-center">
+{{--                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg{{ $product->id }}"><i class="fas fa-balance-scale-left"></i></button>--}}
+                                    <a href="{{ route('admin.products.unitsIndex', $product->id) }}"
+                                       class="btn btn-primary"><i class="fas fa-balance-scale-left"></i>
+                                    </a>
+{{--                                    <div class="modal fade bd-example-modal-lg{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">--}}
+{{--                                        <div class="modal-dialog modal-lg">--}}
+{{--                                            <div class="modal-content">--}}
+{{--                                                <div class="modal-header">--}}
+{{--                                                    <h5 class="modal-title" id="modal fade bd-example-modal-lg{{ $product->id }}">اضافة أسعار أوزان أخري لهذا المنتج</h5>--}}
+{{--                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                                                        <i aria-hidden="true" class="ki ki-close"></i>--}}
+{{--                                                    </button>--}}
+{{--                                                </div>--}}
+{{--                                                <form action="{{ route('admin.products-units.store') }}" method="post" enctype="multipart/form-data">--}}
+{{--                                                    @csrf--}}
+{{--                                                    <div class="modal-body">--}}
+{{--                                                        <div class="row">--}}
+{{--                                                            <div class="col-3"><label for="unit_id">الوحدة</label></div>--}}
+{{--                                                            <div class="col-3"><label for="price">السعر</label></div>--}}
+{{--                                                            <div class="col-3"><label for="currency">العملة</label></div>--}}
+{{--                                                            <div class="col-3"><label for="status">حالة القسم</label></div>--}}
+{{--                                                        </div>--}}
+{{--                                                        <input type="hidden" name="product_id" value="{{ $product->id }}" >--}}
+{{--                                                        @foreach($units as $unit)--}}
+{{--                                                            <div class="repeater">--}}
+{{--                                                                <div data-repeater-list="List_Classes">--}}
+{{--                                                                    <div data-repeater-item>--}}
+{{--                                                                        <div class="row">--}}
+{{--                                                               <div class="col-3">--}}
+{{--                                                                   <label for="unit_id[]"></label>--}}
+{{--                                                                   <input type="text" name="unit[]" value="{{ $unit->name_ar }}" class="form-control" readonly>--}}
+{{--                                                                   <input type="hidden" name="unit_id[]" value="{{ $unit->id }}" class="form-control">--}}
+{{--                                                                   @error('quantity')<span class="text-danger">{{ $message }}</span>@enderror--}}
+{{--                                                               </div>--}}
+{{--                                                               <div class="col-3">--}}
+{{--                                                                   <label for="price[]"></label>--}}
+{{--                                                                   <input type="number" name="price[]" value="{{ old('price') }}" class="form-control"  min="1">--}}
+{{--                                                                   @error('price')<span class="text-danger">{{ $message }}</span>@enderror--}}
+{{--                                                               </div>--}}
+{{--                                                               <div class="col-3">--}}
+{{--                                                                   <label for="currency"></label>--}}
+{{--                                                                   @include('backend.products.currency_create')--}}
+{{--                                                                   @error('currency')<span class="text-danger">{{ $message }}</span>@enderror--}}
+{{--                                                               </div>--}}
+{{--                                                               <div class="col-3">--}}
+{{--                                                                   <label for="status[]"></label>--}}
+{{--                                                                   <select name="status[]" class="form-control">--}}
+{{--                                                                       <option value="1" {{ old('status') == 1 ? 'selected' : null }}>نشط</option>--}}
+{{--                                                                       <option value="0" {{ old('status') == 0 ? 'selected' : null }}>غير نشط</option>--}}
+{{--                                                                   </select>--}}
+{{--                                                                   @error('status')<span class="text-danger">{{ $message }}</span>@enderror--}}
+{{--                                                               </div>--}}
+{{--                                                           </div>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="modal-footer">--}}
+{{--                                                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">إغلاق</button>--}}
+{{--                                                        <button type="submit" name="submit" class="btn btn-primary font-weight-bold">حفظ البيانات</button>--}}
+{{--                                                    </div>--}}
+{{--                                                </form>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+
+                                </td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.products.reviewsIndex', $product->id) }}">رؤية التعليقات</a>
                                 </td>

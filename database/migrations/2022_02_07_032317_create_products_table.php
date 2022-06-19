@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->string('stock');
             $table->double('price');
             $table->string('currency')->default('SAR');
-            $table->unsignedBigInteger('quantity')->nullable();
+            // $table->unsignedBigInteger('quantity')->nullable();
             $table->foreignId('unit_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->boolean('featured')->default(false);

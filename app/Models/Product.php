@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Freshbitsweb\LaravelCartManager\Traits\Cartable;
 
 class Product extends Model
 {
     use SearchableTrait;
     use Sluggable;
+    use Cartable;
 
     protected $guarded = [];
 
@@ -23,17 +25,28 @@ class Product extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
+                'source' => 'name_ar',
+                'source' => 'name_en',
+                'source' => 'name_ur'
             ]
         ];
     }
 
     protected $searchable = [
         'columns' => [
-            'products.name'         => 10,
-            'products.description'  => 10,
+            'products.name_ar'          => 10,
+            'products.name_en'          => 10,
+            'products.name_ur'          => 10,
+            'products.description_ar'   => 10,
+            'products.description_en'   => 10,
+            'products.description_ur'   => 10,
         ],
     ];
+
+    public function getName()
+    {
+        return $this->name_ar != '' ? $this->name_ar : ($this->name_en != '' ? $this->name_en : $this->name_ur );
+    }
 
     public function status()
     {
@@ -94,6 +107,19 @@ class Product extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(ProductReview::class);
+    }
+    public function units(): HasMany
+    {
+        return $this->hasMany(ProductUnit::class);
+    }
+
+    public function cartProducts(): HasMany
+    {
+        return $this->hasMany(CartProduct::class, 'product_id', 'id');
+    }
+    public function orderProducts(): HasMany
+    {
+        return $this->hasMany(OrderProduct::class, 'product_id', 'id');
     }
 
     // public function orders(): BelongsToMany

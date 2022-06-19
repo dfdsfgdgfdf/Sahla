@@ -3,110 +3,116 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CartProductResource;
+use App\Http\Resources\ProductInfoResource;
 use App\Http\Resources\ProductResource;
+use App\Models\CartProduct;
 use App\Models\Product;
+use App\Models\ProductUnit;
+use Freshbitsweb\LaravelCartManager\Traits\CartItemsManager;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
     use GeneralTrait;
 
-    public function index(Request $request)
+    public function myCartProducts(Request $request)
     {
         $this->validate($request, [
             'lang' => 'required|in:ar,en,ur',
-            'product_ids' => 'required|array|exists:products,id'
         ]);
-
-        $products = Product::whereStatus(1)->whereIn('id', $request->product_ids)->get();
-        return $this->successMessage(ProductResource::collection($products), 'My Cart Products');
+        $products = \auth()->user()->cartProducts;
+        return $this->successMessage(CartProductResource::collection($products), 'Your Cart Products');
     }
 
 
-//    public function cartProduct(Request $request)
-//    {
-//        $this->validate($request, [
-//            'lang' => 'required|in:ar,en,ur',
-//        ]);
-//
-//        return \Cart::session(Auth::user()->id)->getContent();
-//
-//    }
+    public function addToCart(Request $request)
+    {
+        $this->validate($request, [
+            'lang' => 'required|in:ar,en,ur',
+            'product_id' => 'required|exists:products,id',
+            'unit_id' => 'nullable',
+        ]);
+        $product = Product::whereStatus(1)->whereId($request->product_id)->first();
+        if ($product){
+            $in_cart = CartProduct::whereUserId(\auth()->id())->whereProductId($product->id)->first();
+            if(empty($in_cart)){
+                $input['user_id']   = \auth()->id() ;
+                $input['product_id']= $product->id ;
+                $input['unit_id']   = $product->unit_id ;
+                $input['price']     = $product->price ;
+                $input['currency']  = $product->currency ;
+                $input['quantity']  = $request->quantity != "" ? $request->quantity : '1' ;
+                $input['name']      = $product->name_ar != '' ? $product->name_ar : ($product->name_en != '' ? $product->name_en : $product->name_ur );
+                $input['image']     = $product->firstMedia->file_name;
+                if($request->unit_id != ''){
+                    $unitProduct = ProductUnit::whereStatus(1)->whereProductId($product->id)->whereUnitId($request->unit_id)->first();
+                    if($unitProduct){
+                        $input['unit_id']   = $request->unit_id ;
+                        $input['price']     = $unitProduct->price;
+                        $input['currency']  = $unitProduct->currency;
+                    }else {
+                        return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Unit Id', '422');
+                    }
+                }
+                CartProduct::create($input);
+                return $this->returnSuccessMessage('Product Is Added To Cart Successfully !');
+            }else{
+                return $this->returnSuccessMessage('This Product Is Already In Your Cart List!');
+            }
+        }else {
+            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
+        }
+    }
 
-//    public function addToCart(Request $request)
-//    {
-//        $this->validate($request, [
-//            'lang' => 'required|in:ar,en,ur',
-//            'product_id' => 'required|exists:products,id',
-//        ]);
-//
-//        $product = Product::whereStatus(1)->whereId($request->product_id)->first();
-//        if ($product){
-//            $cart = session()->get('cart');
-//            if(!$cart) {
-//                $cart = [
-//                    'id' => $product->id,
-//                    'name' => $product->name_ar != '' ? $product->name_ar : ($product->name_en != '' ? $product->name_en : $product->name_en ),
-//                    "quantity" => 1,
-//                    "price" => $product->price,
-//                    'image' => $product->firstMedia->file_name,
-//                ];
-//                session()->put('cart', $cart);
-//                return session()->get('cart');
-//                return $this->returnSuccessMessage('Product is Added to Cart Successfully !');
-//            }
-//
-//        }else {
-//            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
-//        }
-//
-//    }
 
-//    public function addToCart(Request $request)
-//    {
-//        $this->validate($request, [
-//            'lang' => 'required|in:ar,en,ur',
-//            'product_id' => 'required|exists:products,id',
-//        ]);
-//
-//        $product = Product::whereStatus(1)->whereId($request->product_id)->first();
-//        if ($product){
-//            \Cart::session(Auth::user()->id)->add([
-//                'id' => $product->id,
-//                'name' => $product->name_ar != '' ? $product->name_ar : ($product->name_en != '' ? $product->name_en : $product->name_en ),
-//                'price' => $product->price,
-//                'quantity' => $product->quantity,
-//                'attributes' => array(
-//                    'image' => $product->firstMedia->file_name,
-//                )
-//            ]);
-//
-//
-//            return $this->returnSuccessMessage('Product is Added to Cart Successfully !');
-//        }else {
-//            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
-//        }
-//
-//    }
+    public function UpdateCartProduct(Request $request)
+    {
+        $this->validate($request, [
+            'cart_product_id' => 'required|exists:cart_products,id',
+            'lang' => 'required|in:ar,en,ur',
+        ]);
+        $in_cart = CartProduct::whereUserId(\auth()->id())->whereId($request->cart_product_id)->first();
+        if($in_cart){
+            $input['quantity']  = $request->quantity != '' ? $request->quantity : $in_cart->quantity;
+            $input['price']     = $request->price != '' ? $request->price : $in_cart->price;
+            $input['currency']  = $request->currency != '' ? $request->currency : $in_cart->currency;
+            if($request->unit_id != ''){
+                $unitProduct = ProductUnit::whereStatus(1)->whereProductId($in_cart->product_id)->whereUnitId($request->unit_id)->first();
+                if($unitProduct){
+                    $input['unit_id']   = $request->unit_id ;
+                    $input['price']     = $unitProduct->price;
+                    $input['currency']  = $unitProduct->currency;
+                }else {
+                    return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Unit Id', '422');
+                }
+            }
+            $in_cart->update($input);
+            $products = \auth()->user()->cartProducts;
+            return $this->successMessage(CartProductResource::collection($products), 'Cart Product Is Updated Successfully !');
+        }else {
+            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
+        }
+    }
 
-//    public function removeFromCart(Request $request)
-//    {
-//        $this->validate($request, [
-//            'product_id' => 'required|exists:products,id',
-//            'lang' => 'required|in:ar,en,ur',
-//        ]);
-//
-//        \Cart::remove($request->product_id);
-//        return $this->returnSuccessMessage('Item Cart Remove Successfully !');
-//    }
 
-//    public function clearAllCart()
-//    {
-//        \Cart::clear();
-//        return $this->returnSuccessMessage('All Item Cart Clear Successfully !');
-//    }
+    public function removeFromCart(Request $request)
+    {
+        $this->validate($request, [
+            'cart_product_id' => 'required|exists:cart_products,id',
+            'lang' => 'required|in:ar,en,ur',
+        ]);
+        $in_cart = CartProduct::whereUserId(\auth()->id())->whereId($request->cart_product_id)->first();
+        if ($in_cart){
+            $in_cart->delete();
+            return $this->returnSuccessMessage('Item Cart Remove Successfully !');
+        }else {
+            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Cart Item', '422');
+        }
+    }
 
 
 }

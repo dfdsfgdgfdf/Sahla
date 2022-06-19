@@ -15,9 +15,11 @@ use App\Http\Controllers\Backend\PageTitleController;
 use App\Http\Controllers\Backend\PhoneController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductReviewController;
+use App\Http\Controllers\Backend\ProductUnitController;
 use App\Http\Controllers\Backend\SocialMediaController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\Backend\UnitController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\WorkingTimeController;
 use Illuminate\Support\Facades\Auth;
@@ -74,6 +76,7 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::post('products-destroyAll', [ProductController::class,'massDestroy'])->name('products.massDestroy');
             Route::get('products-changeStatus', [ProductController::class,'changeStatus'])->name('products.changeStatus');
             Route::get('products-reviews/{product}', [ProductController::class,'reviewsIndex'])->name('products.reviewsIndex');
+            Route::get('products-units/{product}', [ProductController::class,'unitsIndex'])->name('products.unitsIndex');
             Route::resource('products',ProductController::class);
             /*  productCoupons   */
             Route::resource('productCoupons',ProductCouponController::class);
@@ -83,6 +86,15 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::resource('productReviews',ProductReviewController::class);
             Route::get('productReviews-changeStatus', [ProductReviewController::class,'changeStatus'])->name('productReviews.changeStatus');
             Route::post('productReviews-destroyAll', [ProductReviewController::class,'massDestroy'])->name('productReviews.massDestroy');
+            /*  productUnits   */
+            Route::get('productUnits-changeStatus', [ProductUnitController::class,'changeStatus'])->name('productUnits.changeStatus');
+            Route::post('productUnits-destroyAll', [ProductUnitController::class,'massDestroy'])->name('productUnits.massDestroy');
+            Route::resource('productUnits',ProductUnitController::class);
+
+            /*  socials   */
+            Route::get('units-changeStatus', [SocialMediaController::class,'changeStatus'])->name('units.changeStatus');
+            Route::post('units-destroyAll', [SocialMediaController::class,'massDestroy'])->name('units.massDestroy');
+            Route::resource('units'    ,UnitController::class);
 
 
             /*  Admins   */

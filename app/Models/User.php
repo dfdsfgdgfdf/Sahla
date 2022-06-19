@@ -54,5 +54,37 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(ProductReview::class);
     }
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
+    }
+    public function cartProducts(): HasMany
+    {
+        return $this->hasMany(CartProduct::class, 'user_id', 'id')->latest();
+    }
+    public function orderProducts(): HasMany
+    {
+        return $this->hasMany(OrderProduct::class, 'product_id', 'id');
+    }
 
+    //Return product that still in shopping cart Before doing order of this products
+//    public function shoppingCartProducts(): HasMany
+//    {
+//        return $this->hasMany(CartProduct::class, 'user_id', 'id')->where('status', 'shopping_cart');
+//    }
+
+    public function pendingOrders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id')
+            ->where('status', 'pending')
+            ->where('customer_status', 'waiting')
+            ->latest();
+    }
+    public function completedOrders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id')
+            ->where('status', 'completed')
+            ->where('customer_status', 'waiting')
+            ->latest();
+    }
 }

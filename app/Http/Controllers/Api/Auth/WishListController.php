@@ -21,7 +21,7 @@ class WishListController extends Controller
         ]);
 
         $products = Auth::user()->wishes();
-        return $this->successMessage(ProductResource::collection($products)->response()->getData(true), 'My Wish List Products');
+        return $this->successMessage(ProductResource::collection($products), 'My Wish List Products');
     }
     public function addRemoveProductWishList(Request $request)
     {
