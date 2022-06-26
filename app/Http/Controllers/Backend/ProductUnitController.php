@@ -60,7 +60,6 @@ class ProductUnitController extends Controller
         $input['product_id']    = $request->product_id;
         $input['unit_id']       = $request->unit_id;
         $input['price']         = $request->price;
-        $input['currency']      = $request->currency;
         $input['status']        = $request->status;
         ProductUnit::create($input);
         Alert::success('Product Unit Created Successfully', 'Success Message');

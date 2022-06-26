@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductUnit;
 use App\Models\Unit;
 use Illuminate\Database\Seeder;
 
@@ -42,11 +43,22 @@ class ProductSeeder extends Seeder
                 'updated_at'        => now(),
 
             ];
+
         }
 
         $chunks = array_chunk($products, 100);  //حتي لا يحصل تحميل علي الداتا بيز بقوله دخل كل مية مع بعض دفعه واحدة
         foreach ($chunks as $chunk){
-            Product::insert($chunk);
+            $product = Product::insert($chunk);
         }
+
+        foreach (Product::get(['id', 'unit_id', 'price', 'status']) as $product){
+            $productUnit = new ProductUnit;
+            $productUnit->product_id    = $product->id;
+            $productUnit->unit_id       = $product->unit_id;
+            $productUnit->price         = $product->price;
+            $productUnit->status        = $product->status;
+            $productUnit->save();
+        }
+
     }
 }

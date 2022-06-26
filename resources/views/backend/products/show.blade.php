@@ -13,14 +13,22 @@
                         <!-- PRODUCT DETAILS-->
                         <div class="col-lg-6" style="direction: rtl;">
                             <h1>{{ $product->name_ar }}</h1>
-                            <ul class="list-inline mb-2">
-                                <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                                <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                                <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                                <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                                <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                            </ul>
-                            <p class="text-muted lead">{{ $product->currency.' '.$product->price }}</p>
+                            @php $rating = $product->avgRatings() @endphp
+                            @foreach(range(1,5) as $i)
+                                <span class="fa-stack" style="width:1.5em;">
+                                    <i class="far fa-star fa-stack-1x text-warning lazy"></i>
+                                    @if($rating >0)
+                                        @if($rating >0.5)
+                                            <i class="fas fa-star fa-stack-1x text-warning lazy"></i>
+                                        @else
+                                            <i class="fas fa-star-half fa-flip-horizontal text-warning lazy"></i>
+                                        @endif
+                                    @endif
+                                    @php $rating--; @endphp
+                                </span>
+                            @endforeach
+
+                            <p class="text-muted lead">{{ env('APP_CURRENCY').' '.$product->price }}</p>
                             <p class="text-small mb-4">{{ $product->description_ar }}</p>
                             <ul class="list-unstyled small d-inline-block" style="font-size: medium">
                                 <li class="px-3 py-2 mb-1 bg-white"><strong class="text-uppercase">الكمية الموجودة بالمخازن : </strong><span class="ml-2 text-muted">{{ $product->stock }}</span></li>
@@ -92,35 +100,27 @@
                             <div class="p-4 p-lg-5 bg-white">
                                 <div class="row">
                                     <div class="col-lg-8">
-                                        <div class="media mb-3"><img class="rounded-circle" src="img/customer-1.png" alt="" width="50">
-                                            <div class="media-body ml-3">
-                                                <h6 class="mb-0 text-uppercase">Jason Doe</h6>
-                                                <p class="small text-muted mb-0 text-uppercase">20 May 2020</p>
-                                                <ul class="list-inline mb-1 text-xs">
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star-half-alt text-warning"></i></li>
-                                                </ul>
-                                                <p class="text-small mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        @foreach($product->reviews as $review)
+                                            @php  $user = \App\Models\User::whereId($review->user_id)->first(); @endphp
+                                            <div class="media mb-3"><img class="rounded-circle" src="{{ asset($user->image) }}" alt="" width="50">
+                                                <div class="media-body ml-3">
+                                                    <h6 class="mb-0 text-uppercase">{{ $user->full_name }}</h6>
+                                                    <p class="small text-muted mb-0 text-uppercase">{{ \Carbon\Carbon::parse($review->created_at)->translatedFormat('l j F Y H:i a') }}</p>
+                                                    @php $rating = $review->rating @endphp
+                                                    @foreach(range(1,5) as $i)
+                                                        <span class="fa-stack" style="width:1.5em;">
+                                                        <i class="far fa-star fa-stack-1x text-warning lazy"></i>
+                                                        @if($rating >0)
+                                                                <i class="fas fa-star fa-stack-1x text-warning lazy"></i>
+                                                        @endif
+                                                        @php $rating--; @endphp
+                                                        </span>
+                                                    @endforeach
+                                                    <p class="text-small mb-0 text-muted">{{ $review->content }}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <hr style="margin-bottom: 10px!important;margin-top: 10px!important;">
-                                        <div class="media"><img class="rounded-circle" src="img/customer-2.png" alt="" width="50">
-                                            <div class="media-body ml-3">
-                                                <h6 class="mb-0 text-uppercase">Jason Doe</h6>
-                                                <p class="small text-muted mb-0 text-uppercase">20 May 2020</p>
-                                                <ul class="list-inline mb-1 text-xs">
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star text-warning"></i></li>
-                                                    <li class="list-inline-item m-0"><i class="fas fa-star-half-alt text-warning"></i></li>
-                                                </ul>
-                                                <p class="text-small mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                            </div>
-                                        </div>
+                                            <hr style="margin-bottom: 10px!important;margin-top: 10px!important;">
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -131,12 +131,6 @@
             </section>
         </div>
     </div>
-
-
-
-
-
-
 
 @endsection
 @section('script')

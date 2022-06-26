@@ -44,7 +44,7 @@ class OrderController extends Controller
                     $input['product_id']= $cartProduct->product_id;
                     $input['unit_id']   = $cartProduct->unit_id ;
                     $input['price']     = $cartProduct->price;
-                    $input['currency']  = $cartProduct->currency;
+                    $input['currency']  = env('APP_CURRENCY') ;
                     $input['quantity']  = $cartProduct->quantity;
                     $input['name']      = $cartProduct->name;
                     $input['image']     = $cartProduct->image;
@@ -92,7 +92,11 @@ class OrderController extends Controller
         ]);
         $orderProducts = OrderProduct::whereOrderId($request->order_id)->get();
         if($orderProducts){
-            return $this->successMessage(OrderProductResource::collection($orderProducts), 'Your Order Products');
+            $total = 0;
+            foreach ($orderProducts as $product) {
+                $total += $product->price * $product->quantity;
+            }
+            return $this->successTotalMessage(OrderProductResource::collection($orderProducts), 'Your Order Products', $total);
         }else{
             return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Order Id', '422');
         }
@@ -107,12 +111,16 @@ class OrderController extends Controller
         ]);
         $orderProducts = OrderProduct::whereOrderId($request->order_id)->get();
         if($orderProducts){
+            $total = 0;
+            foreach ($orderProducts as $product) {
+                $total += $product->price * $product->quantity;
+            }
             $order = Order::whereId($request->order_id)->first();
             $data = [
                 "order_status" => new OrderListResource($order),
                 "order_products" => OrderProductResource::collection($orderProducts),
             ];
-            return $this->successMessage($data, 'Your Order Details');
+            return $this->successTotalMessage($data, 'Your Order Details', $total);
         }else{
             return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Order Id', '422');
         }

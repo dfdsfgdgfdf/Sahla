@@ -39,10 +39,13 @@ class CartProductResource extends JsonResource
 
         return [
             "id" => $this->id,
+            "product_id" => isset($this->product_id) ? $this->product_id : '',
             "name" => isset($this->name) ? $this->name : '',
-            "price" => isset($this->price) ? strval($this->price.' '.$this->currency) : '',
+            "price" => isset($this->price) ? strval($this->price.' '.env('APP_CURRENCY') ) : '',
             "unit" => isset($this->unit->$name) ? $this->unit->$name : '',
+            "unit_id" => isset($this->unit_id) ? $this->unit_id : '',
             "quantity" => isset($this->quantity) ? $this->quantity : '',
+            "total" => $this->quantity * $this->price.' '.env('APP_CURRENCY') ,
             "image" => isset($this->image) ? env('APP_URL').$this->image : '',
             "wish" => $wish,
             "created_at" => strval($this->created_at),

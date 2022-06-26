@@ -25,7 +25,11 @@ class CartController extends Controller
             'lang' => 'required|in:ar,en,ur',
         ]);
         $products = \auth()->user()->cartProducts;
-        return $this->successMessage(CartProductResource::collection($products), 'Your Cart Products');
+        $total = 0;
+        foreach ($products as $product) {
+            $total += $product->price * $product->quantity;
+        }
+        return $this->successTotalMessage(CartProductResource::collection($products), 'Your Cart Products', $total);
     }
 
 
@@ -44,7 +48,7 @@ class CartController extends Controller
                 $input['product_id']= $product->id ;
                 $input['unit_id']   = $product->unit_id ;
                 $input['price']     = $product->price ;
-                $input['currency']  = $product->currency ;
+                $input['currency']  = env('APP_CURRENCY') ;
                 $input['quantity']  = $request->quantity != "" ? $request->quantity : '1' ;
                 $input['name']      = $product->name_ar != '' ? $product->name_ar : ($product->name_en != '' ? $product->name_en : $product->name_ur );
                 $input['image']     = $product->firstMedia->file_name;
@@ -53,7 +57,7 @@ class CartController extends Controller
                     if($unitProduct){
                         $input['unit_id']   = $request->unit_id ;
                         $input['price']     = $unitProduct->price;
-                        $input['currency']  = $unitProduct->currency;
+                        $input['currency']  = env('APP_CURRENCY') ;
                     }else {
                         return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Unit Id', '422');
                     }
@@ -79,20 +83,27 @@ class CartController extends Controller
         if($in_cart){
             $input['quantity']  = $request->quantity != '' ? $request->quantity : $in_cart->quantity;
             $input['price']     = $request->price != '' ? $request->price : $in_cart->price;
-            $input['currency']  = $request->currency != '' ? $request->currency : $in_cart->currency;
+            $input['currency']  = env('APP_CURRENCY') ;
             if($request->unit_id != ''){
                 $unitProduct = ProductUnit::whereStatus(1)->whereProductId($in_cart->product_id)->whereUnitId($request->unit_id)->first();
                 if($unitProduct){
                     $input['unit_id']   = $request->unit_id ;
                     $input['price']     = $unitProduct->price;
-                    $input['currency']  = $unitProduct->currency;
+                    $input['currency']  = env('APP_CURRENCY') ;
                 }else {
                     return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Unit Id', '422');
                 }
             }
             $in_cart->update($input);
             $products = \auth()->user()->cartProducts;
-            return $this->successMessage(CartProductResource::collection($products), 'Cart Product Is Updated Successfully !');
+
+            /* Total Price*/
+            $total = 0;
+            foreach ($products as $product) {
+                $total += $product->price * $product->quantity;
+            }
+
+            return $this->successTotalMessage(CartProductResource::collection($products), 'Cart Product Is Updated Successfully !', $total);
         }else {
             return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
         }

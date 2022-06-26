@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\EmailController;
 use App\Http\Controllers\Backend\LocationController;
 use App\Http\Controllers\Backend\LogoController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PageTitleController;
 use App\Http\Controllers\Backend\PhoneController;
 use App\Http\Controllers\Backend\ProductController;
@@ -179,6 +180,18 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
 
 
 
+            //orders
+            Route::resource('orders',OrderController::class);
+
+
+            Route::get('pending-orders', [OrderController::class,'pending'])->name('orders.pending');
+            Route::get('pending-orders-changeStatus', [OrderController::class,'pendingOrdersChangeStatus'])->name('pending-orders.changeStatus');
+            Route::post('pending-orders-destroyAll', [OrderController::class,'pendingOrdersMassDestroy'])->name('pending-orders.massDestroy');
+
+            Route::get('accepted-orders', [OrderController::class,'accepted'])->name('orders.accepted');
+            Route::get('refused-orders', [OrderController::class,'refused'])->name('orders.refused');
+            Route::get('completed-orders', [OrderController::class,'completed'])->name('orders.completed');
+            Route::get('cancelled-orders', [OrderController::class,'cancelled'])->name('orders.cancelled');
 
 
         });

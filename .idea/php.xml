@@ -161,6 +161,8 @@
       <path value="$PROJECT_DIR$/vendor/lamalama/laravel-wishlist" />
       <path value="$PROJECT_DIR$/vendor/darryldecode/cart" />
       <path value="$PROJECT_DIR$/vendor/freshbitsweb/laravel-cart-manager" />
+      <path value="$PROJECT_DIR$/vendor/_laravel_idea" />
+      <path value="$PROJECT_DIR$/vendor/mediconesystems/livewire-datatables" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

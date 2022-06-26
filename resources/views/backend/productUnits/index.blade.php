@@ -69,7 +69,6 @@
                             <div class="row">
                                 <div class="col-3"><label for="unit_id">الوحدة</label></div>
                                 <div class="col-3"><label for="price">السعر</label></div>
-                                <div class="col-3"><label for="currency">العملة</label></div>
                                 <div class="col-3"><label for="status">الحالة</label></div>
                             </div>
                             <input type="hidden" name="product_id" value="{{ $product->id }}" >
@@ -77,7 +76,7 @@
                                     <div data-repeater-list="List_Classes">
                                         <div data-repeater-item>
                                             <div class="row">
-                                   <div class="col-3">
+                                   <div class="col-4">
                                        <label for="unit_id"></label>
                                        <select name="unit_id" class="form-control">
                                            <option value="">---</option>
@@ -90,17 +89,12 @@
                                        </select>
                                        @error('unit_id')<span class="text-danger">{{ $message }}</span>@enderror
                                    </div>
-                                   <div class="col-3">
+                                   <div class="col-4">
                                        <label for="price"></label>
                                        <input type="number" name="price" value="{{ old('price') }}" class="form-control"  min="1">
                                        @error('price')<span class="text-danger">{{ $message }}</span>@enderror
                                    </div>
-                                   <div class="col-3">
-                                       <label for="currency"></label>
-                                       @include('backend.products.currency_create')
-                                       @error('currency')<span class="text-danger">{{ $message }}</span>@enderror
-                                   </div>
-                                   <div class="col-3">
+                                   <div class="col-4">
                                        <label for="status"></label>
                                        <select name="status" class="form-control">
                                            <option value="1" {{ old('status') == 1 ? 'selected' : null }}>نشط</option>
@@ -122,9 +116,12 @@
             </div>
         </div>
 
-        @include('backend.productUnits.filter')
+        <div class="row mt-5 mb-5">
+            <div class="col-12">
+            </div>
+        </div>
 
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-12">
                 <table class="table table-bordered table-hover table-striped table-light yajra-datatable">
                     <thead class="table-dark ">
@@ -132,7 +129,6 @@
                         <th class="text-light">الرقم</th>
                         <th class="text-light">الوزن</th>
                         <th class="text-light">السعر</th>
-                        <th class="text-light">العملة</th>
                         <th class="text-light">الحالة</th>
                         <th class="text-light">العمليات</th>
                     </tr>
@@ -143,7 +139,6 @@
                             <td>{{ $loop->index+1 }}</td>
                             <td class="text-center">{{ $productUnit->unit->name_ar }}</td>
                             <td class="text-center">{{ $productUnit->price }}</td>
-                            <td class="text-center">{{ $productUnit->currency }}</td>
                             <td class="text-center">
                                     <span class="switch switch-icon">
                                         <label>
@@ -157,16 +152,6 @@
                             </td>
                             <td class="text-center">
                                 <div style="display: flex" class="text-center justify-content-between">
-                                    {{--                                        @ability('superAdmin', 'manage_productUnits,update_productUnits')--}}
-                                    {{--                                            <a href="{{ route('admin.productUnits.edit', $productUnit->id) }}"--}}
-                                    {{--                                                class="edit btn btn-success btn-sm"><i class="fas fa-edit"></i>--}}
-                                    {{--                                            </a>--}}
-                                    {{--                                        @endability--}}
-
-                                    {{-- @ability('superAdmin', 'manage_productUnits,show_productUnits')
-                                        <a href="{{ route('admin.productUnits.show', $productUnit->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    @endability --}}
-
                                     @ability('superAdmin', 'manage_productUnits,delete_productUnits')
                                     <a href="javascript:void(0)"
                                        onclick="

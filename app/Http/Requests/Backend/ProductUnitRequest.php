@@ -30,7 +30,6 @@ class ProductUnitRequest extends FormRequest
                     'product_id'    => 'required|exists:products,id',
                     'unit_id'       => 'required|exists:units,id',
                     'price'         => 'required',
-                    'currency'      => 'required',
                     'status'        => 'required',
                 ];
             }
@@ -42,7 +41,6 @@ class ProductUnitRequest extends FormRequest
                 return[
                     'unit_id'       => 'required|exists:units,id',
                     'price'         => 'required',
-                    'currency'      => 'required',
                     'status'        => 'required',
                 ];
             }

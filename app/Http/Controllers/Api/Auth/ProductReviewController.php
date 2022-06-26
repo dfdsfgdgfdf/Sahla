@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductInfoResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductReviewResource;
 use App\Models\Product;
 use App\Models\ProductReview;
 use Illuminate\Http\Request;
@@ -13,6 +14,23 @@ use App\Traits\GeneralTrait;
 class ProductReviewController extends Controller
 {
     use GeneralTrait;
+
+
+    public function getProductReviews(Request $request)
+    {
+        $this->validate($request, [
+            'product_id' => 'required|exists:products,id',
+            'lang' => 'required|in:ar,en,ur',
+        ]);
+        $product = Product::whereId($request->product_id)->whereStatus(1)->first();
+        if ($product){
+            $reviews = $product->reviews;
+            return $this->successMessage(ProductReviewResource::collection($reviews), 'Product Reviews !');
+        }else{
+            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
+        }
+    }
+
 
     public function addProductReview(Request $request)
     {
@@ -25,10 +43,10 @@ class ProductReviewController extends Controller
         $product = Product::whereId($request->product_id)->whereStatus(1)->first();
         if ($product){
             $productReview = new ProductReview([
-                'user_id' => auth()->user()->id,
-                'product_id' => $request['product_id'],
-                'rating' => $request['rating'],
-                'content' => $request['content']
+                'user_id'       => auth()->user()->id,
+                'product_id'    => $request['product_id'],
+                'rating'        => $request['rating'] != "" ? $request['rating'] : 1,
+                'content'       => $request['content'] != "" ? $request['content'] : ""
             ]);
             $productReview->save();
             return $this->returnSuccessMessage('Your Product Rating Successfully Added');

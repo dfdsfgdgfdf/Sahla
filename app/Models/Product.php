@@ -106,7 +106,7 @@ class Product extends Model
 
     public function reviews(): HasMany
     {
-        return $this->hasMany(ProductReview::class);
+        return $this->hasMany(ProductReview::class)->orderBy('id', 'desc');
     }
     public function units(): HasMany
     {
@@ -120,6 +120,12 @@ class Product extends Model
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProduct::class, 'product_id', 'id');
+    }
+
+    public function avgRatings()
+    {
+        return $this->hasMany(ProductReview::class, 'product_id', 'id')
+            ->avg('rating');
     }
 
     // public function orders(): BelongsToMany

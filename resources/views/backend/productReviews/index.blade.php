@@ -29,7 +29,7 @@
 
 
     <div class="container">
-        <div class="row ">
+        <div class="row mb-5">
             <div class="col-6 d-flex text-left">
                 <h1 class=" text-left">تعليقات المنتجات</h1>
             </div>
@@ -37,9 +37,13 @@
             </div>
         </div>
 
-        @include('backend.productReviews.filter')
+        <div class="row mt-5 mb-5">
+            <div class="col-12">
+            </div>
+        </div>
 
-        <div class="row">
+
+        <div class="row mt-5">
             <div class="col-12">
                 <table class="table table-bordered table-hover table-striped table-light yajra-datatable">
                     <thead class="table-dark ">
@@ -63,7 +67,7 @@
                                     {{ $productReview->email }}
                                 </td>
                                 <td>
-                                    <b>{{ $productReview->title }}</b><br>
+                                    <b>{{ $productReview->content }}</b><br>
                                 </td>
                                 <td class="text-center"><span class="badge badge-success">{{ $productReview->rating }}</span></td>
                                 <td class="text-center">{{ $productReview->product->name_ar }}</td>

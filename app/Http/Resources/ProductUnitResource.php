@@ -25,7 +25,8 @@ class ProductUnitResource extends JsonResource
 
         return [
             "id" => $this->id,
-            "price" => isset($this->price) ? strval($this->price.' '.$this->currency) : '',
+            "unit_id" => $this->unit_id,
+            "price" => isset($this->price) ? strval($this->price.' '.env('APP_CURRENCY') ) : '',
             "unit" => isset($this->unit->$name) ? $this->unit->$name : '',
         ];
     }

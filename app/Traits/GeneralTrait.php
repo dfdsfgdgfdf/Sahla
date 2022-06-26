@@ -31,6 +31,15 @@ trait GeneralTrait
             'data' => $data
         ];
     }
+    public function successTotalMessage($data, $message = "", $total=777)
+    {
+        return [
+            'status' => "200",
+            'message' => $message,
+            'total' => $total.' '.env('APP_CURRENCY') ,
+            'data' => $data
+        ];
+    }
     public function returnSuccessMessage($message = "")
     {
         return [

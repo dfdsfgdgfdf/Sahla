@@ -18,7 +18,6 @@ class CreateProductUnitsTable extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('unit_id')->constrained()->cascadeOnDelete();
             $table->double('price');
-            $table->string('currency')->default('SAR');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

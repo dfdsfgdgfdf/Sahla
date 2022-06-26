@@ -10,6 +10,7 @@ use App\Models\ProductReview;
 use App\Models\ProductUnit;
 use App\Models\Tag;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
@@ -83,8 +84,6 @@ class ProductController extends Controller
             $input['description_en']   = $request->description_en;
             $input['description_ur']   = $request->description_ur;
             $input['stock']         = $request->stock;
-    //        $input['quantity']      = $request->quantity;
-            $input['currency']      = $request->currency;
             $input['price']         = $request->price;
             $input['unit_id']       = $request->unit_id;
             $input['category_id']   = $request->category_id;
@@ -119,7 +118,6 @@ class ProductController extends Controller
             $productUnit->product_id    = $product->id;
             $productUnit->unit_id       = $request->unit_id;
             $productUnit->price         = $request->price;
-            $productUnit->currency      = $request->currency;
             $productUnit->status        = $request->status;
             $productUnit->save();
 
@@ -140,6 +138,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        Carbon::setLocale('ar');
+
         if (!\auth()->user()->ability('superAdmin', 'manage_products,display_products')) {
             return redirect('admin/index');
         }
@@ -185,7 +185,6 @@ class ProductController extends Controller
             $productUnit->update([
                 'unit_id'       => $request->unit_id,
                 'price'         => $request->price,
-                'currency'      => $request->currency,
             ]);
 
             $input['name_ar']          = $request->name_ar;
@@ -195,8 +194,6 @@ class ProductController extends Controller
             $input['description_en']   = $request->description_en;
             $input['description_ur']   = $request->description_ur;
             $input['stock']         = $request->stock;
-    //        $input['quantity']      = $request->quantity;
-            $input['currency']      = $request->currency;
             $input['price']         = $request->price;
             $input['unit_id']       = $request->unit_id;
             $input['category_id']   = $request->category_id;

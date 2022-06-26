@@ -111,12 +111,12 @@
 {{--                        @error('quantity')<span class="text-danger">{{ $message }}</span>@enderror--}}
 {{--                    </div>--}}
 
-                    <div class="col-3">
+                    <div class="col-4">
                         <label for="stock">الكمية الموجودة بالمخازن</label>
                         <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" min="0">
                         @error('stock')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                         <label for="unit_id">الوحدة</label>
                         <select name="unit_id" class="form-control">
                             <option value="">---</option>
@@ -130,16 +130,16 @@
                         @error('unit_id')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
 
-                    <div class="col-3">
+                    <div class="col-4">
                         <label for="price">السعر</label>
                         <input type="number" name="price" value="{{ old('price') }}" class="form-control"  min="0">
                         @error('price')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
-                    <div class="col-3">
-                        <label for="currency">العملة</label>
-                        @include('backend.products.currency_create')
-                        @error('currency')<span class="text-danger">{{ $message }}</span>@enderror
-                    </div>
+{{--                    <div class="col-3">--}}
+{{--                        <label for="currency">العملة</label>--}}
+{{--                        @include('backend.products.currency_create')--}}
+{{--                        @error('currency')<span class="text-danger">{{ $message }}</span>@enderror--}}
+{{--                    </div>--}}
                 </div>
 
                 <div class="row pt-4 mt-4">

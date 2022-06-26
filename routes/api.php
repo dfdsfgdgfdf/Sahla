@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
     /* wish-list */
-    Route::get('/product-reviews', [ProductReviewController::class, 'wishList']);
+    Route::get('/product-reviews', [ProductReviewController::class, 'getProductReviews']);
     Route::post('/add-product-review', [ProductReviewController::class, 'addProductReview']);
     Route::post('/edit-product-review', [ProductReviewController::class, 'editProductReview']);
 

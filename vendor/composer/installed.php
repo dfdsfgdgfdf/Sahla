@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '6d4c26468e88d613f42557e90a73e05f16864aee',
+        'reference' => 'a5f4a5363670c899530697090f45b8309c48f65c',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -508,7 +508,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '6d4c26468e88d613f42557e90a73e05f16864aee',
+            'reference' => 'a5f4a5363670c899530697090f45b8309c48f65c',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -653,6 +653,15 @@
             'install_path' => __DIR__ . '/../markbaker/matrix',
             'aliases' => array(),
             'reference' => 'c66aefcafb4f6c269510e9ac46b82619a904c576',
+            'dev_requirement' => false,
+        ),
+        'mediconesystems/livewire-datatables' => array(
+            'pretty_version' => 'v0.9.4',
+            'version' => '0.9.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mediconesystems/livewire-datatables',
+            'aliases' => array(),
+            'reference' => '141b6fd0a21937bf56e54eac2ff090def6ce793a',
             'dev_requirement' => false,
         ),
         'mindscms/entrust' => array(
