@@ -7,10 +7,14 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CityController;
 use App\Http\Controllers\Backend\ContactMessageController;
 use App\Http\Controllers\Backend\CountryController;
+use App\Http\Controllers\Backend\CustomerOrderController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\EmailController;
+use App\Http\Controllers\Backend\InformationController;
 use App\Http\Controllers\Backend\LocationController;
 use App\Http\Controllers\Backend\LogoController;
+use App\Http\Controllers\Backend\MerchantController;
+use App\Http\Controllers\Backend\MerchantOrderController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PageTitleController;
 use App\Http\Controllers\Backend\PhoneController;
@@ -109,13 +113,34 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::get('users-changeStatus', [UserController::class,'changeStatus'])->name('users.changeStatus');
             Route::post('users-destroyAll', [UserController::class,'massDestroy'])->name('users.massDestroy');
             /*-------------------------------- */
-            /*  Customers   */
-            Route::resource('customers'    ,CustomerController::class);
-            Route::get('/getCustomerSearch',  [CustomerController::class, 'getCustomerSearch'    ])->name('customers.getCustomerSearch');
-            Route::post('customers-removeImage', [CustomerController::class,'removeImage'])->name('customers.removeImage');
-            Route::get('customers-changeStatus', [CustomerController::class,'changeStatus'])->name('customers.changeStatus');
-            Route::post('customersDestroyAll', [CustomerController::class,'massDestroy'])->name('customers.customersDestroyAll');
 
+            /*  Merchants   */
+            Route::resource('merchants'    ,  MerchantController::class);
+            Route::get('/getMerchantSearch',            [MerchantController::class, 'getMerchantSearch'])->name('merchants.getMerchantSearch');
+            Route::post('merchant-removeImage',         [MerchantController::class,'removeImage'])->name('merchants.removeImage');
+            Route::get('merchant-changeStatus',         [MerchantController::class,'changeStatus'])->name('merchants.changeStatus');
+            Route::post('merchantsDestroyAll',           [MerchantController::class,'massDestroy'])->name('merchants.merchantsDestroyAll');
+            //Merchants orders
+            Route::resource('merchant_orders',MerchantOrderController::class);
+            Route::get('merchants_pending-orders',      [MerchantOrderController::class,'pending'])->name('merchant_orders.pending');
+            Route::get('merchants_accepted-orders',     [MerchantOrderController::class,'accepted'])->name('merchant_orders.accepted');
+            Route::get('merchants_refused-orders',      [MerchantOrderController::class,'rejected'])->name('merchant_orders.refused');
+            Route::get('merchants_completed-orders',    [MerchantOrderController::class,'completed'])->name('merchant_orders.completed');
+            Route::get('merchants_cancelled-orders',    [MerchantOrderController::class,'cancelled'])->name('merchant_orders.cancelled');
+            /*-------------------------------- */
+            /*  Customers   */
+            Route::resource('customers',      CustomerController::class);
+            Route::get('/getCustomerSearch',            [CustomerController::class, 'getCustomerSearch'])->name('customers.getCustomerSearch');
+            Route::post('customers-removeImage',        [CustomerController::class,'removeImage'])->name('customers.removeImage');
+            Route::get('customers-changeStatus',        [CustomerController::class,'changeStatus'])->name('customers.changeStatus');
+            Route::post('customersDestroyAll',          [CustomerController::class,'massDestroy'])->name('customers.customersDestroyAll');
+            //Customers orders
+            Route::resource('customer_orders',CustomerOrderController::class);
+            Route::get('customers_pending-orders',      [CustomerOrderController::class,'pending'])->name('customer_orders.pending');
+            Route::get('customers_accepted-orders',     [CustomerOrderController::class,'accepted'])->name('customer_orders.accepted');
+            Route::get('customers_refused-orders',      [CustomerOrderController::class,'rejected'])->name('customer_orders.refused');
+            Route::get('customers_completed-orders',    [CustomerOrderController::class,'completed'])->name('customer_orders.completed');
+            Route::get('customers_cancelled-orders',    [CustomerOrderController::class,'cancelled'])->name('customer_orders.cancelled');
 
 
             // Route::get('/get_customer_customerSearch',   [CustomerSearchController::class, 'index'    ])->name('customers.get_customer');
@@ -178,18 +203,17 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::resource('working_times',WorkingTimeController::class);
             Route::get('working_times-changeStatus', [WorkingTimeController::class,'changeStatus'])->name('working_times.changeStatus');
 
+            Route::resource('informations',InformationController::class);
 
 
             //orders
             Route::resource('orders',OrderController::class);
-
-
+            Route::get('orders-show-invoice/{order}', [OrderController::class,'showInvoice'])->name('orders.showInvoice');
+            Route::get('orders-changeStatus', [OrderController::class,'ordersChangeStatus'])->name('orders.changeStatus');
+            Route::post('orders-destroyAll', [OrderController::class,'ordersMassDestroy'])->name('orders.massDestroy');
             Route::get('pending-orders', [OrderController::class,'pending'])->name('orders.pending');
-            Route::get('pending-orders-changeStatus', [OrderController::class,'pendingOrdersChangeStatus'])->name('pending-orders.changeStatus');
-            Route::post('pending-orders-destroyAll', [OrderController::class,'pendingOrdersMassDestroy'])->name('pending-orders.massDestroy');
-
             Route::get('accepted-orders', [OrderController::class,'accepted'])->name('orders.accepted');
-            Route::get('refused-orders', [OrderController::class,'refused'])->name('orders.refused');
+            Route::get('refused-orders', [OrderController::class,'rejected'])->name('orders.refused');
             Route::get('completed-orders', [OrderController::class,'completed'])->name('orders.completed');
             Route::get('cancelled-orders', [OrderController::class,'cancelled'])->name('orders.cancelled');
 

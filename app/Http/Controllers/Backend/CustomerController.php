@@ -7,6 +7,7 @@ use App\Http\Requests\Backend\CustomerRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserAddress;
+use App\Models\UserMaxLimit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -32,15 +33,15 @@ class CustomerController extends Controller
             $query->where('name', 'customer');
         })
 
-        ->when(\request()->keyword !=null, function($query){
-            $query->search(\request()->keyword);
-        })
-        ->when(\request()->status !=null, function($query){
-            $query->whereStatus(\request()->status);
-        })
-        ->orderBy(\request()->sort_by ?? 'id' ,  \request()->order_by ?? 'desc')
+            ->when(\request()->keyword !=null, function($query){
+                $query->search(\request()->keyword);
+            })
+            ->when(\request()->status !=null, function($query){
+                $query->whereStatus(\request()->status);
+            })
+            ->orderBy(\request()->sort_by ?? 'id' ,  \request()->order_by ?? 'desc')
 
-        ->paginate(\request()->limit_by ?? 10);
+            ->paginate(\request()->limit_by ?? 10);
 
         return view('backend.customers.index', compact('customers'));
     }
@@ -104,6 +105,12 @@ class CustomerController extends Controller
             $address['po_box']        = $request->po_box;
             UserAddress::create($address);
 
+            ### ِMax Limit
+            $max_limit['user_id']       = $customer->id;
+            $max_limit['max_limit']     = $request->max_limit;
+            $max_limit['status']        = $request->status;
+            UserMaxLimit::create($max_limit);
+
             DB::commit(); // insert data
             Alert::success('Customer Created Successfully', 'Success Message');
             return redirect()->route('admin.customers.index');
@@ -142,7 +149,8 @@ class CustomerController extends Controller
         }
 
         $customer_address = UserAddress::whereUserId($customer->id)->first();
-        return view('backend.customers.edit', compact('customer', 'customer_address'));
+        $customer_max_limit = UserMaxLimit::whereUserId($customer->id)->first();
+        return view('backend.customers.edit', compact('customer', 'customer_address', 'customer_max_limit'));
     }
 
     /**
@@ -159,7 +167,6 @@ class CustomerController extends Controller
         }
         DB::beginTransaction();
         try {
-
             $input['first_name']    = $request->first_name;
             $input['last_name']     = $request->last_name;
             $input['username']      = $request->username;
@@ -186,16 +193,24 @@ class CustomerController extends Controller
             }
             $customer->update($input);
 
-            $customer_address = UserAddress::whereUserId($customer->id)->first();
             ### ِAddress
-            $address['user_id']       = $customer->id;
-            $address['address']       = $request->address;
-            $address['country_id']    = $request->country_id;
-            $address['state_id']      = $request->state_id;
-            $address['city_id']       = $request->city_id;
-            $address['zip_code']      = $request->zip_code;
-            $address['po_box']        = $request->po_box;
-            $customer_address->update($address);
+            $customer_address = UserAddress::whereUserId($customer->id)->first();
+            if(!empty($customer_address)){
+                $address['user_id']       = $customer->id;
+                $address['address']       = $request->address;
+                $address['country_id']    = $request->country_id;
+                $address['state_id']      = $request->state_id;
+                $address['city_id']       = $request->city_id;
+                $address['zip_code']      = $request->zip_code;
+                $address['po_box']        = $request->po_box;
+                $customer_address->update($address);
+            }
+
+            ### ِMax Limit
+            $user_max_limit = UserMaxLimit::whereUserId($customer->id)->first();
+            $max__limit['max_limit']     = $request->max_limit;
+            $max__limit['status']        = $request->status;
+            $user_max_limit->update($max__limit);
 
             DB::commit(); // insert data
             Alert::success('Customer Updated Successfully', 'Success Message');
@@ -267,9 +282,14 @@ class CustomerController extends Controller
 
     public function changeStatus(Request $request)
     {
-        $customer = User::find($request->cat_id);
+        $customer = User::whereId($request->cat_id)->first();
         $customer->status = $request->status;
         $customer->save();
+
+        $user_max_limit = UserMaxLimit::whereUserId($request->cat_id)->first();
+        $user_max_limit->status = $request->status;
+        $user_max_limit->save();
+
         return response()->json(['success'=>'Status Change Successfully.']);
     }
 
@@ -279,10 +299,10 @@ class CustomerController extends Controller
         $customers = User::whereHas('roles', function($query){
             $query->where('name', 'customer');
         })
-        ->when(\request()->input('query') != '', function ($query){
-            $query->search(\request()->input('query'));
-        })
-        ->get(['id', 'first_name', 'last_name', 'email'])->toArray();
+            ->when(\request()->input('query') != '', function ($query){
+                $query->search(\request()->input('query'));
+            })
+            ->get(['id', 'first_name', 'last_name', 'email'])->toArray();
 
         return response()->json($customers);
     }

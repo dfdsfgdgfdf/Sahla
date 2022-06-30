@@ -39,6 +39,7 @@ class OrderProductResource extends JsonResource
 
         return [
             "id" => $this->id,
+            "product_id" => isset($this->product_id) ? $this->product_id : '',
             "name" => isset($this->name) ? $this->name : '',
             "price" => isset($this->price) ? strval($this->price.' '.env('APP_CURRENCY') ) : '',
             "unit" => isset($this->unit->$name) ? $this->unit->$name : '',

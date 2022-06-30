@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('status')->default(0);
             $table->rememberToken();
             $table->boolean('receive_emails')->default(true);
+            $table->boolean('account_status')->default(true);
+            $table->boolean('order_status')->default(true);
             $table->timestamps();
         });
     }

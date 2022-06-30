@@ -24,7 +24,7 @@
                 <form action="{{ route('admin.customers.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
                                 <label for="first_name">الاسم الاول</label>
                                 <input type="text" name="first_name" value="{{ old('first_name') }}"
@@ -35,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
                                 <label for="last_name">الاسم الاخير</label>
                                 <input type="text" name="last_name" value="{{ old('last_name') }}" class="form-control">
@@ -45,13 +45,20 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
                                 <label for="username">اسم المستخدم</label>
                                 <input type="text" name="username" value="{{ old('username') }}" class="form-control">
                                 @error('username')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="price">أقصي سعر لفاتورة الشراء</label>
+                                <input type="number" name="max_limit" value="{{ old('max_limit') }}" class="form-control"  min="0">
+                                @error('price')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>

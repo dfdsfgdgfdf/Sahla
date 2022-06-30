@@ -54,10 +54,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(ProductReview::class, 'user_id', 'id');
     }
+
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class, 'user_id', 'id');
+        return $this->hasMany(Order::class);
     }
+
     public function cartProducts(): HasMany
     {
         return $this->hasMany(CartProduct::class, 'user_id', 'id')->latest();
@@ -65,6 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProduct::class, 'product_id', 'id');
+    }
+    public function maxLimit()
+    {
+        return $this->belongsTo(UserMaxLimit::class);
     }
 
     //Return product that still in shopping cart Before doing order of this products

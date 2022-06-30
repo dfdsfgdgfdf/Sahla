@@ -52,6 +52,7 @@
                             <th class="text-light">رقم الطلب</th>
                             <th class="text-light">بيانات الشخص</th>
                             <th class="text-light">تفاصيل الطلب</th>
+                            <th class="text-light">فاتورة الطلب (PDF)</th>
                             <th class="text-light">تاريخ الطلب</th>
                             <th class="text-light">الحالة</th>
                             <th class="text-light">العمليات</th>
@@ -70,13 +71,16 @@
                                 <td class="text-center">
                                     <a href="{{ route('admin.orders.show', $order) }}" >عرض محتويات الطلب </a>
                                 </td>
+                                <td class="text-center">
+                                    <a href="{{ route('admin.orders.showInvoice', $order) }}" >عرض الفاتورة </a>
+                                </td>
                                 <td class="text-center">{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
                                 <td class="text-center">
                                     <select class="status-class form-select form-control" data-id="{{ $order->id }}" aria-label="Default select example">
                                         <option value="pending"{{ $order->status == "pending" ? 'selected' : '' }}>قائمة الانتظار</option>
                                         <option value="accepted"{{ $order->status == "accepted" ? 'selected' : '' }}>قائمة الطلبات الموافق عليها</option>
                                         <option value="rejected"{{ $order->status == "rejected" ? 'selected' : '' }}>قائمة الطلبات المرفوضة</option>
-                                        <option value="accepted"{{ $order->status == "accepted" ? 'selected' : '' }}>قائمة الطلبات المكتملة</option>
+                                        <option value="completed"{{ $order->status == "completed" ? 'selected' : '' }}>قائمة الطلبات المكتملة</option>
                                     </select>
                                 </td>
                                 <td class="text-center">
@@ -213,7 +217,7 @@
                     {
                         className: 'btn btn-light-danger px-6 font-weight-bold',
                         text: 'Delete All',
-                        url: "{{ route('admin.pending-orders.massDestroy') }}",
+                        url: "{{ route('admin.orders.massDestroy') }}",
                         action: function(e, dt, node, config) {
 
                             var ids = $.map(dt.rows({
@@ -277,7 +281,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('admin.pending-orders.changeStatus') }}',
+                    url: '{{ route('admin.orders.changeStatus') }}',
                     data: {
                         'status': status,
                         'cat_id': cat_id

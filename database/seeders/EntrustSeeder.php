@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
+use App\Models\UserMaxLimit;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use App\Models\Role;
@@ -26,6 +27,7 @@ class EntrustSeeder extends Seeder
         $adminRole          = Role::create(['name' => 'admin',       'display_name' => 'admin',          'description' => 'System Admin',         'allowed_route' => 'admin']);
         $userRole           = Role::create(['name' => 'user',        'display_name' => 'User',           'description' => 'System User',          'allowed_route' => 'admin']);
         $customerRole       = Role::create(['name' => 'customer',    'display_name' => 'Customer',       'description' => 'Website Customer',     'allowed_route' => null   ]);
+        $merchantRole       = Role::create(['name' => 'merchant',    'display_name' => 'Merchant',       'description' => 'Website Merchant',     'allowed_route' => null   ]);
 
         $superAdmin = User::create([
             'first_name' => 'Super',
@@ -81,18 +83,41 @@ class EntrustSeeder extends Seeder
         ]);
         $user->attachRole($userRole);
 
+        $user1 = User::create(['first_name' => 'Mohamed',   'last_name' => 'Farh',      'username' => 'Mohamed Farh',       'email' => 'mohamed@yahoo.com',         'mobile' => '01234567799','status'=> 1, 'password' => bcrypt('password'),'email_verified_at' => Carbon::now(), 'user_image'=>'images/customer/avatar.png', 'remember_token' => Str::random(10), ]);
+        $user1->attachRole($merchantRole);
+        UserMaxLimit::create(['user_id' => $user1->id, 'max_limit'   => $faker->numberBetween(10000, 20000), 'status'  => 1 ]);
 
-        $user1 = User::create([ 'first_name' => 'Customer', 'last_name' => 'Customer', 'username' => 'Customer Customer', 'email' => 'customer@customer.com',  'mobile' => '01234567999','status'=> 1, 'password' => bcrypt('password'),'email_verified_at' => Carbon::now(), 'user_image'=>'images/customer/avatar.png', 'remember_token' => Str::random(10), ]);
-        $user1->attachRole($customerRole);
-
-        $user2 = User::create(['first_name' => 'Mohamed',   'last_name' => 'Farh',     'username' => 'Mohamed Farh',     'email' => 'mohamed@yahoo.com', 'mobile' => '01234567799','status'=> 1, 'password' => bcrypt('password'),'email_verified_at' => Carbon::now(), 'user_image'=>'images/customer/avatar.png', 'remember_token' => Str::random(10), ]);
+        $user2 = User::create([ 'first_name' => 'Customer', 'last_name' => 'Customer',  'username' => 'Customer Customer',  'email' => 'customer@customer.com',     'mobile' => '01234567999','status'=> 1, 'password' => bcrypt('password'),'email_verified_at' => Carbon::now(), 'user_image'=>'images/customer/avatar.png', 'remember_token' => Str::random(10), ]);
         $user2->attachRole($customerRole);
+        UserMaxLimit::create(['user_id' => $user2->id, 'max_limit'   => $faker->numberBetween(10000, 20000), 'status'  => 1 ]);
 
-        $user3 = User::create(['first_name' => 'Ahmed',     'last_name' => 'Farh',     'username' => 'Ahmed Farh',       'email' => 'ahmed@yahoo.com',       'mobile' => '01234567699','status'=> 1, 'password' => bcrypt('password'),'email_verified_at' => Carbon::now(), 'user_image'=>'images/customer/avatar.png', 'remember_token' => Str::random(10), ]);
-        $user3->attachRole($customerRole);
+        $user3 = User::create(['first_name' => 'Merchant',  'last_name' => 'Merchant',  'username' => 'Merchant Merchant',  'email' => 'merchant@merchant.com',     'mobile' => '01234567699','status'=> 1, 'password' => bcrypt('password'),'email_verified_at' => Carbon::now(), 'user_image'=>'images/customer/avatar.png', 'remember_token' => Str::random(10), ]);
+        $user3->attachRole($merchantRole);
+        UserMaxLimit::create(['user_id' => $user3->id, 'max_limit'   => $faker->numberBetween(10000, 20000), 'status'  => 1 ]);
 
         for ($i = 0; $i <10; $i++) {
-            $user_i = User::create([
+            $user_merchant = User::create([
+                'first_name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                'username' => $faker->userName,
+                'email' => $faker->email,
+                'mobile' => '9665' . random_int(10000000, 99999999),
+                'email_verified_at' => Carbon::now(),
+                'password' => bcrypt('password'),
+                'user_image'=>'images/merchant/avatar.png',
+                'status'=> 1,
+                'remember_token' => Str::random(10),
+            ]);
+            $user_merchant->attachRole($merchantRole);
+            UserMaxLimit::create([
+                'user_id' => $user_merchant->id,
+                'max_limit'   => $faker->numberBetween(10000, 20000),
+                'status'  => 1,
+            ]);
+        }
+
+        for ($i = 0; $i <10; $i++) {
+            $user_customer = User::create([
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'username' => $faker->userName,
@@ -104,7 +129,12 @@ class EntrustSeeder extends Seeder
                 'status'=> 1,
                 'remember_token' => Str::random(10),
             ]);
-            $user_i->attachRole($customerRole);
+            $user_customer->attachRole($customerRole);
+            UserMaxLimit::create([
+                'user_id'   => $user_customer->id,
+                'max_limit' => $faker->numberBetween(10000, 20000),
+                'status'    => 1,
+            ]);
         }
 
 
@@ -128,7 +158,6 @@ class EntrustSeeder extends Seeder
         ]);
         $manageMain->parent_show = $manageMain->id;
         $manageMain->save();
-
 
 
         // Admins
@@ -183,18 +212,47 @@ class EntrustSeeder extends Seeder
         #####
         $RefusedOrders      = Permission::create([ 'name' => 'show_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'orders.refused',        'module' => 'orders',     'as' => 'orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $CancledOrders      = Permission::create([ 'name' => 'show_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'orders.cancelled',      'module' => 'orders',     'as' => 'orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
-
+        $CanclledOrders     = Permission::create([ 'name' => 'show_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'orders.cancelled',      'module' => 'orders',     'as' => 'orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
 
         //Customers
-        $manageCustomers = Permission::create([ 'name' => 'manage_customers', 'display_name' => 'العملاء', 'route' => 'customers.index', 'module' => 'customers', 'as' => 'customers.index', 'icon' => 'fas fa-user text-blue', 'parent' => '0', 'parent_original' => '0','sidebar_link' => '1', 'appear' => '1', 'ordering' => '25', ]);
+        $manageMerchants = Permission::create([ 'name' => 'manage_merchants', 'display_name' => 'التجار', 'route' => 'merchants.index', 'module' => 'merchants', 'as' => 'merchants.index', 'icon' => 'fas fa-people-arrows text-blue', 'parent' => '0', 'parent_original' => '0','sidebar_link' => '1', 'appear' => '1', 'ordering' => '35', ]);
+        $manageMerchants->parent_show = $manageMerchants->id;
+        $manageMerchants->save();
+        $showMerchants    = Permission::create([ 'name' => 'show_merchants',          'display_name' => 'التجار',       'route' => 'merchants.index',          'module' => 'merchants', 'as' => 'merchants.index',       'icon' => 'fas fa-people-arrows',         'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $createMerchants  = Permission::create([ 'name' => 'create_merchants',        'display_name' => 'انشاء تاجر',   'route' => 'merchants.create',         'module' => 'merchants', 'as' => 'merchants.create',      'icon' => null,                  'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '0', ]);
+        $updateMerchants  = Permission::create([ 'name' => 'update_merchants',        'display_name' => 'تعديل تاجر',   'route' => 'merchants.edit',           'module' => 'merchants', 'as' => 'merchants.edit',        'icon' => null,                  'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '0', ]);
+        $destroyMerchants = Permission::create([ 'name' => 'delete_merchants',        'display_name' => 'حذف تاجر',     'route' => 'merchants.destroy',        'module' => 'merchants', 'as' => 'merchants.destroy',     'icon' => null,                  'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '0', ]);
+        #####
+        $pendingOrders      = Permission::create([ 'name' => 'show_merchants_pending_orders',     'display_name' => 'الطلبات المعلقة',        'route' => 'merchant_orders.pending',        'module' => 'merchants',     'as' => 'merchant_orders.pending',     'icon' => 'fas fa-bullhorn',            'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        #####
+        $AcceptedOrders     = Permission::create([ 'name' => 'show_merchants_accepted_orders',    'display_name' => 'الطلبات الموافق عليها',  'route' => 'merchant_orders.accepted',       'module' => 'merchants',     'as' => 'merchant_orders.accepted',    'icon' => 'fas fa-shopping-basket',     'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        #####
+        $CompletedOrders    = Permission::create([ 'name' => 'show_merchants_completed_orders',   'display_name' => 'الطلبات المكتملة',       'route' => 'merchant_orders.completed',      'module' => 'merchants',     'as' => 'merchant_orders.completed',   'icon' => 'fas fa-shopping-bag',        'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        #####
+        $RefusedOrders      = Permission::create([ 'name' => 'show_merchants_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'merchant_orders.refused',        'module' => 'merchants',     'as' => 'merchant_orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        #####
+        $CanclledOrders     = Permission::create([ 'name' => 'show_merchants_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'merchant_orders.cancelled',      'module' => 'merchants',     'as' => 'merchant_orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+
+
+        //Customers
+        $manageCustomers = Permission::create([ 'name' => 'manage_customers', 'display_name' => 'العملاء', 'route' => 'customers.index', 'module' => 'customers', 'as' => 'customers.index', 'icon' => 'fas fa-user text-blue', 'parent' => '0', 'parent_original' => '0','sidebar_link' => '1', 'appear' => '1', 'ordering' => '35', ]);
         $manageCustomers->parent_show = $manageCustomers->id;
         $manageCustomers->save();
         $showCustomers    = Permission::create([ 'name' => 'show_customers',          'display_name' => 'العملاء',       'route' => 'customers.index',          'module' => 'customers', 'as' => 'customers.index',       'icon' => 'fas fa-user',         'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
         $createCustomers  = Permission::create([ 'name' => 'create_customers',        'display_name' => 'انشاء عميل',   'route' => 'customers.create',         'module' => 'customers', 'as' => 'customers.create',      'icon' => null,                  'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '0', ]);
         $updateCustomers  = Permission::create([ 'name' => 'update_customers',        'display_name' => 'تعديل عميل',   'route' => 'customers.edit',           'module' => 'customers', 'as' => 'customers.edit',        'icon' => null,                  'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '0', ]);
         $destroyCustomers = Permission::create([ 'name' => 'delete_customers',        'display_name' => 'حذف عميل',     'route' => 'customers.destroy',        'module' => 'customers', 'as' => 'customers.destroy',     'icon' => null,                  'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '0', ]);
+        #####
+        $pendingOrders      = Permission::create([ 'name' => 'show_customers_pending_orders',     'display_name' => 'الطلبات المعلقة',        'route' => 'customer_orders.pending',        'module' => 'customers',     'as' => 'customer_orders.pending',     'icon' => 'fas fa-bullhorn',            'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        #####
+        $AcceptedOrders     = Permission::create([ 'name' => 'show_customers_accepted_orders',    'display_name' => 'الطلبات الموافق عليها',  'route' => 'customer_orders.accepted',       'module' => 'customers',     'as' => 'customer_orders.accepted',    'icon' => 'fas fa-shopping-basket',     'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        #####
+        $CompletedOrders    = Permission::create([ 'name' => 'show_customers_completed_orders',   'display_name' => 'الطلبات المكتملة',       'route' => 'customer_orders.completed',      'module' => 'customers',     'as' => 'customer_orders.completed',   'icon' => 'fas fa-shopping-bag',        'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        #####
+        $RefusedOrders      = Permission::create([ 'name' => 'show_customers_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'customer_orders.refused',        'module' => 'customers',     'as' => 'customer_orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        #####
+        $CanclledOrders     = Permission::create([ 'name' => 'show_customers_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'customer_orders.cancelled',      'module' => 'customers',     'as' => 'customer_orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
 
         //Countries
@@ -231,17 +289,19 @@ class EntrustSeeder extends Seeder
         $manageSettings->parent_show = $manageSettings->id;
         $manageSettings->save();
             ##Logo
-            $showLogo    = Permission::create([ 'name' => 'show_logo',          'display_name' => 'لوجو الموقع',    'route' => 'logos.index',        'module' => 'settings',     'as' => 'logos.index',       'icon' => 'fas fa-paint-brush',     'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+            $showLogo           = Permission::create([ 'name' => 'show_logo',           'display_name' => 'لوجو الموقع',    'route' => 'logos.index',           'module' => 'settings',     'as' => 'logos.index',          'icon' => 'fas fa-paint-brush',     'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
             ##Pages Titles
-            $showPages    = Permission::create([ 'name' => 'show_page_title',   'display_name' => 'نصوص العناوين',  'route' => 'page-titles.index',     'module' => 'settings',     'as' => 'page-titles.index',    'icon' => 'fas fa-heading',         'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+            $showPages          = Permission::create([ 'name' => 'show_page_title',     'display_name' => 'نصوص العناوين',  'route' => 'page-titles.index',     'module' => 'settings',     'as' => 'page-titles.index',    'icon' => 'fas fa-heading',         'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
             ##WorkingTimes
-            $showWorkingTimes = Permission::create([ 'name' => 'show_working_times',    'display_name' => 'ساعات العمل',    'route' => 'working_times.index',       'module' => 'settings',     'as' => 'working_times.index',      'icon' => 'fas fa-clock',  'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+            $showWorkingTimes   = Permission::create([ 'name' => 'show_working_times',  'display_name' => 'ساعات العمل',    'route' => 'working_times.index',   'module' => 'settings',     'as' => 'working_times.index',  'icon' => 'fas fa-clock',           'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
             ##Locations
-            $showLocations= Permission::create([ 'name' => 'show_locations',    'display_name' => 'موقع الشركة',    'route' => 'locations.index',       'module' => 'settings',     'as' => 'locations.index',      'icon' => 'fas fa-map-marker-alt',  'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+            $showLocations      = Permission::create([ 'name' => 'show_locations',      'display_name' => 'موقع الشركة',    'route' => 'locations.index',       'module' => 'settings',     'as' => 'locations.index',      'icon' => 'fas fa-map-marker-alt',  'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
+            ##Informations
+            $showInformations   = Permission::create([ 'name' => 'show_information',    'display_name' => 'معلومات التطبيق',        'route' => 'informations.index',    'module' => 'settings',     'as' => 'informations.index',   'icon' => 'fas fa-info-alt',        'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
 
 

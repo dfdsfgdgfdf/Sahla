@@ -32,7 +32,7 @@
     <table class="invoice-info-container">
         <tr>
             <td rowspan="2" class="client-name">
-                Client Name
+                {{ dd($order->user) }}
             </td>
             <td>
                 Anvil Co
@@ -147,4 +147,5 @@
     }
 </script>
 
-</body></html>
+</body>
+</html>

@@ -80,7 +80,14 @@ trait GeneralTrait
         ]);
     }
 
-
+    public function responseJsonFailed($status = 422 , $message = "Fail")
+    {
+        return response()->json([
+            "success" => false,
+            "status" => $status,
+            "message" => $message,
+        ], $status);
+    }
     // public function returnSuccessMessage($msg = "", $errNum = "2000")
     // {
     //     return [

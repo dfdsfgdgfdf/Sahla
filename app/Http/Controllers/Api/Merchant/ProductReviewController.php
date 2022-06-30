@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Api\Merchant;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductInfoResource;
@@ -70,6 +70,20 @@ class ProductReviewController extends Controller
             ]);
 
             return $this->returnSuccessMessage('Your Product Rating Successfully Edited');
+        }else{
+            return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
+        }
+    }
+
+    public function removeProductReview(ProductReview $productReview, Request $request)
+    {
+        $this->validate($request, [
+            'product_review_id' => 'required|exists:product_reviews,id',
+        ]);
+        $productReview = ProductReview::whereId($request->product_review_id)->whereStatus(1)->first();
+        if ($productReview){
+            $productReview->delete();
+            return $this->returnSuccessMessage('Your Product Rating Successfully Deleted');
         }else{
             return $this->returnErrorMessage('Sorry! Please Try Again, Or Choose Another Product', '422');
         }

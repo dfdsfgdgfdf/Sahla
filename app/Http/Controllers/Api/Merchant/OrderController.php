@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Api\Merchant;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderListResource;
@@ -74,7 +74,7 @@ class OrderController extends Controller
     }
 
 
-    public function completedOrders(Request $request)
+    public function completeInvoices(Request $request)
     {
         $this->validate($request, [
             'lang' => 'required|in:ar,en,ur',

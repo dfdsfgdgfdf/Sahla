@@ -12,7 +12,9 @@
     <script type="text/javascript" src="{{ asset('invoice') }}/web/scripts.js"></script>
 </head>
 <body>
-
+@php
+    $addrress = \App\Models\UserAddress::whereUserId($order->user_id)->whereDefaultAddress(1)->first();
+@endphp
 <div class="web-container">
 
     <div class="page-container">
@@ -32,31 +34,31 @@
     <table class="invoice-info-container">
         <tr>
             <td rowspan="2" class="client-name">
-                Client Name
+                {{ $order->user->full_name }}
             </td>
             <td>
-                Anvil Co
-            </td>
-        </tr>
-        <tr>
-            <td>
-                123 Main Street
+                {{ !empty($addrress) && $addrress->country_id != ''  ? $addrress->country->name : '' }}
             </td>
         </tr>
         <tr>
             <td>
-                Invoice Date: <strong>May 24th, 2024</strong>
-            </td>
-            <td>
-                San Francisco CA, 94103
+                {{ !empty($addrress) && $addrress->state_id != ''  ? $addrress->state->name : '' }}
             </td>
         </tr>
         <tr>
             <td>
-                Invoice No: <strong>12345</strong>
+                Invoice Date: <strong>{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</strong>
             </td>
             <td>
-                hello@useanvil.com
+                {{ !empty($addrress) && $addrress->address != ''  ? $addrress->address : '' }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Invoice No: <strong>{{ $order->order_number }}</strong>
+            </td>
+            <td>
+                {{ $order->user->email }}
             </td>
         </tr>
     </table>
@@ -66,30 +68,25 @@
         <thead>
         <tr>
             <th class="heading-quantity">Qty</th>
-            <th class="heading-description">Description</th>
+            <th class="heading-description">Name</th>
             <th class="heading-price">Price</th>
             <th class="heading-subtotal">Subtotal</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>2</td>
-            <td>Blue large widgets</td>
-            <td class="right">$15.00</td>
-            <td class="bold">$30.00</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Green medium widgets</td>
-            <td class="right">$10.00</td>
-            <td class="bold">$40.00</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Red small widgets with logo</td>
-            <td class="right">$7.00</td>
-            <td class="bold">$35.00</td>
-        </tr>
+            @php
+                $orderProducts = \App\Models\OrderProduct::whereOrderId($order->id)->get();
+                $total = 0;
+            @endphp
+            @foreach($orderProducts as $product)
+                @php $total += $product->price * $product->quantity; @endphp
+                <tr>
+                    <td>{{ $product->quantity }}</td>
+                    <td>{{ $product->name }}</td>
+                    <td class="right">{{ $product->price .' '. env('APP_CURRENCY') }}</td>
+                    <td class="bold">{{ $product->quantity * $product->price .' '. env('APP_CURRENCY') }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 
@@ -97,32 +94,29 @@
     <table class="line-items-container has-bottom-border">
         <thead>
         <tr>
-            <th>Payment Info</th>
-            <th>Due By</th>
-            <th>Total Due</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td class="payment-info">
+            <td class="large">
                 <div>
-                    Account No: <strong>123567744</strong>
-                </div>
-                <div>
-                    Routing No: <strong>120000547</strong>
+                    Total
                 </div>
             </td>
-            <td class="large">May 30th, 2024</td>
-            <td class="large total">$105.00</td>
+            <td class="large"></td>
+            <td class="large total">{{ $total .' '.env('APP_CURRENCY') }}</td>
         </tr>
         </tbody>
     </table>
 
     <div class="footer">
         <div class="footer-info">
-            <span>hello@useanvil.com</span> |
-            <span>555 444 6666</span> |
-            <span>useanvil.com</span>
+            <span>Mohamedfarh987@gmail.com</span> |
+            <span>01147451963</span> |
+            <span>4FARH</span>
         </div>
         <div class="footer-thanks">
             <img src="https://github.com/anvilco/html-pdf-invoice-template/raw/main/img/heart.png" alt="heart">
@@ -147,4 +141,5 @@
     }
 </script>
 
-</body></html>
+</body>
+</html>

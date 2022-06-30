@@ -26,9 +26,9 @@
                     @csrf
                     @method('PATCH')
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
-                                <label for="first_name">Customer First Name</label>
+                                <label for="first_name">الاسم الاول</label>
                                 <input type="text" name="first_name"
                                     value="{{ old('first_name', $customer->first_name) }}" class="form-control">
                                 @error('first_name')
@@ -37,9 +37,9 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
-                                <label for="last_name">Customer Last Name</label>
+                                <label for="last_name">الاسم الاخير</label>
                                 <input type="text" name="last_name" value="{{ old('last_name', $customer->last_name) }}"
                                     class="form-control">
                                 @error('last_name')
@@ -48,9 +48,9 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
-                                <label for="username">Customer UserName</label>
+                                <label for="username">اسم التاجر</label>
                                 <input type="text" name="username" value="{{ old('username', $customer->username) }}"
                                     class="form-control">
                                 @error('username')
@@ -58,12 +58,19 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="price">أقصي سعر لفاتورة الشراء</label>
+                                <input type="number" name="max_limit" value="{{ old('max_limit', $customer_max_limit->max_limit) }}" class="form-control"  min="0">
+                                @error('price')<span class="text-danger">{{ $message }}</span>@enderror
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row pt-4">
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="email">Customer E-Mail</label>
+                                <label for="email">البريد الالكتروني</label>
                                 <input type="email" name="email" value="{{ old('email', $customer->email) }}"
                                     class="form-control">
                                 @error('email')
@@ -74,7 +81,7 @@
 
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="mobile">Customer Mobile</label>
+                                <label for="mobile">رقم الهاتف</label>
                                 <input type="text" name="mobile" value="{{ old('mobile', $customer->mobile) }}"
                                     class="form-control">
                                 @error('mobile')
@@ -85,7 +92,7 @@
 
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="password">Customer Password</label>
+                                <label for="password">كلمة المرور</label>
                                 <input type="password" name="password" class="form-control">
                                 @error('password')
                                     <span class="text-danger">{{ $message }}</span>
@@ -97,7 +104,7 @@
                     <div class="row pt-4">
                         <div class="col-4">
                             <label for="country_id">الدولة</label>
-                            <select name="country_id" class="form-control" id="country_id" required>
+                            <select name="country_id" class="form-control" id="country_id">
                                 <option value="">---</option>
                                 @if ($customer_address && $customer_address->country_id != '')
                                     @forelse (\App\Models\Country::whereStatus(true)->get(['id', 'name']) as $country)
@@ -121,7 +128,7 @@
                         </div>
                         <div class="col-4">
                             <label for="state_id">المحافظة</label>
-                            <select name="state_id" id="state_id" class="form-control" required>
+                            <select name="state_id" id="state_id" class="form-control">
                             </select>
                             @error('state_id')
                                 <span class="text-danger">{{ $message }}</span>
@@ -129,7 +136,7 @@
                         </div>
                         <div class="col-4">
                             <label for="city_id">المدينة</label>
-                            <select name="city_id" id="city_id" class="form-control" required>
+                            <select name="city_id" id="city_id" class="form-control">
                             </select>
                             @error('city_id')
                                 <span class="text-danger">{{ $message }}</span>
@@ -141,10 +148,10 @@
                                 <label for="address">تفاصيل العنوان</label>
                                 @if ($customer_address && $customer_address->country_id != '')
                                     <textarea name="address" class="form-control" rows="3" placeholder="تفاصيل العنوان"
-                                        required>{{ old('address', $customer_address->address) }}</textarea>
+                                        >{{ old('address', $customer_address->address) }}</textarea>
                                 @else
                                     <textarea name="address" class="form-control" rows="3" placeholder="تفاصيل العنوان"
-                                        required>{{ old('address') }}</textarea>
+                                        >{{ old('address') }}</textarea>
                                 @endif
                                 @error('address')
                                     <span class="text-danger">{{ $message }}</span>
@@ -271,7 +278,7 @@
 
             function populateStates() {
                 let countryIdVal = $('#country_id').val() != null ? $('#country_id').val() :
-                    '{{ old('country_id', $customer_address->country_id) }}'; //عملت متغير يحمل قيمة رقم الدوله و في حالة بعت البيانات في الفورم و في حاجه غلط يرجع القيم اللي كنت مختارها قبل ما الفورم تتبعت
+                    '{{ old('country_id', $customer_address && $customer_address->country_id != "" ? $customer_address->country_id : "") }}'; //عملت متغير يحمل قيمة رقم الدوله و في حالة بعت البيانات في الفورم و في حاجه غلط يرجع القيم اللي كنت مختارها قبل ما الفورم تتبعت
                 $.get("{{ route('admin.backend.get_state') }}", {
                     country_id: countryIdVal
                 }, function(data) { //هعمل فانكشن واديها قيمه الدوله كمتغير فيها
@@ -279,7 +286,7 @@
                     $('#state_id').append($('<option></option>').val('').html('---'));
                     $.each(data, function(val, text) {
                         let selectedVal = text.id ==
-                            '{{ old('state_id', $customer_address->state_id) }}' ? "selected" : "";
+                            '{{ old('state_id', $customer_address && $customer_address->state_id != "" ? $customer_address->state_id : "") }}' ? "selected" : "";
                         $("#state_id").append($('<option ' + selectedVal + '></option>').val(text
                             .id).html(text.name));
                     });
@@ -289,7 +296,7 @@
 
             function populateCities() {
                 let stateIdVal = $('#state_id').val() != null ? $('#state_id').val() :
-                    '{{ old('state_id', $customer_address->state_id) }}'; //عملت متغير يحمل قيمة رقم الدوله و في حالة بعت البيانات في الفورم و في حاجه غلط يرجع القيم اللي كنت مختارها قبل ما الفورم تتبعت
+                    '{{ old('state_id', $customer_address && $customer_address->state_id != "" ? $customer_address->state_id : "") }}'; //عملت متغير يحمل قيمة رقم الدوله و في حالة بعت البيانات في الفورم و في حاجه غلط يرجع القيم اللي كنت مختارها قبل ما الفورم تتبعت
                 $.get("{{ route('admin.backend.get_city') }}", {
                     state_id: stateIdVal
                 }, function(data) { //هعمل فانكشن واديها قيمه الدوله كمتغير فيها
@@ -297,7 +304,7 @@
                     $('#city_id').append($('<option></option>').val('').html('---'));
                     $.each(data, function(val, text) {
                         let selectedVal = text.id ==
-                            '{{ old('city_id', $customer_address->city_id) }}' ? "selected" : "";
+                            '{{ old('city_id', $customer_address && $customer_address->city_id != "" ? $customer_address->city_id : "") }}' ? "selected" : "";
                         $("#city_id").append($('<option ' + selectedVal + '></option>').val(text.id)
                             .html(text.name));
                     });

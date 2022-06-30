@@ -47,7 +47,7 @@
                             <th class="text-light">عنوان المرسل</th>
                             <th class="text-light">البريد الالكتروني</th>
                             <th class="text-light">رقم الهاتف</th>
-                            <th class="text-light">عنوان الرسالة</th>
+{{--                            <th class="text-light">عنوان الرسالة</th>--}}
                             <th class="text-light">الرسالة</th>
                             <th class="text-light">تاريخ الرسالة</th>
                             <th class="text-light">الحالة</th>
@@ -75,7 +75,7 @@
 
                                 <td class="text-center">{{ $contactMessage->email }}</td>
                                 <td class="text-center">{{ $contactMessage->mobile }}</td>
-                                <td class="text-center">{{ $contactMessage->subject }}</td>
+{{--                                <td class="text-center">{{ $contactMessage->subject }}</td>--}}
                                 <td class="text-center">{{ $contactMessage->message }}</td>
                                 <td class="text-center">{{ $contactMessage->created_at }}</td>
                                 <td class="text-center">

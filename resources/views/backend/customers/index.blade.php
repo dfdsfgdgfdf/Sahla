@@ -67,6 +67,7 @@
                             <th class="text-light">الصورة</th>
                             <th class="text-light">الاسم</th>
                             <th class="text-light">البريد & الهاتف</th>
+                            <th class="text-light">أقصي مبلغ للشراء</th>
                             <th class="text-light">العنوان</th>
                             <th class="text-light">Zip Code</th>
                             <th class="text-light">POST Code</th>
@@ -80,7 +81,7 @@
                                 <td></td>
                                 <td class="text-center">
                                     @if ($customer->user_image != '')
-                                        <img class="rounded" width="90" height="60"
+                                        <img class="rounded" width="110" height="60"
                                             src="{{ asset($customer->user_image) }}">
                                     @else
                                         <img class="rounded" width="90" height="60"
@@ -96,7 +97,11 @@
                                     {{ $customer->email }}
                                     <p class="text-gray-400"><b>{{ $customer->mobile }}</b></p>
                                 </td>
-                                @php $customer_address = \App\Models\UserAddress::whereUserId($customer->id)->first(); @endphp
+                                @php
+                                    $customer_address = \App\Models\UserAddress::whereUserId($customer->id)->first();
+                                    $customer_max_limit = \App\Models\UserMaxLimit::whereUserId($customer->id)->first();
+                                @endphp
+                                <td class="text-center">{{ $customer_max_limit->max_limit }}</td>
 
                                 <td class="text-center">
                                     @if ($customer_address && $customer_address->country_id != '')
