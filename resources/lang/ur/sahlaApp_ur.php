@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'paid' => 'Paid',
-    'unpaid' => 'Unpaid',
+    'paid' => 'ادا کیا',
+    'unpaid' => 'بلا معاوضہ',
+    'exceed_the_allowed_limit' => 'آپ اپنی خریداری کی حد سے تجاوز کر چکے ہیں۔',
+    'unavailable_purchase_process' => 'Unavailable Purchase Process',
 
 ];

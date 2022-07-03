@@ -15,5 +15,7 @@ return [
 
     'paid' => 'Paid',
     'unpaid' => 'Unpaid',
+    'exceed_the_allowed_limit' => 'You have exceeded your purchase limit',
+    'unavailable_purchase_process' => 'Unavailable Purchase Process',
 
 ];

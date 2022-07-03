@@ -15,5 +15,7 @@ return [
 
     'paid' => 'تم السداد',
     'unpaid' => 'لم يتم السداد',
+    'exceed_the_allowed_limit' => 'لقد تجاوزت حد الشراء الخاص بك',
+    'unavailable_purchase_process' => 'عملية الشراء غير متاحة',
 
 ];

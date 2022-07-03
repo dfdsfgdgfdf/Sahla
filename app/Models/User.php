@@ -72,7 +72,22 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(UserMaxLimit::class);
     }
+    public function getMaxLimit()
+    {
+//        return $this->belongsTo(UserMaxLimit::class)->select(['max_limmit']);
+        UserMaxLimit::query()
+            ->with([ 'maxLimit' => function ($query) {
+                $query->select('max_limmit');
+            }])
+            ->first();
+    }
 
+//    public function scopeGeMaxLimit($query)
+//    {
+//        $query->whereHas('maxLimit', function ($q) {
+//            $q->pluck('max_limit');
+//        });
+//    }
     //Return product that still in shopping cart Before doing order of this products
 //    public function shoppingCartProducts(): HasMany
 //    {
@@ -91,6 +106,22 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Order::class, 'user_id', 'id')
             ->where('status', 'completed')
             ->where('customer_status', 'waiting')
+            ->latest();
+    }
+    public function mustBePaid(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id')
+            ->where('status', 'pending')
+            ->where('customer_status', 'waiting')
+            ->where('paid', false)
+            ->latest();
+    }
+    public function haveBeenPaid(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id')
+            ->where('status', 'pending')
+            ->where('customer_status', 'waiting')
+            ->where('paid', true)
             ->latest();
     }
 }

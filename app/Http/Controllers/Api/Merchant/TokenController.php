@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Merchant;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
+use App\Http\Resources\UserInfoResource;
+use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\UserAddress;
 use App\Models\UserMaxLimit;
@@ -14,6 +16,7 @@ use Carbon\Carbon;
 use App\Mail\ResetPasswordMail;
 use App\Http\Requests\Api\ResetRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -181,6 +184,89 @@ class TokenController extends Controller
         else:
             return $this->returnErrorMessage('Sorry! Invalid Code', '422');
         endif;
+    }
+
+    public function updateImage(Request $request)
+    {
+        $this->validate($request, [
+            'lang' => 'required|in:ar,en,ur',
+            "user_image" => "required|file|mimes:png,jpg,svg,gif",
+        ]);
+
+        $merchant = \auth()->user();
+
+        if ($merchant->user_image != null && File::exists( $merchant->user_image )) {
+            unlink( $merchant->user_image );
+        }
+        $image = $request->file('user_image');
+        $filename = time().Str::slug($request->name).'.'.$image->getClientOriginalExtension();
+        $path = ('images/merchant/' . $filename);
+        Image::make($image->getRealPath())->resize(500, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($path, 100);
+        $input['user_image']  = $path;
+
+        $merchant->update($input);
+        return $this->successMessage(new UserResource($merchant), 'Profile Image Updated Successfully');
+    }
+
+    //Register
+    public function updateMerchantinfo(Request $request)
+    {
+        $this->validate($request, [
+            'first_name'    => 'nullable|min:3',
+            'last_name'     => 'nullable|min:3',
+            'username'      => 'nullable|min:3|max:50|unique:users',
+            'email'         => 'nullable|email|max:255|unique:users',
+            'mobile'        => 'nullable|numeric|unique:users',
+            'password'      => 'nullable|min:8',
+
+            'address'       => 'nullable|min:3',
+            'country_id'    => 'nullable|exists:countries,id',
+            'state_id'      => 'nullable|exists:states,id',
+            'city_id'       => 'nullable|exists:cities,id',
+            'zip_code'      => 'nullable|min:3',
+            'po_box'        => 'nullable|min:3',
+        ]);
+        $merchant = \auth()->user();
+
+        DB::beginTransaction();
+        try {
+            $input['first_name']    = $request->first_name;
+            $input['last_name']     = $request->last_name;
+            $input['username']      = $request->username;
+            $input['email']         = $request->email;
+            $input['mobile']        = $request->mobile;
+            $input['password']      = bcrypt($request->password);
+            $merchant->update($input);
+
+            ### ِAddress
+            $merchant_address = UserAddress::whereUserId(\auth()->id())->first();
+            if (!empty($merchant_address)){
+                $address['address']       = $request->address;
+                $address['country_id']    = $request->country_id;
+                $address['state_id']      = $request->state_id;
+                $address['city_id']       = $request->city_id;
+                $address['zip_code']      = $request->zip_code;
+                $address['po_box']        = $request->po_box;
+                $merchant_address->update($address);
+            }else{
+                $address['user_id']       = $merchant->id;
+                $address['address']       = $request->address;
+                $address['country_id']    = $request->country_id;
+                $address['state_id']      = $request->state_id;
+                $address['city_id']       = $request->city_id;
+                $address['zip_code']      = $request->zip_code;
+                $address['po_box']        = $request->po_box;
+                UserAddress::create($address);
+            }
+
+            return $this->successMessage(new UserInfoResource($merchant), 'Profile Information Updated Successfully');
+
+        }catch (\Exception $e){
+            DB::rollback();
+            return $this->returnErrorMessage('Sorry! Invalid Data, Please Try again', '422');
+        }
     }
 
 }

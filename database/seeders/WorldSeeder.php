@@ -14,15 +14,18 @@ class WorldSeeder extends Seeder
      */
     public function run()
     {
-        $sql_file = public_path('4farh_ecom_world.sql');
+        $sql = public_path('4farh_ecom_world.sql');
+        $db_bin = "C:\xampp\mysql\bin";
 
         $db = [
-            'host'      => '127.0.0.1',
-            'database'  => 'laravel_8',
-            'username'  => 'root',
-            'password'  =>  null,
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'host' => env('DB_HOST'),
+            'database' => env('DB_DATABASE')
         ];
 
-        exec("mysql --user={$db['username']} --password={$db['password']} --host={$db['host']} --database={$db['database']} < $sql_file ");
+        exec("{$db_bin}\mysql --user={$db['username']} --password={$db['password']} --host={$db['host']} --database {$db['database']} < $sql");
+
+        \Log::info('SQL Import Done');
     }
 }

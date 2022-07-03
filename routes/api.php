@@ -51,12 +51,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     /* customer login */
     Route::get('/user-login-data', [TokenController::class, 'userLoginData']);
     Route::delete('user-token-logout', [TokenController::class, 'destroy']);
+    Route::post('update-image', [TokenController::class, 'updateImage']);
+    Route::post('update-merchant-info', [TokenController::class, 'updateMerchantInfo']);
 
     /* General */
     Route::get('/get-phones', [GeneralController::class, 'getPhones']);
     Route::get('/get-socialMedia', [GeneralController::class, 'getSocialMedia']);
     Route::get('/get-emails', [GeneralController::class, 'getEmails']);
-    Route::get('/send-contact-message', [GeneralController::class, 'sendContactMessage']);
+    Route::post('/send-contact-message', [GeneralController::class, 'sendContactMessage']);
 
 
 
@@ -97,6 +99,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('pending-orders', [OrderController::class, 'pendingOrders']);
     Route::get('order-products', [OrderController::class, 'orderProducts']);
     Route::get('order-details', [OrderController::class, 'orderDetails']);
+    Route::get('must-be-paid', [OrderController::class, 'mustBePaid']);
+    Route::get('have-been-paid', [OrderController::class, 'haveBeenPaid']);
     /* Invoices */
     Route::get('completed-invoices', [InvoiceController::class, 'completeInvoices']);
 
