@@ -129,11 +129,7 @@ class MerchantController extends Controller
      */
     public function show(User $merchant)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_merchants,show_merchants')) {
-            return redirect('admin/index');
-        }
-
-        return view('backend.merchants.show', compact('merchant'));
+       //
     }
 
     /**

@@ -102,6 +102,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('must-be-paid', [OrderController::class, 'mustBePaid']);
     Route::get('have-been-paid', [OrderController::class, 'haveBeenPaid']);
     /* Invoices */
+    Route::get('completed-orders', [InvoiceController::class, 'completeOrders']);
     Route::get('completed-invoices', [InvoiceController::class, 'completeInvoices']);
 
 });

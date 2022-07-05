@@ -45,7 +45,8 @@ class ProductResource extends JsonResource
             "unit_id" => isset($this->unit_id) ? $this->unit_id : '',
             "image" => isset($this->firstMedia->file_name) ? env('APP_URL').$this->firstMedia->file_name : '',
             "wish" => $wish,
-            "rate" => 3,
+            "rate" => intval($this->avgRatings()),
+            // "rate" => 3,
             "created_at" => strval($this->created_at),
             "updated_at" => strval($this->updated_at),
         ];

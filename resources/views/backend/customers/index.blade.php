@@ -68,6 +68,7 @@
                             <th class="text-light">الاسم</th>
                             <th class="text-light">البريد & الهاتف</th>
                             <th class="text-light">أقصي مبلغ للشراء</th>
+                            <th class="text-light">الفواتير</th>
                             <th class="text-light">العنوان</th>
                             <th class="text-light">Zip Code</th>
                             <th class="text-light">POST Code</th>
@@ -102,6 +103,11 @@
                                     $customer_max_limit = \App\Models\UserMaxLimit::whereUserId($customer->id)->first();
                                 @endphp
                                 <td class="text-center">{{ $customer_max_limit->max_limit }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('admin.merchant_invoices.index', ['user_id' => $customer->id]) }}" target="_blank">
+                                        عرض الفواتير
+                                    </a>
+                                </td>
 
                                 <td class="text-center">
                                     @if ($customer_address && $customer_address->country_id != '')

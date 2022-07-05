@@ -216,9 +216,9 @@ class TokenController extends Controller
         $this->validate($request, [
             'first_name'    => 'nullable|min:3',
             'last_name'     => 'nullable|min:3',
-            'username'      => 'nullable|min:3|max:50|unique:users',
-            'email'         => 'nullable|email|max:255|unique:users',
-            'mobile'        => 'nullable|numeric|unique:users',
+            'username'      => 'nullable|min:3|max:50|unique:users,username,' . \auth()->id(),
+            'email'         => 'nullable|email|max:255|unique:users,email,' . \auth()->id(),
+            'mobile'        => 'nullable|numeric|unique:users,mobile,' . \auth()->id(),
             'password'      => 'nullable|min:8',
 
             'address'       => 'nullable|min:3',

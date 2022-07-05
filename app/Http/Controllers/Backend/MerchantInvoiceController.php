@@ -4,41 +4,70 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\LogoRequest;
+use App\Models\Invoice;
 use App\Models\Logo;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\User;
+use App\Models\UserAddress;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
 
-class OrderController extends Controller
+class MerchantInvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
-            return redirect('admin/index');
-        }
-        //
-    }
-    /***********/
-    public function show(Request $request, Order $order)
+    public function index(Request $request)
     {
         Carbon::setLocale('ar');
 
-        $orderProducts = OrderProduct::whereOrderId($order->id)->get();
-
-        $total = 0;
-        foreach ($orderProducts as $product) {
-            $total += $product->price * $product->quantity;
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
+            return redirect('admin/index');
         }
-        return view('backend.orders.show', compact('orderProducts', 'total'));
+        $invoices = Invoice::whereuserId($request->user_id)
+            ->latest()
+            ->paginate(10);
+        $user = User::whereId($request->user_id)->first();
+        return view('backend.merchants_invoices.index', compact('invoices', 'user'));
     }
+
+
+    public function showById(Request $request)
+    {
+        Carbon::setLocale('ar');
+        $invoice = Invoice::whereId($request->id)->first();
+        $orders = Order::whereInvoiceId($invoice->id)->get();
+        $addrress  = UserAddress::whereUserId($invoice->user_id)->whereDefaultAddress(1)->first();
+        return view('backend.merchants_invoices.pdf_invoice', compact('invoice', 'orders', 'addrress'));
+    }
+
+    public function showOrders(Request $request)
+    {
+        Carbon::setLocale('ar');
+        $invoice = Invoice::whereId($request->id)->first();
+        $orders = Order::whereInvoiceId($invoice->id)->latest()->paginate(10);;
+        $addrress  = UserAddress::whereUserId($invoice->user_id)->whereDefaultAddress(1)->first();
+        return view('backend.merchants_invoices.invoice_orders', compact('invoice', 'orders', 'addrress'));
+    }
+
+    public function ordersChangeStatus(Request $request)
+    {
+        $order = Order::find($request->cat_id);
+        $order->status = $request->status;
+        $order->save();
+        return response()->json(['success'=>'Status Change Successfully.']);
+    }
+
+
+
+
+
+
     /***********/
     public function showInvoice(Request $request, Order $order)
     {
@@ -52,19 +81,8 @@ class OrderController extends Controller
         }
         return view('backend.orders.invoice', compact('orderProducts', 'total', 'order'));
     }
-    /***********/
-    public function ordersChangeStatus(Request $request)
-    {
-        $order = Order::find($request->cat_id);
-        if($request->status == 'completed'){
-            $order->paid = 1;
-            $order->status = $request->status;
-        }else{
-            $order->status = $request->status;
-        }
-        $order->save();
-        return response()->json(['success'=>'Status Change Successfully.']);
-    }
+
+
     /*
     ********************************************************************************************
     */
@@ -72,7 +90,7 @@ class OrderController extends Controller
     {
         Carbon::setLocale('ar');
 
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
             return redirect('admin/index');
         }
         $orders = Order::whereStatus('pending')->whereCustomerStatus('waiting')
@@ -95,7 +113,7 @@ class OrderController extends Controller
     {
         Carbon::setLocale('ar');
 
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
             return redirect('admin/index');
         }
         $orders = Order::whereStatus('accepted')->whereCustomerStatus('waiting')
@@ -115,7 +133,7 @@ class OrderController extends Controller
     {
         Carbon::setLocale('ar');
 
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
             return redirect('admin/index');
         }
         $orders = Order::whereStatus('completed')->whereCustomerStatus('waiting')
@@ -135,7 +153,7 @@ class OrderController extends Controller
     {
         Carbon::setLocale('ar');
 
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
             return redirect('admin/index');
         }
         $orders = Order::whereStatus('rejected')->whereCustomerStatus('waiting')
@@ -155,7 +173,7 @@ class OrderController extends Controller
     {
         Carbon::setLocale('ar');
 
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
             return redirect('admin/index');
         }
         $orders = Order::where('status', '!=', 'completed')->whereCustomerStatus('cancel')
@@ -179,7 +197,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
             return redirect('admin/index');
         }
 //        return view('backend.logos.create');
@@ -193,7 +211,7 @@ class OrderController extends Controller
      */
     public function store(LogoRequest $request)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
             return redirect('admin/index');
         }
         //
@@ -217,7 +235,7 @@ class OrderController extends Controller
      */
     public function destroy(Logo $logo)
     {
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_merchants')) {
             return redirect('admin/index');
         }
 

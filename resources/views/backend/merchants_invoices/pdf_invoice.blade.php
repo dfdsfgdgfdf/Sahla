@@ -11,10 +11,7 @@
     <link rel="stylesheet" href="{{ asset('invoice') }}/invoice.css">
     <script type="text/javascript" src="{{ asset('invoice') }}/web/scripts.js"></script>
 </head>
-<body>
-@php
-    $addrress = \App\Models\UserAddress::whereUserId($order->user_id)->whereDefaultAddress(1)->first();
-@endphp
+
 <div class="web-container">
 
     <div class="page-container">
@@ -35,7 +32,7 @@
     <table class="invoice-info-container">
         <tr>
             <td rowspan="2" class="client-name">
-                {{ $order->user->full_name }}
+                {{ $invoice->user->full_name }}
             </td>
             <td>
                 {{ !empty($addrress) && $addrress->country_id != ''  ? $addrress->country->name : '' }}
@@ -48,7 +45,8 @@
         </tr>
         <tr>
             <td>
-                Invoice Date: <strong>{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</strong>
+                Invoice Date:
+                <strong>{{ \Carbon\Carbon::parse($invoice->created_at)->translatedFormat('l j F Y H:i a') }}</strong>
             </td>
             <td>
                 {{ !empty($addrress) && $addrress->address != ''  ? $addrress->address : '' }}
@@ -56,10 +54,10 @@
         </tr>
         <tr>
             <td>
-                Invoice No: <strong>{{ $order->order_number }}</strong>
+                Invoice No: <strong>{{ $invoice->invoice_number }}</strong>
             </td>
             <td>
-                {{ $order->user->email }}
+                {{ $invoice->user->email }}
             </td>
         </tr>
     </table>
@@ -68,24 +66,21 @@
     <table class="line-items-container">
         <thead>
         <tr>
-            <th class="heading-quantity">Qty</th>
-            <th class="heading-description">Name</th>
+            <th class="heading-quantity">No</th>
+            <th class="heading-description">Order Number</th>
+            <th class="heading-description">Date</th>
             <th class="heading-price">Price</th>
             <th class="heading-subtotal">Subtotal</th>
         </tr>
         </thead>
         <tbody>
-            @php
-                $orderProducts = \App\Models\OrderProduct::whereOrderId($order->id)->get();
-                $total = 0;
-            @endphp
-            @foreach($orderProducts as $product)
-                @php $total += $product->price * $product->quantity; @endphp
+            @foreach($orders as $order)
                 <tr>
-                    <td>{{ $product->quantity }}</td>
-                    <td>{{ $product->name }}</td>
-                    <td class="right">{{ $product->price .' '. env('APP_CURRENCY') }}</td>
-                    <td class="bold">{{ $product->quantity * $product->price .' '. env('APP_CURRENCY') }}</td>
+                    <td>{{ $loop->index+1 }}</td>
+                    <td>{{ $order->order_number }}</td>
+                    <td>{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
+                    <td>{{ $order->paid != 0 ? 'تم السداد' : 'لم تسدد' }}</td>
+                    <td>{{ $order->total .' '.env('APP_CURRENCY') }}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -108,7 +103,7 @@
                 </div>
             </td>
             <td class="large"></td>
-            <td class="large total">{{ $total .' '.env('APP_CURRENCY') }}</td>
+            <td class="large total">{{ $invoice->total .' '.env('APP_CURRENCY') }}</td>
         </tr>
         </tbody>
     </table>

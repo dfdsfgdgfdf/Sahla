@@ -790,6 +790,7 @@ class ComposerStaticInite6e4bb3d06fd645c709205685d957597
         'App\\Http\\Controllers\\Backend\\LocationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/LocationController.php',
         'App\\Http\\Controllers\\Backend\\LogoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/LogoController.php',
         'App\\Http\\Controllers\\Backend\\MerchantController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/MerchantController.php',
+        'App\\Http\\Controllers\\Backend\\MerchantInvoiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/MerchantInvoiceController.php',
         'App\\Http\\Controllers\\Backend\\MerchantOrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/MerchantOrderController.php',
         'App\\Http\\Controllers\\Backend\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/OrderController.php',
         'App\\Http\\Controllers\\Backend\\PageTitleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/PageTitleController.php',

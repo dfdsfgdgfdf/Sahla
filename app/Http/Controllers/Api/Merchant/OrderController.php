@@ -218,8 +218,14 @@ class OrderController extends Controller
         ]);
         $user_maxLimit = UserMaxLimit::whereUserId(\auth()->id())->first();
         $is_invoice = Invoice::whereUserId(\auth()->id())->wherePaid(false)->whereStatus('pending')->first();
-        $remaining_amount = $user_maxLimit->max_limit - $is_invoice->total;
+        if (!empty($is_invoice)){
+            $remaining_amount = $user_maxLimit->max_limit - $is_invoice->total;
+            $orders = \auth()->user()->pendingOrders;
+            return $this->specialSuccessMessage('ما لي', $user_maxLimit->max_limit, $remaining_amount, OrderListResource::collection($orders));
 
-        return $this->successMessage($remaining_amount, 'ما لي');
+        }else{
+            $orders = \auth()->user()->pendingOrders;
+            return $this->specialSuccessMessage('ما لي', $user_maxLimit->max_limit, $user_maxLimit->max_limit, OrderListResource::collection($orders));
+        }
     }
 }

@@ -16,17 +16,23 @@ class InvoiceResource extends JsonResource
      */
     public function toArray($request)
     {
-        $orderProducts = OrderProduct::whereOrderId($this->id)->get();
-        $total = 0;
-        foreach ($orderProducts as $product) {
-            $total += $product->price * $product->quantity;
-        }
+        if(isset(request()->lang) && request()->lang == 'ar'):
+            $paid = 'تم السداد';
+            $unpaid = 'لم يتم السداد';
+        elseif (isset(request()->lang) && request()->lang == 'en'):
+            $paid = 'Paid';
+            $unpaid = 'Unpaid';
+        elseif (isset(request()->lang) && request()->lang == 'ur'):
+            $paid = 'ادا کیا';
+            $unpaid = 'بلا معاوضہ';
+        endif;
 
         return [
             "id" => $this->id,
             "invoice_number" => $this->invoice_number,
-            "status" => isset($this->status) && $this->status != 0 ? __('sahlaApp_'.request()->lang.'.paid') : __('sahlaApp_'.request()->lang.'.unpaid'),
-            "total" => isset($total) ? $total.' '.env('APP_CURRENCY') : '0'.' '.env('APP_CURRENCY') ,
+            "total" => $this->total,
+            "paid" => isset($this->paid) && $this->paid != 0 ? $paid : $unpaid,
+            "status" => $this->status,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

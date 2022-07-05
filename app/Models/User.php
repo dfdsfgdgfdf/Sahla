@@ -59,6 +59,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Order::class);
     }
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 
     public function cartProducts(): HasMany
     {
@@ -106,6 +110,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Order::class, 'user_id', 'id')
             ->where('status', 'completed')
             ->where('customer_status', 'waiting')
+            ->latest();
+    }
+    public function completedInvoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class, 'user_id', 'id')
+            ->where('status', 'completed')
+            ->where('paid', true)
             ->latest();
     }
     public function mustBePaid(): HasMany

@@ -70,7 +70,12 @@ class MerchantOrderController extends Controller
         if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
             return redirect('admin/index');
         }
-        $orders = Order::whereStatus('pending')->whereCustomerStatus('waiting')
+        $orders = Order::whereHas('user', function($query){
+                $query->whereHas('roles', function($q){
+                    $q->where('name', 'merchant');
+                });
+            })
+            ->whereStatus('pending')->whereCustomerStatus('waiting')
             ->when(\request()->keyword !=null, function($query){
                 $query->search(\request()->keyword);
             })
@@ -93,7 +98,12 @@ class MerchantOrderController extends Controller
         if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
             return redirect('admin/index');
         }
-        $orders = Order::whereStatus('accepted')->whereCustomerStatus('waiting')
+        $orders = Order::whereHas('user', function($query){
+                $query->whereHas('roles', function($q){
+                    $q->where('name', 'merchant');
+                });
+            })
+            ->whereStatus('accepted')->whereCustomerStatus('waiting')
             ->when(\request()->keyword !=null, function($query){
                 $query->search(\request()->keyword);
             })
@@ -113,7 +123,12 @@ class MerchantOrderController extends Controller
         if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
             return redirect('admin/index');
         }
-        $orders = Order::whereStatus('completed')->whereCustomerStatus('waiting')
+        $orders = Order::whereHas('user', function($query){
+                $query->whereHas('roles', function($q){
+                    $q->where('name', 'merchant');
+                });
+            })
+            ->whereStatus('completed')->whereCustomerStatus('waiting')
             ->when(\request()->keyword !=null, function($query){
                 $query->search(\request()->keyword);
             })
@@ -133,7 +148,12 @@ class MerchantOrderController extends Controller
         if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
             return redirect('admin/index');
         }
-        $orders = Order::whereStatus('rejected')->whereCustomerStatus('waiting')
+        $orders = Order::whereHas('user', function($query){
+                $query->whereHas('roles', function($q){
+                    $q->where('name', 'merchant');
+                });
+            })
+            ->whereStatus('rejected')->whereCustomerStatus('waiting')
             ->when(\request()->keyword !=null, function($query){
                 $query->search(\request()->keyword);
             })
@@ -153,7 +173,12 @@ class MerchantOrderController extends Controller
         if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
             return redirect('admin/index');
         }
-        $orders = Order::where('status', '!=', 'completed')->whereCustomerStatus('cancel')
+        $orders = Order::whereHas('user', function($query){
+                $query->whereHas('roles', function($q){
+                    $q->where('name', 'merchant');
+                });
+            })
+            ->where('status', '!=', 'completed')->whereCustomerStatus('cancel')
             ->when(\request()->keyword !=null, function($query){
                 $query->search(\request()->keyword);
             })

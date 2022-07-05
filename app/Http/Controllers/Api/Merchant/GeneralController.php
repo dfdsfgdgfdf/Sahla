@@ -94,7 +94,6 @@ class GeneralController extends Controller
                 $input['state_id']      = $address->state_id;
                 $input['city_id']       = $address->city_id;
             }
-            $input['subject']          = $request->subject;
             $input['message']          = $request->message;
             $input['status']          = '1';
             ContactMessage::create($input);

@@ -42,6 +42,7 @@ return array(
     'App\\Http\\Controllers\\Backend\\LocationController' => $baseDir . '/app/Http/Controllers/Backend/LocationController.php',
     'App\\Http\\Controllers\\Backend\\LogoController' => $baseDir . '/app/Http/Controllers/Backend/LogoController.php',
     'App\\Http\\Controllers\\Backend\\MerchantController' => $baseDir . '/app/Http/Controllers/Backend/MerchantController.php',
+    'App\\Http\\Controllers\\Backend\\MerchantInvoiceController' => $baseDir . '/app/Http/Controllers/Backend/MerchantInvoiceController.php',
     'App\\Http\\Controllers\\Backend\\MerchantOrderController' => $baseDir . '/app/Http/Controllers/Backend/MerchantOrderController.php',
     'App\\Http\\Controllers\\Backend\\OrderController' => $baseDir . '/app/Http/Controllers/Backend/OrderController.php',
     'App\\Http\\Controllers\\Backend\\PageTitleController' => $baseDir . '/app/Http/Controllers/Backend/PageTitleController.php',

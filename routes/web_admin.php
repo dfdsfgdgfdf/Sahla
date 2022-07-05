@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\InformationController;
 use App\Http\Controllers\Backend\LocationController;
 use App\Http\Controllers\Backend\LogoController;
 use App\Http\Controllers\Backend\MerchantController;
+use App\Http\Controllers\Backend\MerchantInvoiceController;
 use App\Http\Controllers\Backend\MerchantOrderController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PageTitleController;
@@ -127,6 +128,11 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::get('merchants_refused-orders',      [MerchantOrderController::class,'rejected'])->name('merchant_orders.refused');
             Route::get('merchants_completed-orders',    [MerchantOrderController::class,'completed'])->name('merchant_orders.completed');
             Route::get('merchants_cancelled-orders',    [MerchantOrderController::class,'cancelled'])->name('merchant_orders.cancelled');
+            //Merchant Invoices
+            Route::get('merchant_invoices/invoices', [MerchantInvoiceController::class,'showById'])->name('merchant_invoices.invoices');
+            Route::get('merchant_invoices/orders', [MerchantInvoiceController::class,'showOrders'])->name('merchant_invoices.orders');
+            Route::resource('merchant_invoices'    ,  MerchantInvoiceController::class);
+
             /*-------------------------------- */
             /*  Customers   */
             Route::resource('customers',      CustomerController::class);
