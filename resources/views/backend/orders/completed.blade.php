@@ -54,8 +54,10 @@
                             <th class="text-light">تفاصيل الطلب</th>
                             <th class="text-light">فاتورة الطلب (PDF)</th>
                             <th class="text-light">تاريخ الطلب</th>
-                            <th class="text-light">الحالة</th>
-                            <th class="text-light">العمليات</th>
+                            @ability('superAdmin', 'manage_orders,show_completed_orders')
+                                <th class="text-light">الحالة</th>
+                            @endability
+{{--                            <th class="text-light">العمليات</th>--}}
                         </tr>
                     </thead>
                     <tbody>
@@ -72,45 +74,47 @@
                                     <a href="{{ route('admin.orders.show', $order) }}" >عرض محتويات الطلب </a>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.orders.showInvoice', $order) }}" >عرض الفاتورة </a>
+                                    <a href="{{ route('admin.orders.showOrderProductsPdf', $order) }}" >عرض الفاتورة </a>
                                 </td>
                                 <td class="text-center">{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
-                                <td class="text-center">
-                                    <select class="status-class form-select form-control" data-id="{{ $order->id }}" aria-label="Default select example">
-                                        <option value="pending"{{ $order->status == "pending" ? 'selected' : '' }}>قائمة الانتظار</option>
-                                        <option value="accepted"{{ $order->status == "accepted" ? 'selected' : '' }}>قائمة الطلبات الموافق عليها</option>
-                                        <option value="rejected"{{ $order->status == "rejected" ? 'selected' : '' }}>قائمة الطلبات المرفوضة</option>
-                                        <option value="completed"{{ $order->status == "completed" ? 'selected' : '' }}>قائمة الطلبات المكتملة</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <div style="display: flex" class="text-center justify-content-between">
+
+                                @ability('superAdmin', 'manage_orders,show_completed_orders')
+                                    <td class="text-center">
+                                        <select class="status-class form-select form-control" data-id="{{ $order->id }}" aria-label="Default select example">
+                                            <option value="pending"{{ $order->status == "pending" ? 'selected' : '' }}>قائمة الانتظار</option>
+                                            <option value="accepted"{{ $order->status == "accepted" ? 'selected' : '' }}>قائمة الطلبات الموافق عليها</option>
+                                            <option value="completed"{{ $order->status == "completed" ? 'selected' : '' }}>قائمة الطلبات المكتملة</option>
+                                        </select>
+                                    </td>
+                                @endability
+{{--                                <td class="text-center">--}}
+{{--                                    <div style="display: flex" class="text-center justify-content-between">--}}
 {{--                                        @ability('superAdmin', 'manage_orders,update_orders')--}}
 {{--                                            <a href="{{ route('admin.orders.edit', $order->id) }}"--}}
 {{--                                                class="edit btn btn-success btn-sm"><i class="fas fa-edit"></i>--}}
 {{--                                            </a>--}}
 {{--                                        @endability--}}
 
-                                        {{-- @ability('superAdmin', 'manage_orders,show_orders')
-                                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                        @endability --}}
+{{--                                        --}}{{-- @ability('superAdmin', 'manage_orders,show_orders')--}}
+{{--                                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>--}}
+{{--                                        @endability --}}
 
-                                        @ability('superAdmin', 'manage_orders,delete_orders')
-                                            <a href="javascript:void(0)"
-                                                onclick="
-                                                    if (confirm('Are You Sure You Want To Delete This Record ?') )
-                                                        { document.getElementById('record_delete_{{ $order->id }}').submit(); }
-                                                    else
-                                                        { return false; }"
-                                                class="btn btn-danger"><i class="fa fa-trash"></i>
-                                            </a>
-                                        @endability
-                                    </div>
-                                    <form action="{{ route('admin.orders.destroy', $order->id) }}" method="post" id="record_delete_{{ $order->id }}" class="d-none">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </td>
+{{--                                        @ability('superAdmin', 'manage_orders,delete_orders')--}}
+{{--                                            <a href="javascript:void(0)"--}}
+{{--                                                onclick="--}}
+{{--                                                    if (confirm('Are You Sure You Want To Delete This Record ?') )--}}
+{{--                                                        { document.getElementById('record_delete_{{ $order->id }}').submit(); }--}}
+{{--                                                    else--}}
+{{--                                                        { return false; }"--}}
+{{--                                                class="btn btn-danger"><i class="fa fa-trash"></i>--}}
+{{--                                            </a>--}}
+{{--                                        @endability--}}
+{{--                                    </div>--}}
+{{--                                    <form action="{{ route('admin.orders.destroy', $order->id) }}" method="post" id="record_delete_{{ $order->id }}" class="d-none">--}}
+{{--                                        @csrf--}}
+{{--                                        @method('DELETE')--}}
+{{--                                    </form>--}}
+{{--                                </td>--}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -214,57 +218,57 @@
                         extend: 'selectNone',
                         className: 'btn btn-light-primary px-6 font-weight-bold',
                     },
-                    {
-                        className: 'btn btn-light-danger px-6 font-weight-bold',
-                        text: 'Delete All',
-                        url: "{{ route('admin.orders.massDestroy') }}",
-                        action: function(e, dt, node, config) {
+                    {{--{--}}
+                    {{--    className: 'btn btn-light-danger px-6 font-weight-bold',--}}
+                    {{--    text: 'Delete All',--}}
+                    {{--    url: "{{ route('admin.orders.massDestroy') }}",--}}
+                    {{--    action: function(e, dt, node, config) {--}}
 
-                            var ids = $.map(dt.rows({
-                                selected: true
-                            }).nodes(), function(entry) {
-                                return $(entry).data('entry-id')
-                            });
+                    {{--        var ids = $.map(dt.rows({--}}
+                    {{--            selected: true--}}
+                    {{--        }).nodes(), function(entry) {--}}
+                    {{--            return $(entry).data('entry-id')--}}
+                    {{--        });--}}
 
-                            if (ids.length === 0) {
-                                Swal.fire('No Data Selected')
-                                return
-                            }
-                            Swal.fire({
-                                title: 'Do You Want To Save This Changes?',
-                                showDenyButton: true,
-                                showCancelButton: true,
-                                confirmButtonText: 'Save',
-                                denyButtonText: `Don't save`,
-                            }).then((result) => {
-                                /* Read more about isConfirmed, isDenied below */
-                                if (result.isConfirmed) {
-                                    $.ajaxSetup({
-                                        headers: {
-                                            'X-CSRF-TOKEN': $(
-                                                'meta[name="csrf-token"]').attr(
-                                                'content')
-                                        }
-                                    })
-                                    $.ajax({
-                                            // headers: {'x-csrf-token': _token},
-                                            method: 'POST',
-                                            url: config.url,
-                                            data: {
-                                                ids: ids,
-                                                _method: 'POST'
-                                            }
-                                        })
-                                        .done(function() {
-                                            location.reload()
-                                        })
-                                    Swal.fire('Saved!', '', 'success')
-                                } else if (result.isDenied) {
-                                    Swal.fire('Changes are not saved', '', 'info')
-                                }
-                            })
-                        }
-                    }
+                    {{--        if (ids.length === 0) {--}}
+                    {{--            Swal.fire('No Data Selected')--}}
+                    {{--            return--}}
+                    {{--        }--}}
+                    {{--        Swal.fire({--}}
+                    {{--            title: 'Do You Want To Save This Changes?',--}}
+                    {{--            showDenyButton: true,--}}
+                    {{--            showCancelButton: true,--}}
+                    {{--            confirmButtonText: 'Save',--}}
+                    {{--            denyButtonText: `Don't save`,--}}
+                    {{--        }).then((result) => {--}}
+                    {{--            /* Read more about isConfirmed, isDenied below */--}}
+                    {{--            if (result.isConfirmed) {--}}
+                    {{--                $.ajaxSetup({--}}
+                    {{--                    headers: {--}}
+                    {{--                        'X-CSRF-TOKEN': $(--}}
+                    {{--                            'meta[name="csrf-token"]').attr(--}}
+                    {{--                            'content')--}}
+                    {{--                    }--}}
+                    {{--                })--}}
+                    {{--                $.ajax({--}}
+                    {{--                        // headers: {'x-csrf-token': _token},--}}
+                    {{--                        method: 'POST',--}}
+                    {{--                        url: config.url,--}}
+                    {{--                        data: {--}}
+                    {{--                            ids: ids,--}}
+                    {{--                            _method: 'POST'--}}
+                    {{--                        }--}}
+                    {{--                    })--}}
+                    {{--                    .done(function() {--}}
+                    {{--                        location.reload()--}}
+                    {{--                    })--}}
+                    {{--                Swal.fire('Saved!', '', 'success')--}}
+                    {{--            } else if (result.isDenied) {--}}
+                    {{--                Swal.fire('Changes are not saved', '', 'info')--}}
+                    {{--            }--}}
+                    {{--        })--}}
+                    {{--    }--}}
+                    {{--}--}}
                 ],
             });
         });

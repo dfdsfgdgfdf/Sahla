@@ -28,7 +28,7 @@
                             <th class="text-light">رقم الفاتورة</th>
                             <th class="text-light">تفاصيل الطلبات</th>
                             <th class="text-light">الفاتورة (PDF)</th>
-                            <th class="text-light">تاريخ الطلب</th>
+                            <th class="text-light">تاريخ الفاتورة</th>
                             <th class="text-light">الدفع</th>
                             <th class="text-light">الحالة</th>
 {{--                            <th class="text-light">العمليات</th>--}}

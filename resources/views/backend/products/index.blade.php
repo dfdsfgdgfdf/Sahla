@@ -67,10 +67,10 @@
                             <th class="text-light">الصورة</th>
                             <th class="text-light">الاسم</th>
                             <th class="text-light">القسم التابع له</th>
-                            <th class="text-light">مميز</th>
                             <th class="text-light">الكمية/السعر</th>
                             <th class="text-light">أسعار أوزان أخري</th>
                             <th class="text-light">التعليقات</th>
+                            <th class="text-light">مميز</th>
                             <th class="text-light">الحالة</th>
                             <th class="text-light">العمليات</th>
                         </tr>
@@ -88,7 +88,6 @@
                                 </td>
                                 <td class="text-center">{{ $product->name_ar }}</td>
                                 <td class="text-center">{{ $product->category->name_ar }}</td>
-                                <td class="text-center">{{ $product->featured == 1 ? 'مميز' : 'عادي'}}</td>
                                 <td class="text-center">
                                     <p>{{ $product->unit->name_ar }}</p>
                                     <p>{{ env('APP_CURRENCY') }} ( {{ $product->price }} )</p>
@@ -99,8 +98,12 @@
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.products.reviewsIndex', $product->id) }}">رؤية التعليقات</a>
+                                    <a href="{{ route('admin.products.reviewsIndex', $product->id) }}">
+                                        <i class="fas fa-comment-dots"></i><br>
+                                        رؤية التعليقات
+                                    </a>
                                 </td>
+                                <td class="text-center">{{ $product->featured == 1 ? 'مميز' : 'عادي'}}</td>
                                 <td class="text-center">
                                     <span class="switch switch-icon">
                                         <label>
@@ -188,14 +191,7 @@
                 order: [],
                 scrollX: false,
                 dom: 'lBfrtip<"actions">',
-                buttons: [{
-                        extend: 'copy',
-                        className: 'btn btn-light-primary px-6 font-weight-bold ml-20',
-                        text: 'Copy',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
+                buttons: [
                     {
                         extend: 'csv',
                         className: 'btn btn-light-primary px-6 font-weight-bold',

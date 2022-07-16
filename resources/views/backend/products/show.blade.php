@@ -70,6 +70,9 @@
                             <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">الوصف</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" id="units-tab" data-toggle="tab" href="#units" role="tab" aria-controls="units" aria-selected="false">أوزان المنتج</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">احدث التعليقات</a>
                         </li>
                     </ul>
@@ -94,6 +97,33 @@
                             <div class="p-4 p-lg-5 bg-white">
                                 <h6 class="text-uppercase">الوصف (أوردو)</h6>
                                 <p class="text-muted text-small mb-0">{{ $product->description_ur }}</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="units" role="tabpanel" aria-labelledby="units-tab">
+                            <div class="p-4 p-lg-5 bg-white">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <table class="table">
+                                            <caption>عدد الأوزان = {{ $product->units()->count() }}</caption>
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>الوزن</td>
+                                                    <td>السعر</td>
+                                                    <td>الحالة</td>
+                                                </tr>
+                                                @foreach($product->units as $unit)
+                                                    <tr>
+                                                        <td>{{ $unit->unit->name_ar }}</td>
+                                                        <td>{{ $unit->price }}</td>
+                                                        <td>{{ $unit->status == 1 ? 'نشط' : 'غير نشط' }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">

@@ -7,7 +7,6 @@
         table.dataTable tbody td.select-checkbox:before,
         table.dataTable tbody th.select-checkbox:before {
             content: " ";
-            margin-top: 22px;
             margin-left: 0;
             border: 1px solid darkblue;
             border-radius: 3px;
@@ -67,9 +66,9 @@
                         @csrf
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-3"><label for="unit_id">الوحدة</label></div>
-                                <div class="col-3"><label for="price">السعر</label></div>
-                                <div class="col-3"><label for="status">الحالة</label></div>
+                                <div class="col-4"><label for="unit_id">الوحدة</label></div>
+                                <div class="col-4"><label for="price">السعر</label></div>
+                                <div class="col-4"><label for="status">الحالة</label></div>
                             </div>
                             <input type="hidden" name="product_id" value="{{ $product->id }}" >
                                 <div class="repeater">
@@ -130,7 +129,9 @@
                         <th class="text-light">الوزن</th>
                         <th class="text-light">السعر</th>
                         <th class="text-light">الحالة</th>
-                        <th class="text-light">العمليات</th>
+                        @if($productUnits->count() > 1)
+                            <th class="text-light">العمليات</th>
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
@@ -140,6 +141,7 @@
                             <td class="text-center">{{ $productUnit->unit->name_ar }}</td>
                             <td class="text-center">{{ $productUnit->price }}</td>
                             <td class="text-center">
+                                @if($productUnits->count() > 1 && $product->unit_id != $productUnit->unit_id && $product->price != $productUnit->price)
                                     <span class="switch switch-icon">
                                         <label>
                                             <input data-id="{{ $productUnit->id }}" class="status-class" type="checkbox"
@@ -149,25 +151,29 @@
                                             <span></span>
                                         </label>
                                     </span>
+                                @endif
                             </td>
-                            <td class="text-center">
-                                <div style="display: flex" class="text-center justify-content-between">
-                                    @ability('superAdmin', 'manage_productUnits,delete_productUnits')
-                                    <a href="javascript:void(0)"
-                                       onclick="
-                                                    if (confirm('Are You Sure You Want To Delete This Record ?') )
-                                                        { document.getElementById('record_delete_{{ $productUnit->id }}').submit(); }
-                                                    else
-                                                        { return false; }"
-                                       class="btn btn-danger"><i class="fa fa-trash"></i>
-                                    </a>
-                                    @endability
-                                </div>
-                                <form action="{{ route('admin.productUnits.destroy', $productUnit->id) }}" method="post" id="record_delete_{{ $productUnit->id }}" class="d-none">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            </td>
+
+                            @if($productUnits->count() > 1 && $product->unit_id != $productUnit->unit_id && $product->price != $productUnit->price)
+                                <td class="text-center">
+                                    <div style="display: flex" class="text-center justify-content-between">
+                                        @ability('superAdmin', 'manage_productUnits,delete_productUnits')
+                                        <a href="javascript:void(0)"
+                                           onclick="
+                                                        if (confirm('Are You Sure You Want To Delete This Record ?') )
+                                                            { document.getElementById('record_delete_{{ $productUnit->id }}').submit(); }
+                                                        else
+                                                            { return false; }"
+                                           class="btn btn-danger"><i class="fa fa-trash"></i>
+                                        </a>
+                                        @endability
+                                    </div>
+                                    <form action="{{ route('admin.productUnits.destroy', $productUnit->id) }}" method="post" id="record_delete_{{ $productUnit->id }}" class="d-none">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>
@@ -245,14 +251,7 @@
                 order: [],
                 scrollX: false,
                 dom: 'lBfrtip<"actions">',
-                buttons: [{
-                    extend: 'copy',
-                    className: 'btn btn-light-primary px-6 font-weight-bold ml-20',
-                    text: 'Copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
+                buttons: [
                     {
                         extend: 'csv',
                         className: 'btn btn-light-primary px-6 font-weight-bold',

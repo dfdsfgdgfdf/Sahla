@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'الطلبات الملغاة')
+@section('title', 'صفحات البداية للتطبيق')
 
 @section('style')
     <style>
@@ -29,66 +29,144 @@
 
 
     <div class="container">
-        <div class="row mb-5">
+        <div class="row ">
             <div class="col-6 d-flex text-left">
-                <h1 class=" text-left">الطلبات الملغاة</h1>
+                <h1 class=" text-left">صفحات البداية للتطبيق</h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
+                @ability('superAdmin', 'manage_appStartPages,create_appStartPages')
+                <a href="{{ route('admin.appStartPages.create') }}" class="btn btn-primary font-weight-bolder">
+                    <span class="svg-icon svg-icon-md">
+                        <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                            height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24" />
+                                <circle fill="#000000" cx="9" cy="15" r="6" />
+                                <path
+                                    d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
+                                    fill="#000000" opacity="0.3" />
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>
+                    عنصر جديد
+                </a>
+                @endability
             </div>
         </div>
 
-        <div class="row mt-5 mb-5">
+        <div class="row">
             <div class="col-12">
+                <div class="card-body align-items-center">
+                </div>
             </div>
         </div>
 
-
-        <div class="row mt-5">
+        <div class="row">
             <div class="col-12">
                 <table class="table table-bordered table-hover table-striped table-light yajra-datatable">
                     <thead class="table-dark ">
                         <tr class="text-light">
-                            <th class="text-light">الرقم</th>
-                            <th class="text-light">رقم الطلب</th>
-                            <th class="text-light">بيانات الشخص</th>
-                            <th class="text-light">تفاصيل الطلب</th>
-                            <th class="text-light">فاتورة الطلب (PDF)</th>
-                            <th class="text-light">تاريخ الطلب</th>
+                            <th class="text-light">No</th>
+                            <th class="text-light">الصورة</th>
+                            <th class="text-light">النص</th>
+                            <th class="text-light">رقم الصفحة</th>
+                            <th class="text-light">الحالة</th>
                             <th class="text-light">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($orders as $k => $order)
-                            <tr data-entry-id="{{ $order->id }}">
-                                <td>{{ $loop->index+1 }}</td>
-                                <td>{{ $order->order_number }}</td>
-                                <td>
-                                    <strong>{!! $order->user_id != '' ? $order->user->full_name : '' !!}</strong> <br>
-                                    {{ $order->user->mobile }} <br>
-                                    {{ $order->user->email }}
-                                </td>
+                        @foreach ($appStartPages as $k => $appStartPage)
+                            <tr data-entry-id="{{ $appStartPage->id }}">
+                                <td></td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.orders.show', $order) }}" >عرض محتويات الطلب </a>
+                                    <img class="rounded" width="110" height="60"
+                                        src="{{ asset($appStartPage->image) }}">
                                 </td>
-                                <td class="text-center">
-                                    <a href="{{ route('admin.orders.showInvoice', $order) }}" >عرض الفاتورة </a>
-                                </td>
-                                <td class="text-center">{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
+                                <td class="text-center">{{ $appStartPage->text_ar }}</td>
+                                <td class="text-center">{{ $appStartPage->number }}</td>
 
                                 <td class="text-center">
+                                    <span class="switch switch-icon">
+                                        <label>
+                                            <input data-id="{{ $appStartPage->id }}" class="status-class" type="checkbox"
+                                                data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="On"
+                                                data-width="40" data-height="30" data-off="Off"
+                                                {{ $appStartPage->status == 1 ? 'checked' : '' }}>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </td>
+                                <td class="text-center">
                                     <div style="display: flex" class="text-center justify-content-between">
-                                        @ability('superAdmin', 'manage_orders,delete_orders')
+                                        @ability('superAdmin', 'manage_appStartPages')
+                                            <a href="{{ route('admin.appStartPages.edit', $appStartPage->id) }}"
+                                                class="edit btn btn-success btn-sm"><i class="fas fa-edit"></i>
+                                            </a>
+                                        @endability
+
+
+                                        <!-- Button trigger modal-->
+                                        <button type="button" class="edit btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModalSizeSm{{ $appStartPage->id }}">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+
+                                        <!-- Modal-->
+                                        <div class="modal fade" id="exampleModalSizeSm{{ $appStartPage->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm{{ $appStartPage->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">{{ $appStartPage->name_ar }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <i aria-hidden="true" class="ki ki-close"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" style="height: 300px;">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <table class="table" height="100%">
+                                                                    <thead>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>(العربية)</td>
+                                                                            <td>(الانجليزية)</td>
+                                                                            <td>(أوردو)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>{{ $appStartPage->text_ar }}</td>
+                                                                            <td>{{ $appStartPage->text_en }}</td>
+                                                                            <td>{{ $appStartPage->text_ur }}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <img class="rounded"src="{{ asset($appStartPage->image) }}"
+                                                                     width="400"height="270" sizes="(max-width: 640px) 400px,800px">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @ability('superAdmin', 'manage_appStartPages')
                                             <a href="javascript:void(0)"
                                                 onclick="
                                                     if (confirm('Are You Sure You Want To Delete This Record ?') )
-                                                        { document.getElementById('record_delete_{{ $order->id }}').submit(); }
+                                                        { document.getElementById('record_delete_{{ $appStartPage->id }}').submit(); }
                                                     else
                                                         { return false; }"
                                                 class="btn btn-danger"><i class="fa fa-trash"></i>
                                             </a>
                                         @endability
                                     </div>
-                                    <form action="{{ route('admin.orders.destroy', $order->id) }}" method="post" id="record_delete_{{ $order->id }}" class="d-none">
+                                    <form action="{{ route('admin.appStartPages.destroy', $appStartPage->id) }}" method="post" id="record_delete_{{ $appStartPage->id }}" class="d-none">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -99,11 +177,41 @@
                 </table>
                 {{-- Pagination --}}
                 <div class="d-flex justify-content-center">
-                    {!! $orders->appends(request()->input())->links() !!}
+                    {!! $appStartPages->appends(request()->input())->links() !!}
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $('.status-class').change(function() {
+                console.log("success");
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var cat_id = $(this).data('id');
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '{{ route('admin.appStartPages.changeStatus') }}',
+                    data: {
+                        'status': status,
+                        'cat_id': cat_id
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Status Change Successfully',
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
+                });
+            })
+        });
+    </script>
 @endsection
 @section('script')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
@@ -114,7 +222,6 @@
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-
     <script type="text/javascript">
         $(function() {
             let languages = {
@@ -140,14 +247,7 @@
                 order: [],
                 scrollX: false,
                 dom: 'lBfrtip<"actions">',
-                buttons: [{
-                        extend: 'copy',
-                        className: 'btn btn-light-primary px-6 font-weight-bold ml-20',
-                        text: 'Copy',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
+                buttons: [
                     {
                         extend: 'csv',
                         className: 'btn btn-light-primary px-6 font-weight-bold',
@@ -199,7 +299,7 @@
                     {
                         className: 'btn btn-light-danger px-6 font-weight-bold',
                         text: 'Delete All',
-                        url: "{{ route('admin.orders.massDestroy') }}",
+                        url: "{{ route('admin.appStartPages.massDestroy') }}",
                         action: function(e, dt, node, config) {
 
                             var ids = $.map(dt.rows({
@@ -257,13 +357,13 @@
         $(function () {
             $('.status-class').change(function() {
                 console.log("success");
-                var status = $(this).val();
+                var status = $(this).prop('checked') == true ? 1 : 0;
                 var cat_id = $(this).data('id');
 
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '{{ route('admin.orders.changeStatus') }}',
+                    url: '{{ route('admin.appStartPages.changeStatus') }}',
                     data: {
                         'status': status,
                         'cat_id': cat_id

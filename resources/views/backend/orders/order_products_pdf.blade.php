@@ -25,10 +25,10 @@
     </div>
 
     <div class="logo-container">
-{{--        <img--}}
-{{--            style="height: 18px"--}}
-{{--            src="https://app.useanvil.com/img/email-logo-black.png"--}}
-{{--        >--}}
+        {{--        <img--}}
+        {{--            style="height: 18px"--}}
+        {{--            src="https://app.useanvil.com/img/email-logo-black.png"--}}
+        {{--        >--}}
         <h1>SAHLA</h1>
     </div>
 
@@ -75,19 +75,19 @@
         </tr>
         </thead>
         <tbody>
-            @php
-                $orderProducts = \App\Models\OrderProduct::whereOrderId($order->id)->get();
-                $total = 0;
-            @endphp
-            @foreach($orderProducts as $product)
-                @php $total += $product->price * $product->quantity; @endphp
-                <tr>
-                    <td>{{ $product->quantity }}</td>
-                    <td>{{ $product->name }}</td>
-                    <td class="right">{{ $product->price .' '. env('APP_CURRENCY') }}</td>
-                    <td class="bold">{{ $product->quantity * $product->price .' '. env('APP_CURRENCY') }}</td>
-                </tr>
-            @endforeach
+        @php
+            $orderProducts = \App\Models\OrderProduct::whereOrderId($order->id)->get();
+            $total = 0;
+        @endphp
+        @foreach($orderProducts as $product)
+            @php $total += $product->price * $product->quantity; @endphp
+            <tr>
+                <td>{{ $product->quantity }}</td>
+                <td>{{ $product->name }}</td>
+                <td class="right">{{ $product->price .' '. env('APP_CURRENCY') }}</td>
+                <td class="bold">{{ $product->quantity * $product->price .' '. env('APP_CURRENCY') }}</td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 
@@ -113,23 +113,12 @@
         </tbody>
     </table>
 
-    <div class="footer">
-        <div class="footer-info">
-            <span>Mohamedfarh987@gmail.com</span> |
-            <span>01147451963</span> |
-            <span>4FARH</span>
-        </div>
-        <div class="footer-thanks">
-            <img src="https://github.com/anvilco/html-pdf-invoice-template/raw/main/img/heart.png" alt="heart">
-            <span>Thank you!</span>
-        </div>
-    </div>
+    @include('layouts.backend.invoiceFooter')
 
 </div>
 
 <script type="text/javascript">
     load(document.querySelector('.web-container'), '{{ asset('backend/order.invoice') }}');
-
     // From https://stackoverflow.com/a/32144585
     function load(target, url) {
         var r = new XMLHttpRequest();

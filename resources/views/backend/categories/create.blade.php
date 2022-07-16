@@ -26,22 +26,22 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="name_ar">اسم القسم (العربية)</label>
-                            <input type="text" name="name_ar" value="{{ old('name') }}" class="form-control" required>
-                            @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                            <input type="text" name="name_ar" value="{{ old('name_ar') }}" class="form-control" required>
+                            @error('name_ar')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="name_en">اسم القسم (الانجليزية)</label>
-                            <input type="text" name="name_en" value="{{ old('name') }}" class="form-control" required>
-                            @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                            <input type="text" name="name_en" value="{{ old('name_en') }}" class="form-control" required>
+                            @error('name_en')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="name_ur">اسم القسم (أوردو)</label>
-                            <input type="text" name="name_ur" value="{{ old('name') }}" class="form-control" required>
-                            @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                            <input type="text" name="name_ur" value="{{ old('name_ur') }}" class="form-control" required>
+                            @error('name_ur')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>
@@ -50,21 +50,21 @@
                         <div class="form-group">
                             <label for="description_ar">الوصف (العربية)</label>
                             <textarea  name="description_ar" rows="3" class="form-control" required>{{ old('description_ar') }}</textarea>
-                            @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                            @error('description_ar')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="description_en">الوصف (الانجليزية)</label>
                             <textarea  name="description_en" rows="3" class="form-control" required>{{ old('description_en') }}</textarea>
-                            @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                            @error('description_en')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="description_ur">الوصف (أوردو)</label>
                             <textarea  name="description_ur" rows="3" class="form-control" required>{{ old('description_ur') }}</textarea>
-                            @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                            @error('description_ur')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>

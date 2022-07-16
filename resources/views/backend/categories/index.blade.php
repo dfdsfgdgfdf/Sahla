@@ -66,7 +66,7 @@
                             <th class="text-light">No</th>
                             <th class="text-light">الصورة</th>
                             <th class="text-light">الاسم</th>
-                            <th class="text-light">عدد الخدمات</th>
+                            <th class="text-light">عدد المنتجات</th>
                             <th class="text-light">القسم</th>
                             <th class="text-light">الحالة</th>
                             <th class="text-light">العمليات</th>
@@ -250,14 +250,7 @@
                 order: [],
                 scrollX: false,
                 dom: 'lBfrtip<"actions">',
-                buttons: [{
-                        extend: 'copy',
-                        className: 'btn btn-light-primary px-6 font-weight-bold ml-20',
-                        text: 'Copy',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
+                buttons: [
                     {
                         extend: 'csv',
                         className: 'btn btn-light-primary px-6 font-weight-bold',

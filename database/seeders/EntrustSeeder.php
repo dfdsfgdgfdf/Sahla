@@ -149,7 +149,7 @@ class EntrustSeeder extends Seeder
             'route' => 'index',
             'module' => 'index',
             'as' => 'index',
-            'icon' => 'fa fa-home',
+            'icon' => 'fa fa-home text-blue',
             'parent' => '0',
             'parent_original' => '0',
             'sidebar_link' => '1',
@@ -204,18 +204,22 @@ class EntrustSeeder extends Seeder
         $manageOrders->parent_show = $manageOrders->id;
         $manageOrders->save();
         #####
-        $pendingOrders      = Permission::create([ 'name' => 'show_pending_orders',     'display_name' => 'الطلبات المعلقة',        'route' => 'orders.pending',        'module' => 'orders',     'as' => 'orders.pending',     'icon' => 'fas fa-bullhorn',            'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $pendingOrders      = Permission::create([ 'name' => 'show_pending_orders',     'display_name' => 'الطلبات المعلقة',        'route' => 'orders.pending',            'module' => 'orders',     'as' => 'orders.pending',     'icon' => 'fas fa-bullhorn',                    'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $AcceptedOrders     = Permission::create([ 'name' => 'show_accepted_orders',    'display_name' => 'الطلبات الموافق عليها',  'route' => 'orders.accepted',       'module' => 'orders',     'as' => 'orders.accepted',    'icon' => 'fas fa-shopping-basket',     'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $AcceptedOrders     = Permission::create([ 'name' => 'show_accepted_orders',    'display_name' => 'الطلبات الموافق عليها',  'route' => 'orders.accepted',           'module' => 'orders',     'as' => 'orders.accepted',    'icon' => 'fas fa-shopping-basket',             'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $CompletedOrders    = Permission::create([ 'name' => 'show_completed_orders',   'display_name' => 'الطلبات المكتملة',       'route' => 'orders.completed',      'module' => 'orders',     'as' => 'orders.completed',   'icon' => 'fas fa-shopping-bag',        'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $CompletedOrders    = Permission::create([ 'name' => 'show_completed_orders',   'display_name' => 'الطلبات المكتملة',       'route' => 'orders.completed',          'module' => 'orders',     'as' => 'orders.completed',   'icon' => 'fas fa-shopping-bag',                'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $RefusedOrders      = Permission::create([ 'name' => 'show_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'orders.refused',        'module' => 'orders',     'as' => 'orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $pendingInvoices    = Permission::create([ 'name' => 'show_pending_invoices',   'display_name' => 'الفواتير المعلقة',        'route' => 'orders.pendingInvoices',   'module' => 'orders',     'as' => 'orders.pendingInvoices',     'icon' => 'fas fa-clipboard',           'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $CanclledOrders     = Permission::create([ 'name' => 'show_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'orders.cancelled',      'module' => 'orders',     'as' => 'orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $CompletedInvoices  = Permission::create([ 'name' => 'show_completed_invoices', 'display_name' => 'الفواتير المكتملة',       'route' => 'orders.completedInvoices', 'module' => 'orders',     'as' => 'orders.completedInvoices',   'icon' => 'fas fa-file-invoice-dollar', 'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//        #####
+//        $RefusedOrders      = Permission::create([ 'name' => 'show_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'orders.refused',        'module' => 'orders',     'as' => 'orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//        #####
+//        $CanclledOrders     = Permission::create([ 'name' => 'show_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'orders.cancelled',      'module' => 'orders',     'as' => 'orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageOrders->id, 'parent_show' => $manageOrders->id, 'parent_original' => $manageOrders->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
 
-        //Customers
+        //Merchants
         $manageMerchants = Permission::create([ 'name' => 'manage_merchants', 'display_name' => 'التجار', 'route' => 'merchants.index', 'module' => 'merchants', 'as' => 'merchants.index', 'icon' => 'fas fa-people-arrows text-blue', 'parent' => '0', 'parent_original' => '0','sidebar_link' => '1', 'appear' => '1', 'ordering' => '35', ]);
         $manageMerchants->parent_show = $manageMerchants->id;
         $manageMerchants->save();
@@ -230,9 +234,13 @@ class EntrustSeeder extends Seeder
         #####
         $CompletedOrders    = Permission::create([ 'name' => 'show_merchants_completed_orders',   'display_name' => 'الطلبات المكتملة',       'route' => 'merchant_orders.completed',      'module' => 'merchants',     'as' => 'merchant_orders.completed',   'icon' => 'fas fa-shopping-bag',        'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $RefusedOrders      = Permission::create([ 'name' => 'show_merchants_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'merchant_orders.refused',        'module' => 'merchants',     'as' => 'merchant_orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $pendingInvoices    = Permission::create([ 'name' => 'show_merchants_pending_invoices',   'display_name' => 'الفواتير المعلقة',        'route' => 'merchant_orders.pendingInvoices',   'module' => 'merchants',     'as' => 'merchant_orders.pendingInvoices',     'icon' => 'fas fa-clipboard',           'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $CanclledOrders     = Permission::create([ 'name' => 'show_merchants_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'merchant_orders.cancelled',      'module' => 'merchants',     'as' => 'merchant_orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $CompletedInvoices  = Permission::create([ 'name' => 'show_merchants_completed_invoices', 'display_name' => 'الفواتير المكتملة',       'route' => 'merchant_orders.completedInvoices', 'module' => 'merchants',     'as' => 'merchant_orders.completedInvoices',   'icon' => 'fas fa-file-invoice-dollar', 'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//        #####
+//        $RefusedOrders      = Permission::create([ 'name' => 'show_merchants_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'merchant_orders.refused',        'module' => 'merchants',     'as' => 'merchant_orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//        #####
+//        $CanclledOrders     = Permission::create([ 'name' => 'show_merchants_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'merchant_orders.cancelled',      'module' => 'merchants',     'as' => 'merchant_orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageMerchants->id, 'parent_show' => $manageMerchants->id, 'parent_original' => $manageMerchants->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
 
         //Customers
@@ -250,9 +258,13 @@ class EntrustSeeder extends Seeder
         #####
         $CompletedOrders    = Permission::create([ 'name' => 'show_customers_completed_orders',   'display_name' => 'الطلبات المكتملة',       'route' => 'customer_orders.completed',      'module' => 'customers',     'as' => 'customer_orders.completed',   'icon' => 'fas fa-shopping-bag',        'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $RefusedOrders      = Permission::create([ 'name' => 'show_customers_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'customer_orders.refused',        'module' => 'customers',     'as' => 'customer_orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $pendingInvoices    = Permission::create([ 'name' => 'show_customers_pending_invoices',   'display_name' => 'الفواتير المعلقة',        'route' => 'customer_orders.pendingInvoices',   'module' => 'customers',     'as' => 'customer_orders.pendingInvoices',     'icon' => 'fas fa-clipboard',           'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
         #####
-        $CanclledOrders     = Permission::create([ 'name' => 'show_customers_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'customer_orders.cancelled',      'module' => 'customers',     'as' => 'customer_orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
+        $CompletedInvoices  = Permission::create([ 'name' => 'show_customers_completed_invoices', 'display_name' => 'الفواتير المكتملة',       'route' => 'customer_orders.completedInvoices', 'module' => 'customers',     'as' => 'customer_orders.completedInvoices',   'icon' => 'fas fa-file-invoice-dollar', 'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//        #####
+//        $RefusedOrders      = Permission::create([ 'name' => 'show_customers_refused_orders',     'display_name' => 'الطلبات المرفوضة',       'route' => 'customer_orders.refused',        'module' => 'customers',     'as' => 'customer_orders.refused',     'icon' => 'fas fa-cart-arrow-down',     'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//        #####
+//        $CanclledOrders     = Permission::create([ 'name' => 'show_customers_cancelled_orders',    'display_name' => 'الطلبات الملغاة',        'route' => 'customer_orders.cancelled',      'module' => 'customers',     'as' => 'customer_orders.cancelled',   'icon' => 'fas fa-window-close',        'parent' => $manageCustomers->id, 'parent_show' => $manageCustomers->id, 'parent_original' => $manageCustomers->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
 
         //Countries
@@ -288,20 +300,23 @@ class EntrustSeeder extends Seeder
         $manageSettings = Permission::create([ 'name' => 'manage_settings', 'display_name' => 'الإعدادات', 'route' => 'logos.index', 'module' => 'settings', 'as' => 'logos.index', 'icon' => 'fas fa-cogs text-blue', 'parent' => '0', 'parent_original' => '0','sidebar_link' => '1', 'appear' => '1', 'ordering' => '125', ]);
         $manageSettings->parent_show = $manageSettings->id;
         $manageSettings->save();
-            ##Logo
-            $showLogo           = Permission::create([ 'name' => 'show_logo',           'display_name' => 'لوجو الموقع',    'route' => 'logos.index',           'module' => 'settings',     'as' => 'logos.index',          'icon' => 'fas fa-paint-brush',     'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//            ##Logo
+//            $showLogo           = Permission::create([ 'name' => 'show_logo',           'display_name' => 'لوجو الموقع',    'route' => 'logos.index',           'module' => 'settings',     'as' => 'logos.index',          'icon' => 'fas fa-paint-brush',     'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
-            ##Pages Titles
-            $showPages          = Permission::create([ 'name' => 'show_page_title',     'display_name' => 'نصوص العناوين',  'route' => 'page-titles.index',     'module' => 'settings',     'as' => 'page-titles.index',    'icon' => 'fas fa-heading',         'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//            ##Pages Titles
+//            $showPages          = Permission::create([ 'name' => 'show_page_title',     'display_name' => 'نصوص العناوين',  'route' => 'page-titles.index',     'module' => 'settings',     'as' => 'page-titles.index',    'icon' => 'fas fa-heading',         'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
-            ##WorkingTimes
-            $showWorkingTimes   = Permission::create([ 'name' => 'show_working_times',  'display_name' => 'ساعات العمل',    'route' => 'working_times.index',   'module' => 'settings',     'as' => 'working_times.index',  'icon' => 'fas fa-clock',           'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//            ##WorkingTimes
+//            $showWorkingTimes   = Permission::create([ 'name' => 'show_working_times',  'display_name' => 'ساعات العمل',    'route' => 'working_times.index',   'module' => 'settings',     'as' => 'working_times.index',  'icon' => 'fas fa-clock',           'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
-            ##Locations
-            $showLocations      = Permission::create([ 'name' => 'show_locations',      'display_name' => 'موقع الشركة',    'route' => 'locations.index',       'module' => 'settings',     'as' => 'locations.index',      'icon' => 'fas fa-map-marker-alt',  'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+//            ##Locations
+//            $showLocations      = Permission::create([ 'name' => 'show_locations',      'display_name' => 'موقع الشركة',    'route' => 'locations.index',       'module' => 'settings',     'as' => 'locations.index',      'icon' => 'fas fa-map-marker-alt',  'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+
+            ##AppStartPage
+            $showAppStartPages   = Permission::create([ 'name' => 'show_app_start_pages',    'display_name' => 'صفحات البداية للتطبيق',        'route' => 'appStartPages.index',    'module' => 'settings',     'as' => 'appStartPages.index',   'icon' => 'fas fa-pager',        'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
             ##Informations
-            $showInformations   = Permission::create([ 'name' => 'show_information',    'display_name' => 'معلومات التطبيق',        'route' => 'informations.index',    'module' => 'settings',     'as' => 'informations.index',   'icon' => 'fas fa-info-alt',        'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
+            $showInformations   = Permission::create([ 'name' => 'show_information',    'display_name' => 'معلومات التطبيق',        'route' => 'informations.index',    'module' => 'settings',     'as' => 'informations.index',   'icon' => 'fas fa-info-circle',        'parent' => $manageSettings->id, 'parent_show' => $manageSettings->id, 'parent_original' => $manageSettings->id,'sidebar_link' => '1', 'appear' => '1', ]);
 
 
 

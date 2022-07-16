@@ -22,10 +22,10 @@
     </div>
 
     <div class="logo-container">
-{{--        <img--}}
-{{--            style="height: 18px"--}}
-{{--            src="https://app.useanvil.com/img/email-logo-black.png"--}}
-{{--        >--}}
+        {{--        <img--}}
+        {{--            style="height: 18px"--}}
+        {{--            src="https://app.useanvil.com/img/email-logo-black.png"--}}
+        {{--        >--}}
         <h1>SAHLA</h1>
     </div>
 
@@ -74,15 +74,15 @@
         </tr>
         </thead>
         <tbody>
-            @foreach($orders as $order)
-                <tr>
-                    <td>{{ $loop->index+1 }}</td>
-                    <td>{{ $order->order_number }}</td>
-                    <td>{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
-                    <td>{{ $order->paid != 0 ? 'تم السداد' : 'لم تسدد' }}</td>
-                    <td>{{ $order->total .' '.env('APP_CURRENCY') }}</td>
-                </tr>
-            @endforeach
+        @foreach($orders as $order)
+            <tr>
+                <td>{{ $loop->index+1 }}</td>
+                <td>{{ $order->order_number }}</td>
+                <td>{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
+                <td>{{ $order->paid != 0 ? 'تم السداد' : 'لم تسدد' }}</td>
+                <td>{{ $order->total .' '.env('APP_CURRENCY') }}</td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 
@@ -108,17 +108,7 @@
         </tbody>
     </table>
 
-    <div class="footer">
-        <div class="footer-info">
-            <span>Mohamedfarh987@gmail.com</span> |
-            <span>01147451963</span> |
-            <span>4FARH</span>
-        </div>
-        <div class="footer-thanks">
-            <img src="https://github.com/anvilco/html-pdf-invoice-template/raw/main/img/heart.png" alt="heart">
-            <span>Thank you!</span>
-        </div>
-    </div>
+    @include('layouts.backend.invoiceFooter')
 
 </div>
 

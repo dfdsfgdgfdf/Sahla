@@ -49,7 +49,7 @@
                                 <a href="{{ route('admin.orders.show', $order) }}" >عرض محتويات الطلب </a>
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('admin.orders.showInvoice', $order) }}" >عرض الفاتورة </a>
+                                <a href="{{ route('admin.orders.showOrderProductsPdf', $order) }}" >عرض الفاتورة </a>
                             </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
                             <td class="text-center">
@@ -125,14 +125,7 @@
                 order: [],
                 scrollX: false,
                 dom: 'lBfrtip<"actions">',
-                buttons: [{
-                    extend: 'copy',
-                    className: 'btn btn-light-primary px-6 font-weight-bold ml-20',
-                    text: 'Copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
+                buttons: [
                     {
                         extend: 'csv',
                         className: 'btn btn-light-primary px-6 font-weight-bold',

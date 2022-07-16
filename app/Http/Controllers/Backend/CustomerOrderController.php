@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\LogoRequest;
+use App\Models\Invoice;
 use App\Models\Logo;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -76,15 +77,8 @@ class CustomerOrderController extends Controller
                 });
             })
             ->whereStatus('pending')->whereCustomerStatus('waiting')
-            ->when(\request()->keyword !=null, function($query){
-                $query->search(\request()->keyword);
-            })
-            ->when(\request()->status !=null, function($query){
-                $query->whereStatus(\request()->status);
-            })
-            ->orderBy(\request()->sort_by ?? 'id' ,  \request()->order_by ?? 'desc')
-
-            ->paginate(\request()->limit_by ?? 10);
+            ->orderBy('id' ,'desc')
+            ->paginate(10);
 
         return view('backend.orders.pending', compact('orders'));
     }
@@ -104,15 +98,8 @@ class CustomerOrderController extends Controller
                 });
             })
             ->whereStatus('accepted')->whereCustomerStatus('waiting')
-            ->when(\request()->keyword !=null, function($query){
-                $query->search(\request()->keyword);
-            })
-            ->when(\request()->status !=null, function($query){
-                $query->whereStatus(\request()->status);
-            })
-            ->orderBy(\request()->sort_by ?? 'id' ,  \request()->order_by ?? 'desc')
-
-            ->paginate(\request()->limit_by ?? 10);
+            ->orderBy('id' ,'desc')
+            ->paginate(10);
 
         return view('backend.orders.accepted', compact('orders'));
     }
@@ -129,125 +116,50 @@ class CustomerOrderController extends Controller
                 });
             })
             ->whereStatus('completed')->whereCustomerStatus('waiting')
-            ->when(\request()->keyword !=null, function($query){
-                $query->search(\request()->keyword);
-            })
-            ->when(\request()->status !=null, function($query){
-                $query->whereStatus(\request()->status);
-            })
-            ->orderBy(\request()->sort_by ?? 'id' ,  \request()->order_by ?? 'desc')
-
-            ->paginate(\request()->limit_by ?? 10);
+            ->orderBy('id' ,'desc')
+            ->paginate(10);
 
         return view('backend.orders.completed', compact('orders'));
     }
-    public function rejected()
+    /***********/
+    public function pendingInvoices()
     {
         Carbon::setLocale('ar');
 
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_orders,show_completed_invoices')) {
             return redirect('admin/index');
         }
-        $orders = Order::whereHas('user', function($query){
+        $pendingInvoices = Invoice::whereHas('user', function($query){
                 $query->whereHas('roles', function($q){
                     $q->where('name', 'customer');
                 });
             })
-            ->whereStatus('rejected')->whereCustomerStatus('waiting')
-            ->when(\request()->keyword !=null, function($query){
-                $query->search(\request()->keyword);
-            })
-            ->when(\request()->status !=null, function($query){
-                $query->whereStatus(\request()->status);
-            })
-            ->orderBy(\request()->sort_by ?? 'id' ,  \request()->order_by ?? 'desc')
+            ->whereStatus('pending')->wherePaid(0)
+            ->orderBy('id' ,'desc')
+            ->paginate(10);
 
-            ->paginate(\request()->limit_by ?? 10);
-
-        return view('backend.orders.rejected', compact('orders'));
+        return view('backend.orders.pendingInvoices', compact('pendingInvoices'));
     }
-    public function cancelled()
+    /***********/
+    public function completedInvoices()
     {
         Carbon::setLocale('ar');
 
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
+        if (!\auth()->user()->ability('superAdmin', 'manage_orders,show_completed_invoices')) {
             return redirect('admin/index');
         }
-        $orders = Order::whereHas('user', function($query){
+        $pendingInvoices = Invoice::whereHas('user', function($query){
                 $query->whereHas('roles', function($q){
                     $q->where('name', 'customer');
                 });
             })
-            ->where('status', '!=', 'completed')->whereCustomerStatus('cancel')
-            ->when(\request()->keyword !=null, function($query){
-                $query->search(\request()->keyword);
-            })
-            ->when(\request()->status !=null, function($query){
-                $query->whereStatus(\request()->status);
-            })
-            ->orderBy(\request()->sort_by ?? 'id' ,  \request()->order_by ?? 'desc')
+            ->whereStatus('completed')->wherePaid(1)
+            ->orderBy('id' ,'desc')
+            ->paginate(10);
 
-            ->paginate(\request()->limit_by ?? 10);
-
-        return view('backend.orders.cancelled', compact('orders'));
+        return view('backend.orders.completedInvoices', compact('pendingInvoices'));
     }
+    /***********/
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
-            return redirect('admin/index');
-        }
-//        return view('backend.logos.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(LogoRequest $request)
-    {
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
-            return redirect('admin/index');
-        }
-        //
-    }
-
-    public function edit(Logo $logo)
-    {
-        //
-    }
-
-    public function update(LogoRequest $request, Logo $logo)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Logo $logo)
-    {
-        if (!\auth()->user()->ability('superAdmin', 'manage_settings,show_logos')) {
-            return redirect('admin/index');
-        }
-
-        //
-
-    }
-
-    public function changeStatus(Request $request)
-    {
-       //
-    }
 }
 

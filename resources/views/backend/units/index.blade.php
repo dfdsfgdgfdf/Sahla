@@ -250,14 +250,7 @@
                 order: [],
                 scrollX: false,
                 dom: 'lBfrtip<"actions">',
-                buttons: [{
-                    extend: 'copy',
-                    className: 'btn btn-light-primary px-6 font-weight-bold ml-20',
-                    text: 'Copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
+                buttons: [
                     {
                         extend: 'csv',
                         className: 'btn btn-light-primary px-6 font-weight-bold',

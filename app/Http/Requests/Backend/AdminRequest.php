@@ -29,9 +29,9 @@ class AdminRequest extends FormRequest
                 return[
                     'first_name'    => 'required',
                     'last_name'     => 'required',
-                    'username'      => 'required|max:50|unique:users',
-                    'email'         => 'required|email|max:255|unique:users',
-                    'mobile'        => 'required|numeric|unique:users',
+                    'username'      => 'required|max:50|unique:users,username',
+                    'email'         => 'required|email|max:255|unique:users,email',
+                    'mobile'        => 'required|numeric|unique:users,mobile',
                     'status'        => 'required',
                     'password'      => 'nullable|min:8',
                     'user_image'    => 'required|mimes:png,jpg,jpeg,svg|max:5048'

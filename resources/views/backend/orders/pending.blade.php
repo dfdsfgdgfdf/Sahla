@@ -72,7 +72,7 @@
                                     <a href="{{ route('admin.orders.show', $order) }}" >عرض محتويات الطلب </a>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.orders.showInvoice', $order) }}" >عرض الفاتورة </a>
+                                    <a href="{{ route('admin.orders.showOrderProductsPdf', $order) }}" >عرض فاتورة الطلب</a>
                                 </td>
                                 <td class="text-center">{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
                                 <td class="text-center">
@@ -148,14 +148,7 @@
                 order: [],
                 scrollX: false,
                 dom: 'lBfrtip<"actions">',
-                buttons: [{
-                        extend: 'copy',
-                        className: 'btn btn-light-primary px-6 font-weight-bold ml-20',
-                        text: 'Copy',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
+                buttons: [
                     {
                         extend: 'csv',
                         className: 'btn btn-light-primary px-6 font-weight-bold',
@@ -204,57 +197,57 @@
                         extend: 'selectNone',
                         className: 'btn btn-light-primary px-6 font-weight-bold',
                     },
-                    {
-                        className: 'btn btn-light-danger px-6 font-weight-bold',
-                        text: 'Delete All',
-                        url: "{{ route('admin.orders.massDestroy') }}",
-                        action: function(e, dt, node, config) {
+                    {{--{--}}
+                    {{--    className: 'btn btn-light-danger px-6 font-weight-bold',--}}
+                    {{--    text: 'Delete All',--}}
+                    {{--    url: "{{ route('admin.orders.massDestroy') }}",--}}
+                    {{--    action: function(e, dt, node, config) {--}}
 
-                            var ids = $.map(dt.rows({
-                                selected: true
-                            }).nodes(), function(entry) {
-                                return $(entry).data('entry-id')
-                            });
+                    {{--        var ids = $.map(dt.rows({--}}
+                    {{--            selected: true--}}
+                    {{--        }).nodes(), function(entry) {--}}
+                    {{--            return $(entry).data('entry-id')--}}
+                    {{--        });--}}
 
-                            if (ids.length === 0) {
-                                Swal.fire('No Data Selected')
-                                return
-                            }
-                            Swal.fire({
-                                title: 'Do You Want To Save This Changes?',
-                                showDenyButton: true,
-                                showCancelButton: true,
-                                confirmButtonText: 'Save',
-                                denyButtonText: `Don't save`,
-                            }).then((result) => {
-                                /* Read more about isConfirmed, isDenied below */
-                                if (result.isConfirmed) {
-                                    $.ajaxSetup({
-                                        headers: {
-                                            'X-CSRF-TOKEN': $(
-                                                'meta[name="csrf-token"]').attr(
-                                                'content')
-                                        }
-                                    })
-                                    $.ajax({
-                                            // headers: {'x-csrf-token': _token},
-                                            method: 'POST',
-                                            url: config.url,
-                                            data: {
-                                                ids: ids,
-                                                _method: 'POST'
-                                            }
-                                        })
-                                        .done(function() {
-                                            location.reload()
-                                        })
-                                    Swal.fire('Saved!', '', 'success')
-                                } else if (result.isDenied) {
-                                    Swal.fire('Changes are not saved', '', 'info')
-                                }
-                            })
-                        }
-                    }
+                    {{--        if (ids.length === 0) {--}}
+                    {{--            Swal.fire('No Data Selected')--}}
+                    {{--            return--}}
+                    {{--        }--}}
+                    {{--        Swal.fire({--}}
+                    {{--            title: 'Do You Want To Save This Changes?',--}}
+                    {{--            showDenyButton: true,--}}
+                    {{--            showCancelButton: true,--}}
+                    {{--            confirmButtonText: 'Save',--}}
+                    {{--            denyButtonText: `Don't save`,--}}
+                    {{--        }).then((result) => {--}}
+                    {{--            /* Read more about isConfirmed, isDenied below */--}}
+                    {{--            if (result.isConfirmed) {--}}
+                    {{--                $.ajaxSetup({--}}
+                    {{--                    headers: {--}}
+                    {{--                        'X-CSRF-TOKEN': $(--}}
+                    {{--                            'meta[name="csrf-token"]').attr(--}}
+                    {{--                            'content')--}}
+                    {{--                    }--}}
+                    {{--                })--}}
+                    {{--                $.ajax({--}}
+                    {{--                        // headers: {'x-csrf-token': _token},--}}
+                    {{--                        method: 'POST',--}}
+                    {{--                        url: config.url,--}}
+                    {{--                        data: {--}}
+                    {{--                            ids: ids,--}}
+                    {{--                            _method: 'POST'--}}
+                    {{--                        }--}}
+                    {{--                    })--}}
+                    {{--                    .done(function() {--}}
+                    {{--                        location.reload()--}}
+                    {{--                    })--}}
+                    {{--                Swal.fire('Saved!', '', 'success')--}}
+                    {{--            } else if (result.isDenied) {--}}
+                    {{--                Swal.fire('Changes are not saved', '', 'info')--}}
+                    {{--            }--}}
+                    {{--        })--}}
+                    {{--    }--}}
+                    {{--}--}}
                 ],
             });
         });

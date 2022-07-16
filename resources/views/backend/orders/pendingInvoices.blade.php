@@ -1,6 +1,6 @@
 @extends('layouts.auth_admin_app')
 
-@section('title', 'الطلبات الموافق عليها')
+@section('title', 'الفواتير المعلقة')
 
 @section('style')
     <style>
@@ -9,8 +9,8 @@
             content: " ";
             margin-top: 22px;
             margin-left: 0;
-            border: 1px solid darkblue;
-            border-radius: 3px;
+            bpendingInvoice: 1px solid darkblue;
+            bpendingInvoice-radius: 3px;
         }
 
         table.dataTable tr.selected td.select-checkbox:after,
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-6 d-flex text-left">
-                <h1 class=" text-left">الطلبات الموافق عليها</h1>
+                <h1 class=" text-left">الفواتير المعلقة</h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
             </div>
@@ -45,68 +45,55 @@
 
         <div class="row mt-5">
             <div class="col-12">
-                <table class="table table-bordered table-hover table-striped table-light yajra-datatable">
+                <table class="table table-bpendingInvoiceed table-hover table-striped table-light yajra-datatable">
                     <thead class="table-dark ">
                         <tr class="text-light">
                             <th class="text-light">الرقم</th>
-                            <th class="text-light">رقم الطلب</th>
+                            <th class="text-light">رقم الفاتورة</th>
                             <th class="text-light">بيانات الشخص</th>
-                            <th class="text-light">تفاصيل الطلب</th>
-                            <th class="text-light">فاتورة الطلب (PDF)</th>
-                            <th class="text-light">تاريخ الطلب</th>
+                            <th class="text-light">تفاصيل الطلبات</th>
+                            <th class="text-light">الفاتورة (PDF)</th>
+                            <th class="text-light">تاريخ الفاتورة</th>
                             <th class="text-light">الحالة</th>
 {{--                            <th class="text-light">العمليات</th>--}}
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($orders as $k => $order)
-                            <tr data-entry-id="{{ $order->id }}">
+                        @foreach ($pendingInvoices as $k => $pendingInvoice)
+                            <tr data-entry-id="{{ $pendingInvoice->id }}">
                                 <td>{{ $loop->index+1 }}</td>
-                                <td>{{ $order->order_number }}</td>
+                                <td>{{ $pendingInvoice->invoice_number }}</td>
                                 <td>
-                                    <strong>{!! $order->user_id != '' ? $order->user->full_name : '' !!}</strong> <br>
-                                    {{ $order->user->mobile }} <br>
-                                    {{ $order->user->email }}
+                                    <strong>{!! $pendingInvoice->user_id != '' ? $pendingInvoice->user->full_name : '' !!}</strong> <br>
+                                    {{ $pendingInvoice->user->mobile }} <br>
+                                    {{ $pendingInvoice->user->email }}
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.orders.show', $order) }}" >عرض محتويات الطلب </a>
+{{--                                    <a href="{{ route('admin.orders.show', $pendingInvoice) }}" >عرض محتويات الطلب </a>--}}
+                                    <a href="{{ route('admin.orders.showInvoiceOrdersTable', $pendingInvoice->id) }}" target="_blank" >طلبات الفاتورة </a>
+
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.orders.showOrderProductsPdf', $order) }}" >عرض الفاتورة </a>
+                                    <a href="{{ route('admin.orders.showInvoiceOrdersPdf', $pendingInvoice->id) }}" >عرض الفاتورة </a>
                                 </td>
-                                <td class="text-center">{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('l j F Y H:i a') }}</td>
+                                <td class="text-center">{{ \Carbon\Carbon::parse($pendingInvoice->created_at)->translatedFormat('l j F Y H:i a') }}</td>
                                 <td class="text-center">
-                                    <select class="status-class form-select form-control" data-id="{{ $order->id }}" aria-label="Default select example">
-                                        <option value="pending"{{ $order->status == "pending" ? 'selected' : '' }}>قائمة الانتظار</option>
-                                        <option value="accepted"{{ $order->status == "accepted" ? 'selected' : '' }}>قائمة الطلبات الموافق عليها</option>
-                                        <option value="rejected"{{ $order->status == "rejected" ? 'selected' : '' }}>قائمة الطلبات المرفوضة</option>
-                                        <option value="completed"{{ $order->status == "completed" ? 'selected' : '' }}>قائمة الطلبات المكتملة</option>
-                                    </select>
+                                    {{ $pendingInvoice->paid != 1 ? 'لم تسدد' : 'تم السداد' }}
                                 </td>
 {{--                                <td class="text-center">--}}
 {{--                                    <div style="display: flex" class="text-center justify-content-between">--}}
-{{--                                        @ability('superAdmin', 'manage_orders,update_orders')--}}
-{{--                                            <a href="{{ route('admin.orders.edit', $order->id) }}"--}}
-{{--                                                class="edit btn btn-success btn-sm"><i class="fas fa-edit"></i>--}}
-{{--                                            </a>--}}
-{{--                                        @endability--}}
-
-{{--                                        --}}{{-- @ability('superAdmin', 'manage_orders,show_orders')--}}
-{{--                                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>--}}
-{{--                                        @endability --}}
-
-{{--                                        @ability('superAdmin', 'manage_orders,delete_orders')--}}
+{{--                                        @ability('superAdmin', 'manage_orders')--}}
 {{--                                            <a href="javascript:void(0)"--}}
 {{--                                                onclick="--}}
 {{--                                                    if (confirm('Are You Sure You Want To Delete This Record ?') )--}}
-{{--                                                        { document.getElementById('record_delete_{{ $order->id }}').submit(); }--}}
+{{--                                                        { document.getElementById('record_delete_{{ $pendingInvoice->id }}').submit(); }--}}
 {{--                                                    else--}}
 {{--                                                        { return false; }"--}}
 {{--                                                class="btn btn-danger"><i class="fa fa-trash"></i>--}}
 {{--                                            </a>--}}
 {{--                                        @endability--}}
 {{--                                    </div>--}}
-{{--                                    <form action="{{ route('admin.orders.destroy', $order->id) }}" method="post" id="record_delete_{{ $order->id }}" class="d-none">--}}
+{{--                                    <form action="{{ route('admin.pendingInvoices.destroy', $pendingInvoice->id) }}" method="post" id="record_delete_{{ $pendingInvoice->id }}" class="d-none">--}}
 {{--                                        @csrf--}}
 {{--                                        @method('DELETE')--}}
 {{--                                    </form>--}}
@@ -117,7 +104,7 @@
                 </table>
                 {{-- Pagination --}}
                 <div class="d-flex justify-content-center">
-                    {!! $orders->appends(request()->input())->links() !!}
+                    {!! $pendingInvoices->appends(request()->input())->links() !!}
                 </div>
             </div>
         </div>
@@ -143,11 +130,11 @@
                     url: languages['{{ app()->getLocale() }}']
                 },
                 columnDefs: [{
-                    orderable: false,
+                    pendingInvoiceable: false,
                     className: 'select-checkbox',
                     targets: 0
                 }, {
-                    orderable: false,
+                    pendingInvoiceable: false,
                     searchable: false,
                     targets: -1
                 }],
@@ -155,17 +142,10 @@
                     style: 'multi+shift',
                     selector: 'td:first-child'
                 },
-                order: [],
+                pendingInvoice: [],
                 scrollX: false,
                 dom: 'lBfrtip<"actions">',
-                buttons: [{
-                        extend: 'copy',
-                        className: 'btn btn-light-primary px-6 font-weight-bold ml-20',
-                        text: 'Copy',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
+                buttons: [
                     {
                         extend: 'csv',
                         className: 'btn btn-light-primary px-6 font-weight-bold',
@@ -217,7 +197,7 @@
                     {{--{--}}
                     {{--    className: 'btn btn-light-danger px-6 font-weight-bold',--}}
                     {{--    text: 'Delete All',--}}
-                    {{--    url: "{{ route('admin.orders.massDestroy') }}",--}}
+                    {{--    url: "{{ route('admin.pendingInvoices.massDestroy') }}",--}}
                     {{--    action: function(e, dt, node, config) {--}}
 
                     {{--        var ids = $.map(dt.rows({--}}
@@ -271,36 +251,36 @@
     </script>
 
 
-    <script>
-        $(function () {
-            $('.status-class').change(function() {
-                console.log("success");
-                var status = $(this).val();
-                var cat_id = $(this).data('id');
+{{--    <script>--}}
+{{--        $(function () {--}}
+{{--            $('.status-class').change(function() {--}}
+{{--                console.log("success");--}}
+{{--                var status = $(this).val();--}}
+{{--                var cat_id = $(this).data('id');--}}
 
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: '{{ route('admin.orders.changeStatus') }}',
-                    data: {
-                        'status': status,
-                        'cat_id': cat_id
-                    },
-                    success: function(data) {
-                        Swal.fire({
-                            title: 'Status Change Successfully',
-                            showClass: {
-                                popup: 'animate__animated animate__fadeInDown'
-                            },
-                            hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                            }
-                        })
-                    }
-                });
-            })
-        });
-    </script>
+{{--                $.ajax({--}}
+{{--                    type: "GET",--}}
+{{--                    dataType: "json",--}}
+{{--                    url: '{{ route('admin.pendingInvoices.changeStatus') }}',--}}
+{{--                    data: {--}}
+{{--                        'status': status,--}}
+{{--                        'cat_id': cat_id--}}
+{{--                    },--}}
+{{--                    success: function(data) {--}}
+{{--                        Swal.fire({--}}
+{{--                            title: 'Status Change Successfully',--}}
+{{--                            showClass: {--}}
+{{--                                popup: 'animate__animated animate__fadeInDown'--}}
+{{--                            },--}}
+{{--                            hideClass: {--}}
+{{--                                popup: 'animate__animated animate__fadeOutUp'--}}
+{{--                            }--}}
+{{--                        })--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            })--}}
+{{--        });--}}
+{{--    </script>--}}
 
 
 @endsection

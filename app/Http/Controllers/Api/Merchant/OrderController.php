@@ -11,6 +11,7 @@ use App\Models\OrderProduct;
 use App\Models\UserMaxLimit;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -23,6 +24,7 @@ class OrderController extends Controller
         $this->validate($request, [
             'lang' => 'required|in:ar,en,ur',
         ]);
+        App::setLocale($request->lang);
 
         DB::beginTransaction();
         try {
@@ -73,9 +75,9 @@ class OrderController extends Controller
                     return $this->returnSuccessMessage('Your Order Completed Successfully !');
 
                 }else if(isset($remaining_amount) && ($user_maxLimit->status != true)){
-                    return $this->returnSuccessMessage(__('sahlaApp_ar.unavailable_purchase_process'));
+                    return $this->returnSuccessMessage( __('unavailable_purchase_process') );
                 }else{
-                    return $this->returnSuccessMessage(__('sahlaApp_ar.exceed_the_allowed_limit'));
+                    return $this->returnSuccessMessage( __('exceed_the_allowed_limit') );
                 }
 
             }else{
@@ -124,9 +126,9 @@ class OrderController extends Controller
                         return $this->returnSuccessMessage('Your Order Completed Successfully !');
 
                     }else if(isset($user_maxLimit) && ($user_maxLimit->status != true)){
-                        return $this->returnSuccessMessage(__('sahlaApp_ar.unavailable_purchase_process'));
+                        return $this->returnSuccessMessage(__('unavailable_purchase_process'));
                     }else{
-                        return $this->returnSuccessMessage(__('sahlaApp_ar.exceed_the_allowed_limit'));
+                        return $this->returnSuccessMessage(__('exceed_the_allowed_limit'));
                     }
                 }else{
                     return $this->returnSuccessMessage('Sorry, Your Cart Is Empty !');

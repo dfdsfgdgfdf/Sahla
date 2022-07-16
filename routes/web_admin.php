@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\AppStartPageController;
 use App\Http\Controllers\Backend\BackendController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CityController;
@@ -115,6 +116,9 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::post('users-destroyAll', [UserController::class,'massDestroy'])->name('users.massDestroy');
             /*-------------------------------- */
 
+            /*-------------------------------- */
+            /*-------------------------------- */
+            /*-------------------------------- */
             /*  Merchants   */
             Route::resource('merchants'    ,  MerchantController::class);
             Route::get('/getMerchantSearch',            [MerchantController::class, 'getMerchantSearch'])->name('merchants.getMerchantSearch');
@@ -125,14 +129,14 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::resource('merchant_orders',MerchantOrderController::class);
             Route::get('merchants_pending-orders',      [MerchantOrderController::class,'pending'])->name('merchant_orders.pending');
             Route::get('merchants_accepted-orders',     [MerchantOrderController::class,'accepted'])->name('merchant_orders.accepted');
-            Route::get('merchants_refused-orders',      [MerchantOrderController::class,'rejected'])->name('merchant_orders.refused');
             Route::get('merchants_completed-orders',    [MerchantOrderController::class,'completed'])->name('merchant_orders.completed');
-            Route::get('merchants_cancelled-orders',    [MerchantOrderController::class,'cancelled'])->name('merchant_orders.cancelled');
+            Route::get('merchants_pending-invoices',      [MerchantOrderController::class,'pendingInvoices'])->name('merchant_orders.pendingInvoices');
+            Route::get('merchants_completed-invoices',    [MerchantOrderController::class,'completedInvoices'])->name('merchant_orders.completedInvoices');
             //Merchant Invoices
             Route::get('merchant_invoices/invoices', [MerchantInvoiceController::class,'showById'])->name('merchant_invoices.invoices');
             Route::get('merchant_invoices/orders', [MerchantInvoiceController::class,'showOrders'])->name('merchant_invoices.orders');
             Route::resource('merchant_invoices'    ,  MerchantInvoiceController::class);
-
+            /*-------------------------------- */
             /*-------------------------------- */
             /*  Customers   */
             Route::resource('customers',      CustomerController::class);
@@ -147,15 +151,35 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
             Route::get('customers_refused-orders',      [CustomerOrderController::class,'rejected'])->name('customer_orders.refused');
             Route::get('customers_completed-orders',    [CustomerOrderController::class,'completed'])->name('customer_orders.completed');
             Route::get('customers_cancelled-orders',    [CustomerOrderController::class,'cancelled'])->name('customer_orders.cancelled');
+            Route::get('customer_pending-invoices',      [CustomerOrderController::class,'pendingInvoices'])->name('customer_orders.pendingInvoices');
+            Route::get('customer_completed-invoices',    [CustomerOrderController::class,'completedInvoices'])->name('customer_orders.completedInvoices');
+            /*-------------------------------- */
+            /*-------------------------------- */
+            //orders
+            Route::resource('orders',OrderController::class);
+            Route::get('orders-changeStatus', [OrderController::class,'ordersChangeStatus'])->name('orders.changeStatus');
+            Route::post('orders-destroyAll', [OrderController::class,'ordersMassDestroy'])->name('orders.massDestroy');
+            Route::get('pending-orders', [OrderController::class,'pending'])->name('orders.pending');
+            Route::get('accepted-orders', [OrderController::class,'accepted'])->name('orders.accepted');
+            Route::get('completed-orders', [OrderController::class,'completed'])->name('orders.completed');
+            Route::get('pending-invoices', [OrderController::class,'pendingInvoices'])->name('orders.pendingInvoices');
+            Route::get('completed-invoices', [OrderController::class,'completedInvoices'])->name('orders.completedInvoices');
+
+            Route::get('show-order-products-pdf/{order}', [OrderController::class,'showOrderProductsPdf'])->name('orders.showOrderProductsPdf');
+            Route::get('show-invoice-orders-table/{invoice}', [OrderController::class,'showInvoiceOrdersTable'])->name('orders.showInvoiceOrdersTable');
+            Route::get('show-invoice-orders-pdf/{invoice}', [OrderController::class,'showInvoiceOrdersPdf'])->name('orders.showInvoiceOrdersPdf');
+
+            /*-------------------------------- */
+            /*-------------------------------- */
+            /*-------------------------------- */
+
+
 
 
             // Route::get('/get_customer_customerSearch',   [CustomerSearchController::class, 'index'    ])->name('customers.get_customer');
             // Route::get('/get_state_customerSearch',      [CustomerSearchController::class, 'get_state_customerSearch'    ])->name('customers.get_state_customerSearch');
             // Route::get('/get_city_customerSearch',      [CustomerSearchController::class, 'get_city_customerSearch'    ])->name('customers.get_city_customerSearch');
-
-
             // Route::resource('customer_addresses' ,CustomerAddressController::class);
-
 
             /*  countries   */
             Route::resource('countries'    ,CountryController::class);
@@ -211,17 +235,11 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.' ], function(){
 
             Route::resource('informations',InformationController::class);
 
+            Route::get('appStartPages-changeStatus', [AppStartPageController::class,'changeStatus'])->name('appStartPages.changeStatus');
+            Route::post('appStartPages-destroyAll', [AppStartPageController::class,'massDestroy'])->name('appStartPages.massDestroy');
+            Route::post('appStartPages-removeImage', [AppStartPageController::class,'removeImage'])->name('appStartPages.removeImage');
+            Route::resource('appStartPages', AppStartPageController::class);
 
-            //orders
-            Route::resource('orders',OrderController::class);
-            Route::get('orders-show-invoice/{order}', [OrderController::class,'showInvoice'])->name('orders.showInvoice');
-            Route::get('orders-changeStatus', [OrderController::class,'ordersChangeStatus'])->name('orders.changeStatus');
-            Route::post('orders-destroyAll', [OrderController::class,'ordersMassDestroy'])->name('orders.massDestroy');
-            Route::get('pending-orders', [OrderController::class,'pending'])->name('orders.pending');
-            Route::get('accepted-orders', [OrderController::class,'accepted'])->name('orders.accepted');
-            Route::get('refused-orders', [OrderController::class,'rejected'])->name('orders.refused');
-            Route::get('completed-orders', [OrderController::class,'completed'])->name('orders.completed');
-            Route::get('cancelled-orders', [OrderController::class,'cancelled'])->name('orders.cancelled');
 
 
         });
